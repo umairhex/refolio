@@ -60,9 +60,9 @@ const ContactPage = () => {
                 </span>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
-                  className="group flex items-center gap-6 text-2xl md:text-4xl font-medium tracking-tight hover:italic transition-all duration-300"
+                  className="group flex items-center gap-4 md:gap-6 text-lg sm:text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight hover:italic transition-all duration-300 break-all"
                 >
-                  <div className="p-4 rounded-full border border-foreground/10 group-hover:bg-foreground group-hover:text-background transition-colors duration-500">
+                  <div className="p-3 md:p-4 rounded-full border border-foreground/10 group-hover:bg-foreground group-hover:text-background transition-colors duration-500 shrink-0">
                     <Mail size={24} />
                   </div>
                   {CONTACT_EMAIL}

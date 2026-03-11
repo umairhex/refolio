@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { useThemeScroll } from "@/hooks/use-theme-scroll";
-import { CONTACT_EMAIL, SOCIAL_LINKS, NAV_LINKS } from "@/constants";
+import { CONTACT_EMAIL, SOCIAL_LINKS, FOOTER_LINKS } from "@/constants";
 import { ArrowUpRight } from "lucide-react";
 import Container from "@/app/components/ui/Container";
 
@@ -84,7 +84,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
               SITEMAP
             </span>
             <div className="flex flex-col gap-3">
-              {NAV_LINKS.map((link) => (
+              {FOOTER_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}

@@ -41,7 +41,7 @@ const ExpertiseSection = () => {
   return (
     <PageSection
       ref={containerRef}
-      className="relative w-full py-64 bg-background border-t border-foreground/5"
+      className="relative w-full py-32 md:py-64 bg-background border-t border-foreground/5"
     >
       <Container className="flex flex-col gap-40">
         <div className="flex flex-col gap-8 max-w-2xl">

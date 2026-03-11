@@ -49,9 +49,7 @@ const WorkPage = () => {
       <PageSection className="pt-40 pb-20">
         <Container className="flex flex-col gap-6 border-b border-foreground/10 pb-20">
           <div className="overflow-hidden">
-            <h1
-              className="font-arsenica work-header-text text-[15vw] md:text-[8vw] font-medium leading-[0.8] tracking-tighter uppercase italic"
-            >
+            <h1 className="font-arsenica work-header-text text-[15vw] md:text-[8vw] font-medium leading-[0.8] tracking-tighter uppercase italic">
               Selected
             </h1>
           </div>
@@ -71,8 +69,8 @@ const WorkPage = () => {
           {PROJECTS.map((project) => (
             <Link
               key={project.id}
-              href={`/work/${project.id}`}
-              className="project-row group relative flex flex-col md:flex-row md:items-center justify-between py-12 border-b border-foreground/5 transition-colors duration-500 hover:border-foreground"
+              href={`/work/${project.slug}`}
+              className="px-4 project-row group relative flex flex-col md:flex-row md:items-center justify-between py-12 border-b border-foreground/5 transition-colors duration-500 hover:border-foreground"
             >
               <div className="flex items-center gap-8 md:gap-16 z-10">
                 <span className="text-[10px] md:text-sm font-bold opacity-30 group-hover:opacity-100 transition-opacity">

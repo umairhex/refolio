@@ -2,6 +2,7 @@ import type React from "react";
 
 export interface Project {
   id: string;
+  slug: string;
   title: string;
   category: string;
   year: string;

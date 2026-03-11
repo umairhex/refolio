@@ -43,7 +43,7 @@ const AboutSection = () => {
     <PageSection
       ref={containerRef}
       id="about"
-      className="relative w-full py-64 flex flex-col items-center justify-center overflow-hidden"
+      className="relative w-full py-32 md:py-64 flex flex-col items-center justify-center overflow-hidden"
     >
       <Container className="w-full">
         <div className="flex flex-col gap-12" ref={textRef}>

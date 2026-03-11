@@ -5,6 +5,7 @@ import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { ArrowDownRight } from "lucide-react";
 import { useClickSound } from "@/hooks/use-click-sound";
+import MobileHero from "./MobileHero";
 
 const HeroSection = () => {
   const container = useRef<HTMLDivElement>(null);
@@ -99,9 +100,9 @@ const HeroSection = () => {
 
       <div
         ref={heroGrid}
-        className="relative z-10 w-full max-w-[1600px] grid grid-cols-1 md:grid-cols-12 gap-8 items-center perspective-1000"
+        className="relative z-10 w-full max-w-[1600px] hidden md:grid grid-cols-12 gap-8 items-center perspective-1000"
       >
-        <div className="md:col-span-3 flex flex-col gap-12 md:order-1 order-2">
+        <div className="col-span-3 flex flex-col gap-12">
           <div className="hero-tag flex flex-col gap-4">
             <span className="text-[10px] font-bold tracking-[0.4em] uppercase opacity-40">
               SPECIALIZATION
@@ -122,8 +123,8 @@ const HeroSection = () => {
           </div>
         </div>
 
-        <div className="md:col-span-6 flex flex-col items-center justify-center md:order-2 order-1 relative">
-          <div className="hero-image-box relative w-full aspect-4/5 md:aspect-3.5/5 max-w-[500px] overflow-hidden shadow-2xl grayscale transition-all duration-700 hover:grayscale-0">
+        <div className="md:col-span-6 flex flex-col items-center justify-center relative">
+          <div className="hero-image-box relative w-full aspect-3.5/5 max-w-[500px] overflow-hidden shadow-2xl grayscale transition-all duration-700 hover:grayscale-0">
             <Image
               src="/assets/images/umair.webp"
               alt="Umair"
@@ -140,25 +141,25 @@ const HeroSection = () => {
             </div>
           </div>
 
-          <div className="absolute top-[60%] md:top-[65%] -left-8 md:-left-20 z-20 pointer-events-none mix-blend-difference">
-            <div className="overflow-hidden">
-              <h1 className="hero-title-word text-[14vw] md:text-[9vw] font-black leading-none tracking-tighter text-foreground">
+          <div className="absolute top-[65%] -left-20 z-20 pointer-events-none mix-blend-difference">
+            <div className="overflow-hidden flex justify-start">
+              <h1 className="hero-title-word text-[9vw] font-black leading-none tracking-tighter text-foreground">
                 FULL
               </h1>
             </div>
           </div>
         </div>
 
-        <div className="md:col-span-3 flex flex-col md:items-end justify-between h-full py-12 md:order-3 order-3">
-          <div className="overflow-hidden mb-auto mix-blend-difference">
-            <h1 className="hero-title-word text-[14vw] md:text-[9vw] font-black leading-none tracking-tighter text-right text-foreground">
+        <div className="md:col-span-3 flex flex-col md:items-end justify-between h-full py-12">
+          <div className="overflow-hidden mb-auto mix-blend-difference flex justify-end">
+            <h1 className="hero-title-word text-[9vw] font-black leading-none tracking-tighter text-foreground">
               STACK
             </h1>
           </div>
 
           <div className="flex flex-col md:items-end gap-12">
             <div className="overflow-hidden mix-blend-difference">
-              <h2 className="hero-title-word font-arsenica text-[8vw] md:text-[6vw] font-medium leading-none tracking-tighter italic text-foreground">
+              <h2 className="hero-title-word font-arsenica text-[6vw] font-medium leading-none tracking-tighter italic text-foreground">
                 Engineer
               </h2>
             </div>
@@ -189,6 +190,8 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      <MobileHero />
 
       <div className="absolute top-0 left-0 w-full h-px bg-foreground/5" />
       <div className="absolute bottom-0 left-0 w-full h-px bg-foreground/5" />

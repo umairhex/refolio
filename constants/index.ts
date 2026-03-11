@@ -11,6 +11,7 @@ import type {
 export const PROJECTS: Project[] = [
   {
     id: "01",
+    slug: "synergy-ai",
     title: "SYNERGY AI",
     category: "Full-Stack Development",
     year: "2024",
@@ -20,6 +21,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "02",
+    slug: "velocity",
     title: "VELOCITY",
     category: "Brand Identity / UIUX",
     year: "2023",
@@ -29,6 +31,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "03",
+    slug: "neo-shelter",
     title: "NEO-SHELTER",
     category: "E-Commerce",
     year: "2024",
@@ -38,6 +41,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "04",
+    slug: "oracle",
     title: "ORACLE",
     category: "Software Engineering",
     year: "2023",
@@ -47,6 +51,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "05",
+    slug: "lumina",
     title: "LUMINA",
     category: "Creative Direction",
     year: "2024",
@@ -57,6 +62,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "06",
+    slug: "kinetic",
     title: "KINETIC",
     category: "Experience Design",
     year: "2023",
@@ -179,4 +185,10 @@ export const NAV_LINKS: NavLink[] = [
   { name: "Work", href: "/work" },
   { name: "About", href: "/#about" },
   { name: "Contact", href: "/contact" },
+];
+
+export const FOOTER_LINKS: NavLink[] = [
+  ...NAV_LINKS.slice(0, 2),
+  { name: "Blogs", href: "/blogs" },
+  ...NAV_LINKS.slice(2),
 ];

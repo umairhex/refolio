@@ -74,19 +74,20 @@ const WorkSection = ({ limit = 4 }: WorkSectionProps) => {
       id="work"
       className="relative w-full bg-background pt-32 pb-64"
     >
-      <Container className="flex flex-col gap-40">
-        <div className="flex justify-between items-end border-b border-foreground/10 pb-8">
-          <h2 className="text-4xl md:text-6xl font-medium tracking-tighter">
+      <Container className="flex flex-col gap-24 md:gap-40">
+        <div className="flex flex-col md:flex-row md:justify-between items-start md:items-end border-b border-foreground/10 pb-6 md:pb-8 gap-4 md:gap-0">
+          <h2 className="text-4xl md:text-6xl font-medium tracking-tighter max-w-[80vw]">
             SELECTED PROJECTS
           </h2>
-          <span className="text-[11px] font-bold tracking-[0.2em] opacity-40 uppercase pb-2">
+          <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] opacity-40 uppercase pb-2">
             (04) — WORK
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-40">
           {PROJECTS.slice(0, limit).map((project, index) => (
-            <div
+            <Link
+              href={`/work/${project.slug}`}
               key={project.id}
               className={`project-item group flex flex-col ${
                 index % 2 !== 0 ? "md:mt-40" : ""
@@ -109,9 +110,7 @@ const WorkSection = ({ limit = 4 }: WorkSectionProps) => {
 
               <div className="project-info flex flex-col gap-4">
                 <div className="flex justify-between items-start">
-                  <h3
-                    className="font-arsenica text-3xl md:text-5xl font-medium tracking-tight hero-text italic"
-                  >
+                  <h3 className="font-arsenica text-3xl md:text-5xl font-medium tracking-tight hero-text italic">
                     {project.title}
                   </h3>
                   <span className="text-sm font-bold opacity-40 pt-2">
@@ -130,11 +129,11 @@ const WorkSection = ({ limit = 4 }: WorkSectionProps) => {
                   </span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
-        <div className="flex justify-center mt-40">
+        <div className="flex justify-center mt-0 md:mt-12">
           <Link
             href="/work"
             onClick={() => playClick()}

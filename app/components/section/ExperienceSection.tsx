@@ -43,7 +43,7 @@ const ExperienceSection = () => {
   return (
     <PageSection
       ref={containerRef}
-      className="relative w-full py-64 bg-foreground text-background overflow-hidden"
+      className="relative w-full py-32 md:py-64 bg-foreground text-background overflow-hidden"
     >
       <Container>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-32 gap-8">

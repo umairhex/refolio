@@ -78,7 +78,7 @@ export default function Navbar() {
             : "bg-linear-to-b from-background/40 to-transparent pointer-events-none"
         }`}
       >
-        <div className="absolute inset-0 bg-background/5 backdrop-blur-[2px] pointer-events-none" />
+        <div className="pointer-events-none" />
         <nav
           ref={navRef}
           className={`mx-auto transition-all duration-700 ease-expo-out flex items-center justify-between px-6 md:px-10 py-3 md:py-4 border border-foreground/5 text-foreground overflow-hidden pointer-events-auto ${
