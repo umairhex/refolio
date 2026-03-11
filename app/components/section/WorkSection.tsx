@@ -1,0 +1,154 @@
+"use client";
+
+import { useRef } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { PROJECTS } from "@/constants";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
+
+const WorkSection = () => {
+  const containerRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const items = gsap.utils.toArray<HTMLElement>(".project-item");
+
+      items.forEach((item) => {
+        gsap.fromTo(
+          item.querySelector(".project-info"),
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: item,
+              start: "top 85%",
+              toggleActions: "play none none reverse",
+            },
+          },
+        );
+
+        gsap.fromTo(
+          item.querySelector(".project-image-wrapper"),
+          { clipPath: "inset(100% 0 0 0)" },
+          {
+            clipPath: "inset(0% 0 0 0)",
+            duration: 1.2,
+            ease: "power4.inOut",
+            scrollTrigger: {
+              trigger: item,
+              start: "top 80%",
+              toggleActions: "play none none reverse",
+            },
+          },
+        );
+      });
+
+      gsap.to(".project-image", {
+        y: -100,
+        ease: "none",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    },
+    { scope: containerRef },
+  );
+
+  return (
+    <section
+      ref={containerRef}
+      id="work"
+      className="relative w-full bg-background pt-32 pb-64 px-6 md:px-12 lg:px-24"
+    >
+      <div className="flex flex-col gap-40 max-w-[1600px] mx-auto">
+        <div className="flex justify-between items-end border-b border-foreground/10 pb-8">
+          <h2 className="text-4xl md:text-6xl font-medium tracking-tighter">
+            SELECTED PROJECTS
+          </h2>
+          <span className="text-[11px] font-bold tracking-[0.2em] opacity-40 uppercase pb-2">
+            (04) — WORK
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-40">
+          {PROJECTS.slice(0, 4).map((project, index) => (
+            <div
+              key={project.id}
+              className={`project-item group flex flex-col ${
+                index % 2 !== 0 ? "md:mt-40" : ""
+              }`}
+            >
+              <div className="project-image-wrapper relative w-full aspect-4/5 overflow-hidden bg-muted mb-8 group-hover:shadow-2xl transition-shadow duration-500">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="project-image object-cover scale-110"
+                />
+
+                <div className="absolute top-6 left-6 z-10">
+                  <span className="px-4 py-2 bg-background/80 backdrop-blur-md rounded-full text-[10px] font-bold tracking-widest uppercase border border-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {project.category}
+                  </span>
+                </div>
+              </div>
+
+              <div className="project-info flex flex-col gap-4">
+                <div className="flex justify-between items-start">
+                  <h3
+                    className="text-3xl md:text-5xl font-medium tracking-tight hero-text italic"
+                    style={{ fontFamily: "'Aresenica', serif" }}
+                  >
+                    {project.title}
+                  </h3>
+                  <span className="text-sm font-bold opacity-40 pt-2">
+                    {project.year}
+                  </span>
+                </div>
+
+                <p className="text-foreground/60 max-w-sm leading-relaxed text-sm md:text-base">
+                  {project.description}
+                </p>
+
+                <div className="flex items-center gap-4 mt-4 overflow-hidden group/link">
+                   <div className="w-8 h-px bg-foreground/20 group-hover/link:w-16 transition-all duration-500" />
+                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase cursor-pointer">
+                    View Project
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex justify-center mt-40">
+          <Link
+            href="/work"
+            className="group relative flex items-center gap-8 px-12 py-6 rounded-full border border-foreground/10 hover:border-foreground transition-colors duration-500 overflow-hidden"
+          >
+            <span className="relative z-10 text-[11px] font-bold tracking-[0.3em] uppercase">
+              VIEW ALL PROJECTS
+            </span>
+            <div className="relative z-10 w-2 h-2 rounded-full bg-foreground group-hover:scale-[3] transition-transform duration-500" />
+
+            <div className="absolute inset-0 bg-foreground translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-power4.out" />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default WorkSection;

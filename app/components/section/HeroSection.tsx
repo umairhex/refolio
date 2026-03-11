@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { ArrowDownRight } from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP);
@@ -11,81 +12,78 @@ if (typeof window !== "undefined") {
 
 const HeroSection = () => {
   const container = useRef<HTMLDivElement>(null);
+  const heroGrid = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
-      gsap.set(".hero-text", { yPercent: 120, rotateZ: 3 });
-      gsap.set(".hero-image-container", {
-        scale: 0.8,
+      gsap.set(".hero-title-word", { yPercent: 100 });
+      gsap.set(".hero-image-box", {
+        clipPath: "inset(0 100% 0 0)",
         opacity: 0,
-        rotateZ: -10,
       });
-      gsap.set(".hero-image", { scale: 1.4 });
-      gsap.set(".hero-cta", { opacity: 0, y: 30 });
-      gsap.set(".hero-decoration", { opacity: 0 });
-      gsap.set(".hero-draw-path", {
-        strokeDasharray: 1000,
-        strokeDashoffset: 1000,
-      });
+      gsap.set(".hero-tag", { opacity: 0, x: -20 });
+      gsap.set(".hero-bg-text", { opacity: 0, scale: 0.9 });
 
-      tl.to(".hero-text", {
-        yPercent: 0,
-        rotateZ: 0,
-        duration: 1.2,
-        stagger: 0.1,
+      tl.to(".hero-bg-text", {
+        opacity: 0.03,
+        scale: 1,
+        duration: 2,
+        ease: "power2.out",
       })
         .to(
-          ".hero-image-container",
+          ".hero-title-word",
           {
-            scale: 1,
-            opacity: 1,
-            rotateZ: -4,
-            duration: 1.5,
-            ease: "power3.out",
+            yPercent: 0,
+            duration: 1.2,
+            stagger: 0.1,
           },
-          "-=0.9",
+          "-=1.5",
         )
         .to(
-          ".hero-image",
+          ".hero-image-box",
           {
-            scale: 1.1,
-            duration: 1.5,
-            ease: "power3.out",
+            clipPath: "inset(0 0% 0 0)",
+            opacity: 1,
+            duration: 2,
+            ease: "expo.inOut",
           },
-          "<",
+          "-=1",
         )
         .to(
-          ".hero-cta",
+          ".hero-tag",
           {
             opacity: 1,
-            y: 0,
+            x: 0,
             duration: 1,
             stagger: 0.1,
           },
-          "-=1.0",
-        )
-        .to(
-          ".hero-decoration",
-          {
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.2,
-            ease: "power2.out",
-          },
-          "-=0.5",
-        )
-        .to(
-          ".hero-draw-path",
-          {
-            strokeDashoffset: 0,
-            duration: 1.5,
-            stagger: 0.3,
-            ease: "power2.inOut",
-          },
-          "<",
+          "-=1",
         );
+
+      const handleMouseMove = (e: MouseEvent) => {
+        const { clientX, clientY } = e;
+        const xPos = (clientX / window.innerWidth - 0.5) * 40;
+        const yPos = (clientY / window.innerHeight - 0.5) * 40;
+
+        gsap.to(heroGrid.current, {
+          rotateY: xPos / 2,
+          rotateX: -yPos / 2,
+          duration: 1.2,
+          ease: "power2.out",
+        });
+
+        gsap.to(".hero-bg-text", {
+          x: xPos,
+          y: yPos,
+          duration: 1.5,
+          ease: "power2.out",
+        });
+      };
+
+      window.addEventListener("mousemove", handleMouseMove);
+      return () => window.removeEventListener("mousemove", handleMouseMove);
     },
     { scope: container },
   );
@@ -93,139 +91,107 @@ const HeroSection = () => {
   return (
     <section
       ref={container}
-      className="relative w-full flex items-center justify-center bg-background overflow-hidden px-4 py-8 md:py-12 lg:py-16 max-w-[100vw]"
+      className="relative w-full h-screen min-h-[800px] flex items-center justify-center bg-background overflow-hidden px-6 md:px-12 lg:px-24 noise"
     >
-      <div className="relative flex flex-col items-center w-full select-none">
-        <div className="overflow-hidden relative z-10 pt-2 md:pt-4">
-          <h1
-            className="hero-text text-center leading-none whitespace-nowrap text-foreground transform origin-bottom-left inline-block"
-            style={{
-              fontFamily: "'Aresenica', 'Didot', 'Georgia', serif",
-              fontWeight: 400,
-              fontSize: "clamp(2rem, 9.5vw, 6.5rem)",
-              letterSpacing: "-0.01em",
-            }}
-          >
-            FULL-STACK
-          </h1>
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
+        <h2 className="hero-bg-text text-[25vw] font-black tracking-tighter opacity-0 text-stroke whitespace-nowrap">
+          UMAIR HEX
+        </h2>
+      </div>
 
-          {/* Decorative Sparkle Top Left */}
-          <div className="absolute -top-2 -left-8 hero-decoration opacity-0 pointer-events-none">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+      <div
+        ref={heroGrid}
+        className="relative z-10 w-full max-w-[1600px] grid grid-cols-1 md:grid-cols-12 gap-8 items-center perspective-1000"
+      >
+        <div className="md:col-span-3 flex flex-col gap-12 md:order-1 order-2">
+          <div className="hero-tag flex flex-col gap-4">
+            <span className="text-[10px] font-bold tracking-[0.4em] uppercase opacity-40">
+              SPECIALIZATION
+            </span>
+            <p className="text-sm font-medium leading-relaxed max-w-[200px]">
+              Architecting digital systems with a focus on high-end motion &
+              brutalist aesthetics.
+            </p>
+          </div>
+
+          <div className="hero-tag flex flex-col gap-4">
+            <span className="text-[10px] font-bold tracking-[0.4em] uppercase opacity-40">
+              LOCATION
+            </span>
+            <p
+              className="text-sm font-medium italic"
+              style={{ fontFamily: "'Aresenica', serif" }}
             >
-              <path
-                d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"
-                fill="currentColor"
-                className="text-foreground/30"
-              />
-            </svg>
-          </div>
-
-          {/* Long Curled Line under Full-Stack */}
-          <div className="absolute -bottom-1 -right-4 w-32 hero-decoration pointer-events-none">
-            <svg viewBox="0 0 160 20" fill="none" className="w-full">
-              <path
-                className="hero-draw-path"
-                d="M5 15C40 5 120 5 155 15"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeOpacity="0.4"
-              />
-            </svg>
-          </div>
-        </div>
-
-        <div
-          className="relative z-20 shrink-0"
-          style={{
-            width: "clamp(120px, 24vw, 240px)",
-            height: "clamp(150px, 30vw, 300px)",
-            marginTop: "clamp(-25px, -3.5vw, -45px)",
-            marginBottom: "clamp(-50px, -7vw, -100px)",
-          }}
-        >
-          {/* Side Annotation Line Left */}
-          <div className="absolute top-1/2 -left-12 hero-decoration opacity-0 hidden md:block">
-            <svg width="2" height="60" viewBox="0 0 2 60" fill="none">
-              <path
-                className="hero-draw-path"
-                d="M1 0V60"
-                stroke="currentColor"
-                strokeWidth="1"
-                strokeDasharray="4 4"
-                strokeOpacity="0.3"
-              />
-            </svg>
-          </div>
-
-          <div
-            className="hero-image-container w-full h-full overflow-hidden shadow-2xl bg-muted"
-            style={{
-              filter: "grayscale(100%)",
-            }}
-          >
-            <Image
-              src="/assets/images/umair.webp"
-              fill
-              className="hero-image object-cover"
-              alt="Developer Umair"
-              priority
-            />
-          </div>
-
-          {/* Side Annotation Line Right */}
-          <div className="absolute bottom-1/4 -right-16 hero-decoration opacity-0 hidden lg:block">
-            <p className="text-[10px] tracking-[0.2em] uppercase opacity-40 font-bold rotate-90 origin-left">
-              Based in PK
+              Islamabad — Pakistan
             </p>
           </div>
         </div>
 
-        <div
-          className="overflow-hidden relative z-30 pb-2 md:pb-4"
-          style={{ mixBlendMode: "difference" }}
-        >
-          <h1
-            className="hero-text text-center font-medium leading-none whitespace-nowrap transform origin-bottom-left inline-block"
-            style={{
-              fontWeight: 500,
-              fontSize: "clamp(2.1rem, 9.5vw, 7.5rem)",
-              letterSpacing: "-0.04em",
-              color: "white",
-            }}
-          >
-            ENGINEER
-          </h1>
+        <div className="md:col-span-6 flex flex-col items-center justify-center md:order-2 order-1 relative">
+          <div className="hero-image-box relative w-full aspect-4/5 md:aspect-3.5/5 max-w-[500px] overflow-hidden shadow-2xl grayscale transition-all duration-700 hover:grayscale-0">
+            <Image
+              src="/assets/images/umair.webp"
+              alt="Umair"
+              fill
+              className="object-cover scale-110"
+              priority
+            />
 
-          {/* Curled Scribble Accent */}
-          <div className="absolute bottom-0 right-0 w-48 hero-decoration pointer-events-none opacity-0">
-            <svg viewBox="0 0 200 40" fill="none" className="w-full">
-              <path
-                className="hero-draw-path"
-                d="M10 30C50 10 150 10 190 30"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeOpacity="0.6"
-              />
-              <path
-                className="hero-draw-path"
-                d="M30 35C70 15 130 15 170 35"
-                stroke="white"
-                strokeWidth="1"
-                strokeLinecap="round"
-                strokeOpacity="0.3"
-              />
-            </svg>
+            <div className="absolute bottom-6 left-6 flex items-center gap-4">
+              <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span className="text-[10px] font-bold tracking-widest text-white uppercase">
+                Active Now
+              </span>
+            </div>
+          </div>
+
+          <div className="absolute top-[60%] md:top-[65%] -left-8 md:-left-20 z-20 pointer-events-none">
+            <div className="overflow-hidden">
+              <h1 className="hero-title-word text-[14vw] md:text-[9vw] font-black leading-none tracking-tighter mix-blend-difference text-white">
+                FULL
+              </h1>
+            </div>
+          </div>
+        </div>
+
+        <div className="md:col-span-3 flex flex-col md:items-end justify-between h-full py-12 md:order-3 order-3">
+          <div className="overflow-hidden mb-auto">
+            <h1 className="hero-title-word text-[14vw] md:text-[9vw] font-black leading-none tracking-tighter text-right">
+              STACK
+            </h1>
+          </div>
+
+          <div className="flex flex-col md:items-end gap-12">
+            <div className="overflow-hidden">
+              <h2
+                className="hero-title-word text-[8vw] md:text-[6vw] font-medium leading-none tracking-tighter italic"
+                style={{ fontFamily: "'Aresenica', serif" }}
+              >
+                Engineer
+              </h2>
+            </div>
+
+            <div className="hero-tag flex flex-col items-end gap-6 group cursor-pointer">
+              <div className="flex items-center gap-4">
+                <span className="text-[11px] font-bold tracking-[0.2em] uppercase">
+                  Scroll to explore
+                </span>
+                <div className="w-12 h-12 rounded-full border border-foreground flex items-center justify-center group-hover:bg-foreground group-hover:text-background transition-all duration-500">
+                  <ArrowDownRight
+                    size={18}
+                    className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      <div className="absolute top-0 left-0 w-full h-px bg-foreground/5" />
+      <div className="absolute bottom-0 left-0 w-full h-px bg-foreground/5" />
+      <div className="absolute top-0 left-0 w-px h-full bg-foreground/5 ml-12 hidden md:block" />
+      <div className="absolute top-0 right-0 w-px h-full bg-foreground/5 mr-12 hidden md:block" />
     </section>
   );
 };

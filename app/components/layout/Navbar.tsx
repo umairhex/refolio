@@ -5,8 +5,9 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { Mail, Github, Twitter } from "lucide-react";
 import FullScreenMenu from "./FullScreenMenu";
-import { CONTACT_EMAIL } from "@/constants";
+import { SOCIAL_LINKS } from "@/constants";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP);
@@ -137,12 +138,31 @@ export default function Navbar() {
           </button>
         </div>
 
-        <div className="flex-1 hidden lg:flex justify-end opacity-70 text-[10px] md:text-[11px] font-bold tracking-[0.05em] lowercase nav-item">
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="hover:opacity-100 transition-opacity cursor-pointer"
+        <div className="flex-1 hidden lg:flex justify-end items-center gap-4 nav-item">
+          <Link
+            href="/contact"
+            className="p-2 rounded-full border border-foreground/5 hover:bg-foreground hover:text-background transition-all duration-300"
+            aria-label="Email"
           >
-            {CONTACT_EMAIL}
+            <Mail size={14} strokeWidth={2.5} />
+          </Link>
+          <a
+            href={SOCIAL_LINKS.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded-full border border-foreground/5 hover:bg-foreground hover:text-background transition-all duration-300"
+            aria-label="GitHub"
+          >
+            <Github size={14} strokeWidth={2.5} />
+          </a>
+          <a
+            href={SOCIAL_LINKS.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2 rounded-full border border-foreground/5 hover:bg-foreground hover:text-background transition-all duration-300"
+            aria-label="Twitter"
+          >
+            <Twitter size={14} strokeWidth={2.5} />
           </a>
         </div>
 
