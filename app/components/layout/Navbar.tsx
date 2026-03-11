@@ -5,9 +5,18 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { Mail, Github, Twitter } from "lucide-react";
+import { Mail, Github, MousePointer2 } from "lucide-react";
+import { motion, useScroll, useSpring } from "framer-motion";
+import useSound from "use-sound";
+
 import FullScreenMenu from "./FullScreenMenu";
 import { SOCIAL_LINKS } from "@/constants";
+import { useLenis } from "lenis/react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP);
@@ -15,45 +24,84 @@ if (typeof window !== "undefined") {
 
 export default function Navbar() {
   const [time, setTime] = useState("");
+  const [greeting, setGreeting] = useState("");
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const lenis = useLenis();
+
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
+  const [playHover] = useSound("/assets/sounds/hover.mp3", { volume: 0.1 });
+  const [playClick] = useSound("/assets/sounds/click.mp3", { volume: 0.2 });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 50);
+
+      if (currentScrollY > lastScrollY && currentScrollY > 200) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   useGSAP(
     () => {
       const tl = gsap.timeline();
-
       gsap.set(".nav-item", { opacity: 0, y: -20 });
 
       tl.to(navRef.current, {
-        width: "98%",
         opacity: 1,
+        y: 0,
         duration: 1.2,
-        ease: "power4.inOut",
+        ease: "power4.out",
       }).to(
         ".nav-item",
         {
           opacity: 1,
           y: 0,
           duration: 0.8,
-          stagger: 0.1,
+          stagger: 0.08,
           ease: "power3.out",
         },
-        "-=0.4",
+        "-=0.6",
       );
     },
     { scope: navRef },
   );
 
   useEffect(() => {
-    // eslint-disable-next-line
-    setMounted(true);
+    const frame = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {
-    const updateClock = () => {
+    const updateTime = () => {
       const now = new Date();
+      const hours = now.getHours();
+
+      if (hours >= 5 && hours < 12) setGreeting("Good Morning");
+      else if (hours >= 12 && hours < 17) setGreeting("Good Afternoon");
+      else if (hours >= 17 && hours < 21) setGreeting("Good Evening");
+      else setGreeting("Good Night");
+
       const formatter = new Intl.DateTimeFormat("en-US", {
         timeZone: "Asia/Karachi",
         hour: "2-digit",
@@ -62,122 +110,193 @@ export default function Navbar() {
         hour12: true,
       });
 
-      setTime(`PKT - ${formatter.format(now)}`);
+      setTime(formatter.format(now));
     };
 
-    updateClock();
-    const interval = setInterval(updateClock, 1000);
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
 
+  const handleScrollToTop = () => {
+    lenis?.scrollTo(0, { lerp: 0.05 });
+    playClick();
+  };
+
   return (
     <>
-      <nav
-        ref={navRef}
-        className="relative mx-auto mt-4 md:mt-6 w-[90%] opacity-0 max-w-[1500px] z-50 flex items-center justify-between px-6 md:px-8 py-3.5 bg-background/70 backdrop-blur-lg border border-foreground/5 rounded-[6px] text-foreground"
+      <header
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
+          isVisible ? "translate-y-0" : "-translate-y-full"
+        } ${
+          isScrolled && !isMenuOpen
+            ? "bg-background/80 md:bg-transparent backdrop-blur-xl md:backdrop-blur-0"
+            : "bg-linear-to-b from-background/40 to-transparent pointer-events-none"
+        }`}
       >
-        <div className="flex-1 flex justify-start nav-item">
-          <Link href="/">
-            <span
-              className="text-lg md:text-xl font-bold italic cursor-pointer block transform-gpu nav-logo"
-              onMouseEnter={(e) => {
-                gsap.to(e.currentTarget, {
-                  rotateY: 15,
-                  rotateX: -10,
-                  x: 5,
-                  duration: 0.4,
-                  ease: "power2.out",
-                });
-              }}
-              onMouseLeave={(e) => {
-                gsap.to(e.currentTarget, {
-                  rotateY: 0,
-                  rotateX: 0,
-                  x: 0,
-                  duration: 0.4,
-                  ease: "power2.out",
-                });
-              }}
-              style={{
-                fontFamily: "'Aresenica', 'Didot', 'Georgia', serif",
-                letterSpacing: "-0.05em",
-                perspective: "1000px",
-                transformStyle: "preserve-3d",
-              }}
+        <div className="absolute inset-0 bg-background/5 backdrop-blur-[2px] pointer-events-none" />
+        <nav
+          ref={navRef}
+          className={`mx-auto transition-all duration-700 ease-expo-out flex items-center justify-between px-6 md:px-10 py-3 md:py-4 border border-foreground/5 text-foreground overflow-hidden pointer-events-auto ${
+            isScrolled
+              ? "mt-[calc(1rem+1vh)] w-[95%] md:w-[92%] xl:w-[85%] 2xl:w-[75%] bg-background/80 backdrop-blur-2xl rounded-full md:rounded-[24px] shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-foreground/10 py-3 px-8"
+              : "mt-0 w-full bg-transparent border-transparent py-[clamp(1.5rem,4vh,3rem)]"
+          }`}
+          style={{ opacity: 0, transform: "translateY(-10px)" }}
+        >
+          <motion.div
+            className="absolute bottom-0 left-0 right-0 h-px bg-foreground/20 z-60"
+            style={{ scaleX, transformOrigin: "0%" }}
+          />
+
+          <div className="flex-1 flex justify-start nav-item">
+            <button
+              onClick={handleScrollToTop}
+              onMouseEnter={() => playHover()}
+              className="group flex items-center gap-3 focus:outline-none"
+              aria-label="Scroll to top"
             >
-              Umair
-            </span>
-          </Link>
-        </div>
+              <span
+                className="text-lg md:text-2xl font-bold italic cursor-pointer block transform-gpu nav-logo"
+                onMouseEnter={(e) => {
+                  gsap.to(e.currentTarget, {
+                    rotateY: 20,
+                    rotateX: -10,
+                    x: 5,
+                    duration: 0.4,
+                    ease: "power2.out",
+                  });
+                }}
+                onMouseLeave={(e) => {
+                  gsap.to(e.currentTarget, {
+                    rotateY: 0,
+                    rotateX: 0,
+                    x: 0,
+                    duration: 0.4,
+                    ease: "power2.out",
+                  });
+                }}
+                style={{
+                  fontFamily: "'Aresenica', 'Didot', 'Georgia', serif",
+                  letterSpacing: "-0.05em",
+                  perspective: "1000px",
+                  transformStyle: "preserve-3d",
+                }}
+              >
+                Umair
+              </span>
+            </button>
+          </div>
 
-        <div className="flex-1 hidden lg:flex justify-start opacity-70 text-[10px] md:text-[11px] font-bold tracking-widest uppercase nav-item">
-          {time || "PKT - 00:00:00 AM"}
-        </div>
-
-        <div className="flex-1 hidden md:flex justify-center text-[10px] md:text-[11px] font-bold tracking-[0.15em] uppercase gap-2 text-foreground/40 nav-item">
-          <button
-            onClick={() => setTheme("light")}
-            className={`transition-all cursor-pointer ${
-              mounted && resolvedTheme === "light"
-                ? "text-foreground opacity-100"
-                : "hover:text-foreground hover:opacity-100"
-            }`}
+          <div
+            className={`nav-item flex flex-col items-center justify-center transition-all duration-500 ${isScrolled ? "scale-90 opacity-40 translate-y-1 hidden xl:flex" : "flex-1 hidden lg:flex"}`}
           >
-            LIGHT
-          </button>
-          <span className="font-normal opacity-50">|</span>
-          <button
-            onClick={() => setTheme("dark")}
-            className={`transition-all cursor-pointer ${
-              mounted && resolvedTheme === "dark"
-                ? "text-foreground opacity-100"
-                : "hover:text-foreground hover:opacity-100"
-            }`}
-          >
-            DARK
-          </button>
-        </div>
-
-        <div className="flex-1 hidden lg:flex justify-end items-center gap-4 nav-item">
-          <Link
-            href="/contact"
-            className="p-2 rounded-full border border-foreground/5 hover:bg-foreground hover:text-background transition-all duration-300"
-            aria-label="Email"
-          >
-            <Mail size={14} strokeWidth={2.5} />
-          </Link>
-          <a
-            href={SOCIAL_LINKS.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded-full border border-foreground/5 hover:bg-foreground hover:text-background transition-all duration-300"
-            aria-label="GitHub"
-          >
-            <Github size={14} strokeWidth={2.5} />
-          </a>
-          <a
-            href={SOCIAL_LINKS.twitter}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded-full border border-foreground/5 hover:bg-foreground hover:text-background transition-all duration-300"
-            aria-label="Twitter"
-          >
-            <Twitter size={14} strokeWidth={2.5} />
-          </a>
-        </div>
-
-        <div className="flex-1 flex justify-end nav-item">
-          <button
-            onClick={() => setIsMenuOpen(true)}
-            className="flex items-center gap-3 text-[10px] md:text-[11px] font-bold tracking-[0.15em] uppercase group cursor-pointer"
-          >
-            <span>MENU</span>
-            <div className="w-[18px] h-[18px] rounded-full border-[1.5px] border-foreground/40 group-hover:border-foreground transition-colors flex items-center justify-center">
-              <div className="w-[3px] h-[3px] bg-foreground rounded-full animate-pulse" />
+            <div className="flex items-center gap-3 text-[9px] font-bold tracking-[0.2em] uppercase">
+              <span className="hidden xl:inline">{greeting}</span>
+              <span className="w-1 h-1 rounded-full bg-foreground/20 hidden xl:inline" />
+              <span>{time || "00:00:00 AM"}</span>
             </div>
-          </button>
-        </div>
-      </nav>
+          </div>
+
+          <div className="flex-1 flex justify-end items-center gap-4 md:gap-6 nav-item">
+            <div className="hidden lg:flex items-center gap-6">
+              <div className="items-center gap-2 text-[10px] font-bold tracking-widest text-foreground/40 hidden xl:flex">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      onClick={() => {
+                        setTheme("light");
+                        playClick();
+                      }}
+                      onMouseEnter={() => playHover()}
+                      className={`transition-all focus:outline-none ${mounted && resolvedTheme === "light" ? "text-foreground opacity-100" : "hover:text-foreground opacity-50"}`}
+                    >
+                      L
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Switch to Light</TooltipContent>
+                </Tooltip>
+                <span>/</span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      onClick={() => {
+                        setTheme("dark");
+                        playClick();
+                      }}
+                      onMouseEnter={() => playHover()}
+                      className={`transition-all focus:outline-none ${mounted && resolvedTheme === "dark" ? "text-foreground opacity-100" : "hover:text-foreground opacity-50"}`}
+                    >
+                      D
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Switch to Dark</TooltipContent>
+                </Tooltip>
+              </div>
+
+              <div className="h-4 w-px bg-foreground/10 hidden xl:block" />
+
+              <div className="items-center gap-4 hidden xl:flex">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <a
+                      href={SOCIAL_LINKS.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onMouseEnter={() => playHover()}
+                      className="opacity-40 hover:opacity-100 transition-opacity focus:outline-none"
+                    >
+                      <Github size={15} />
+                    </a>
+                  </TooltipTrigger>
+                  <TooltipContent>GitHub Profile</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href="/contact"
+                      onMouseEnter={() => playHover()}
+                      className="opacity-40 hover:opacity-100 transition-opacity focus:outline-none"
+                    >
+                      <Mail size={15} />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>Send an Email</TooltipContent>
+                </Tooltip>
+              </div>
+
+              <Link href="/contact" onClick={() => playClick()}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onMouseEnter={() => playHover()}
+                  className="flex items-center gap-2 px-4 py-1.5 bg-foreground text-background text-[10px] font-bold tracking-widest uppercase rounded-full hover:shadow-lg transition-shadow"
+                >
+                  <span className="hidden sm:inline">Hire Me</span>
+                  <MousePointer2 size={10} />
+                </motion.button>
+              </Link>
+            </div>
+
+            <button
+              onClick={() => {
+                setIsMenuOpen(true);
+                playClick();
+              }}
+              onMouseEnter={() => playHover()}
+              className={`flex items-center gap-3 text-[10px] font-bold tracking-[0.2em] uppercase group transform transition-all duration-500 focus:outline-none ${isScrolled ? "scale-105" : ""}`}
+            >
+              <span className="hidden md:inline">Menu</span>
+              <div className="relative w-8 h-8 rounded-full border border-foreground/10 flex items-center justify-center group-hover:bg-foreground group-hover:text-background transition-all duration-500 overflow-hidden">
+                <div className="flex flex-col gap-1 items-center">
+                  <div className="w-3 h-px bg-current" />
+                  <div className="w-3 h-px bg-current opacity-60" />
+                </div>
+              </div>
+            </button>
+          </div>
+        </nav>
+      </header>
 
       <FullScreenMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
     </>

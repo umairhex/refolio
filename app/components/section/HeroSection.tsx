@@ -91,7 +91,7 @@ const HeroSection = () => {
   return (
     <section
       ref={container}
-      className="relative w-full h-screen min-h-[800px] flex items-center justify-center bg-background overflow-hidden px-6 md:px-12 lg:px-24 noise"
+      className="relative w-full h-screen min-h-[800px] flex items-center justify-center bg-background overflow-hidden px-6 md:px-12 lg:px-24 pt-[calc(2rem+5vh)] noise"
     >
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
         <h2 className="hero-bg-text text-[25vw] font-black tracking-tighter opacity-0 text-stroke whitespace-nowrap">
@@ -145,9 +145,9 @@ const HeroSection = () => {
             </div>
           </div>
 
-          <div className="absolute top-[60%] md:top-[65%] -left-8 md:-left-20 z-20 pointer-events-none">
+          <div className="absolute top-[60%] md:top-[65%] -left-8 md:-left-20 z-20 pointer-events-none mix-blend-difference">
             <div className="overflow-hidden">
-              <h1 className="hero-title-word text-[14vw] md:text-[9vw] font-black leading-none tracking-tighter mix-blend-difference text-white">
+              <h1 className="hero-title-word text-[14vw] md:text-[9vw] font-black leading-none tracking-tighter text-foreground">
                 FULL
               </h1>
             </div>
@@ -155,16 +155,16 @@ const HeroSection = () => {
         </div>
 
         <div className="md:col-span-3 flex flex-col md:items-end justify-between h-full py-12 md:order-3 order-3">
-          <div className="overflow-hidden mb-auto">
-            <h1 className="hero-title-word text-[14vw] md:text-[9vw] font-black leading-none tracking-tighter text-right">
+          <div className="overflow-hidden mb-auto mix-blend-difference">
+            <h1 className="hero-title-word text-[14vw] md:text-[9vw] font-black leading-none tracking-tighter text-right text-foreground">
               STACK
             </h1>
           </div>
 
           <div className="flex flex-col md:items-end gap-12">
-            <div className="overflow-hidden">
+            <div className="overflow-hidden mix-blend-difference">
               <h2
-                className="hero-title-word text-[8vw] md:text-[6vw] font-medium leading-none tracking-tighter italic"
+                className="hero-title-word text-[8vw] md:text-[6vw] font-medium leading-none tracking-tighter italic text-foreground"
                 style={{ fontFamily: "'Aresenica', serif" }}
               >
                 Engineer
