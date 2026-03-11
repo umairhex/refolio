@@ -1,17 +1,17 @@
 "use client";
 
 import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { useThemeScroll } from "@/hooks/use-theme-scroll";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
+import PageSection from "@/app/components/ui/PageSection";
+import Container from "@/app/components/ui/Container";
 
 const AboutSection = () => {
   const containerRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+
+  useThemeScroll(containerRef);
 
   useGSAP(
     () => {
@@ -35,52 +35,21 @@ const AboutSection = () => {
           },
         );
       });
-
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top center",
-        end: "bottom center",
-        onEnter: () =>
-          gsap.to("body", {
-            backgroundColor: "var(--foreground)",
-            color: "var(--background)",
-            duration: 1,
-          }),
-        onLeave: () =>
-          gsap.to("body", {
-            backgroundColor: "var(--background)",
-            color: "var(--foreground)",
-            duration: 1,
-          }),
-        onEnterBack: () =>
-          gsap.to("body", {
-            backgroundColor: "var(--foreground)",
-            color: "var(--background)",
-            duration: 1,
-          }),
-        onLeaveBack: () =>
-          gsap.to("body", {
-            backgroundColor: "var(--background)",
-            color: "var(--foreground)",
-            duration: 1,
-          }),
-      });
     },
     { scope: containerRef },
   );
 
   return (
-    <section
+    <PageSection
       ref={containerRef}
       id="about"
-      className="relative w-full py-64 px-6 md:px-12 lg:px-24 flex flex-col items-center justify-center overflow-hidden"
+      className="relative w-full py-64 flex flex-col items-center justify-center overflow-hidden"
     >
-      <div className="max-w-[1200px] w-full">
+      <Container className="w-full">
         <div className="flex flex-col gap-12" ref={textRef}>
           <div className="overflow-hidden">
             <h2
-              className="about-line text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter leading-[0.9] italic"
-              style={{ fontFamily: "'Aresenica', serif" }}
+              className="about-line font-arsenica text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter leading-[0.9] italic"
             >
               CRAFTING DIGITAL
             </h2>
@@ -92,8 +61,7 @@ const AboutSection = () => {
           </div>
           <div className="overflow-hidden">
             <h2
-              className="about-line text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter leading-[0.9] italic"
-              style={{ fontFamily: "'Aresenica', serif" }}
+              className="about-line font-arsenica text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter leading-[0.9] italic"
             >
               PRECISION & ARTISTRY
             </h2>
@@ -123,12 +91,12 @@ const AboutSection = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 select-none pointer-events-none opacity-[0.02] whitespace-nowrap">
         <span className="text-[40vw] font-bold tracking-tighter">CREATIVE</span>
       </div>
-    </section>
+    </PageSection>
   );
 };
 

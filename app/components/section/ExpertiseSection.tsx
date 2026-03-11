@@ -1,14 +1,10 @@
 "use client";
 
 import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { SKILLS, SERVICES } from "@/constants";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
+import PageSection from "@/app/components/ui/PageSection";
+import Container from "@/app/components/ui/Container";
 
 const ExpertiseSection = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -43,11 +39,11 @@ const ExpertiseSection = () => {
   );
 
   return (
-    <section
+    <PageSection
       ref={containerRef}
-      className="relative w-full py-64 px-6 md:px-12 lg:px-24 bg-background border-t border-foreground/5"
+      className="relative w-full py-64 bg-background border-t border-foreground/5"
     >
-      <div className="max-w-[1600px] mx-auto flex flex-col gap-40">
+      <Container className="flex flex-col gap-40">
         <div className="flex flex-col gap-8 max-w-2xl">
           <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
             OUR EXPERTISE
@@ -55,8 +51,7 @@ const ExpertiseSection = () => {
           <h2 className="text-4xl md:text-7xl font-medium tracking-tighter leading-[0.9]">
             I HELP BRANDS SCALE <br /> THROUGH{" "}
             <span
-              className="italic"
-              style={{ fontFamily: "'Aresenica', serif" }}
+              className="italic font-arsenica"
             >
               DIGITAL PRECISION
             </span>
@@ -88,8 +83,7 @@ const ExpertiseSection = () => {
         <div className="skills-grid mt-20 flex flex-col md:flex-row justify-between gap-20 border-t border-foreground/5 pt-32">
           <div className="flex flex-col gap-6 max-w-xs">
             <h4
-              className="text-3xl font-medium tracking-tighter italic"
-              style={{ fontFamily: "'Aresenica', serif" }}
+              className="font-arsenica text-3xl font-medium tracking-tighter italic"
             >
               Tech Stack
             </h4>
@@ -123,8 +117,8 @@ const ExpertiseSection = () => {
             ))}
           </div>
         </div>
-      </div>
-    </section>
+      </Container>
+    </PageSection>
   );
 };
 

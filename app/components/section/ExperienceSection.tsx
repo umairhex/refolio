@@ -1,14 +1,10 @@
 "use client";
 
 import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { EXPERIENCE } from "@/constants";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
+import PageSection from "@/app/components/ui/PageSection";
+import Container from "@/app/components/ui/Container";
 
 const ExperienceSection = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -45,19 +41,18 @@ const ExperienceSection = () => {
   );
 
   return (
-    <section
+    <PageSection
       ref={containerRef}
-      className="relative w-full py-64 px-6 md:px-12 lg:px-24 bg-foreground text-background overflow-hidden"
+      className="relative w-full py-64 bg-foreground text-background overflow-hidden"
     >
-      <div className="max-w-[1600px] mx-auto">
+      <Container>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-32 gap-8">
           <div className="flex flex-col gap-6">
             <span className="text-[10px] font-bold tracking-[0.4em] uppercase opacity-40">
               RESUME — 05
             </span>
             <h2
-              className="text-4xl md:text-8xl font-medium tracking-tighter italic"
-              style={{ fontFamily: "'Aresenica', serif" }}
+              className="font-arsenica text-4xl md:text-8xl font-medium tracking-tighter italic"
             >
               JOURNEY
             </h2>
@@ -81,8 +76,7 @@ const ExperienceSection = () => {
                   {item.period}
                 </span>
                 <h3
-                  className="text-xl md:text-2xl font-bold tracking-tight group-hover:italic transition-all"
-                  style={{ fontFamily: "'Aresenica', serif" }}
+                  className="font-arsenica text-xl md:text-2xl font-bold tracking-tight group-hover:italic transition-all"
                 >
                   {item.company}
                 </h3>
@@ -102,12 +96,12 @@ const ExperienceSection = () => {
           ))}
           <div className="row-line w-full h-px bg-background/10" />
         </div>
-      </div>
+      </Container>
 
       <div className="absolute top-1/2 right-[-10%] -translate-y-1/2 rotate-90 select-none pointer-events-none opacity-[0.03]">
         <span className="text-[30vw] font-bold tracking-tighter">ENGINEER</span>
       </div>
-    </section>
+    </PageSection>
   );
 };
 

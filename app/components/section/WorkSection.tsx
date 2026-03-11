@@ -3,20 +3,19 @@
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { PROJECTS } from "@/constants";
-import { CLICK_SOUND } from "@/app/constants/sounds";
-import useSound from "use-sound";
+import { useClickSound } from "@/hooks/use-click-sound";
+import PageSection from "@/app/components/ui/PageSection";
+import Container from "@/app/components/ui/Container";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
+interface WorkSectionProps {
+  limit?: number;
 }
 
-const WorkSection = () => {
+const WorkSection = ({ limit = 4 }: WorkSectionProps) => {
   const containerRef = useRef<HTMLElement>(null);
-  const [playClick] = useSound(CLICK_SOUND, { volume: 0.2 });
+  const playClick = useClickSound();
 
   useGSAP(
     () => {
@@ -70,12 +69,12 @@ const WorkSection = () => {
   );
 
   return (
-    <section
+    <PageSection
       ref={containerRef}
       id="work"
-      className="relative w-full bg-background pt-32 pb-64 px-6 md:px-12 lg:px-24"
+      className="relative w-full bg-background pt-32 pb-64"
     >
-      <div className="flex flex-col gap-40 max-w-[1600px] mx-auto">
+      <Container className="flex flex-col gap-40">
         <div className="flex justify-between items-end border-b border-foreground/10 pb-8">
           <h2 className="text-4xl md:text-6xl font-medium tracking-tighter">
             SELECTED PROJECTS
@@ -86,7 +85,7 @@ const WorkSection = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-40">
-          {PROJECTS.slice(0, 4).map((project, index) => (
+          {PROJECTS.slice(0, limit).map((project, index) => (
             <div
               key={project.id}
               className={`project-item group flex flex-col ${
@@ -111,8 +110,7 @@ const WorkSection = () => {
               <div className="project-info flex flex-col gap-4">
                 <div className="flex justify-between items-start">
                   <h3
-                    className="text-3xl md:text-5xl font-medium tracking-tight hero-text italic"
-                    style={{ fontFamily: "'Aresenica', serif" }}
+                    className="font-arsenica text-3xl md:text-5xl font-medium tracking-tight hero-text italic"
                   >
                     {project.title}
                   </h3>
@@ -125,9 +123,7 @@ const WorkSection = () => {
                   {project.description}
                 </p>
 
-                <div
-                  className="flex items-center gap-4 mt-4 overflow-hidden group/link"
-                >
+                <div className="flex items-center gap-4 mt-4 overflow-hidden group/link">
                   <div className="w-8 h-px bg-foreground/20 group-hover/link:w-16 transition-all duration-500" />
                   <span className="text-[10px] font-bold tracking-[0.2em] uppercase cursor-pointer">
                     View Project
@@ -152,8 +148,8 @@ const WorkSection = () => {
             <div className="absolute inset-0 bg-foreground translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-power4.out" />
           </Link>
         </div>
-      </div>
-    </section>
+      </Container>
+    </PageSection>
   );
 };
 

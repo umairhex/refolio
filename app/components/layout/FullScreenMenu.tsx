@@ -1,79 +1,29 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
+import { gsap } from "@/lib/gsap";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NAV_LINKS, SOCIAL_LINKS } from "@/constants";
-import { CLICK_SOUND } from "@/app/constants/sounds";
-import useSound from "use-sound";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(useGSAP);
-}
+import { NAV_LINKS, SOCIAL_PROFILES } from "@/constants";
+import { useClickSound } from "@/hooks/use-click-sound";
+import { useScrollLock } from "@/hooks/use-scroll-lock";
+import { useMenuAnimation } from "@/hooks/use-menu-animation";
 
 export default function FullScreenMenu({
   isOpen,
-  setIsOpen,
+  onClose,
 }: {
   isOpen: boolean;
-  setIsOpen: (v: boolean) => void;
+  onClose: () => void;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const tlContainer = useRef<gsap.core.Timeline | null>(null);
   const pathname = usePathname();
+  const playClick = useClickSound();
 
-  const [playClick] = useSound(CLICK_SOUND, { volume: 0.2 });
+  useScrollLock(isOpen);
 
-  useGSAP(
-    () => {
-      gsap.set(menuRef.current, { yPercent: -100, display: "none" });
-
-      const tl = gsap.timeline({ paused: true });
-
-      tl.to(menuRef.current, {
-        yPercent: 0,
-        duration: 0.8,
-        ease: "power4.inOut",
-        onStart: () => {
-          gsap.set(menuRef.current, { display: "flex" });
-        },
-      }).fromTo(
-        ".menu-link",
-        { y: 150, opacity: 0, rotate: 5 },
-        {
-          y: 0,
-          opacity: 1,
-          rotate: 0,
-          duration: 0.8,
-          stagger: 0.08,
-          ease: "power3.out",
-        },
-        "-=0.5",
-      );
-
-      tlContainer.current = tl;
-    },
-    { scope: container },
-  );
-
-  useEffect(() => {
-    if (tlContainer.current) {
-      if (isOpen) {
-        tlContainer.current.play();
-        document.body.style.overflow = "hidden";
-      } else {
-        tlContainer.current.reverse().then(() => {
-          if (!isOpen) {
-            gsap.set(menuRef.current, { display: "none" });
-            document.body.style.overflow = "visible";
-          }
-        });
-      }
-    }
-  }, [isOpen]);
+  useMenuAnimation({ isOpen, menuRef, containerRef: container });
 
   return (
     <div ref={container}>
@@ -84,10 +34,9 @@ export default function FullScreenMenu({
       >
         <button
           onClick={() => {
-            setIsOpen(false);
+            onClose();
             playClick();
           }}
-
           className="absolute top-6 right-6 md:top-10 md:right-10 flex items-center gap-3 text-[10px] md:text-[11px] font-bold tracking-[0.15em] uppercase group cursor-pointer focus:outline-none"
           tabIndex={isOpen ? 0 : -1}
           aria-label="Close Menu"
@@ -117,17 +66,15 @@ export default function FullScreenMenu({
                     <Link
                       href={link.href}
                       onClick={() => {
-                        setIsOpen(false);
+                        onClose();
                         playClick();
                       }}
                       tabIndex={isOpen ? 0 : -1}
                       onMouseEnter={(e) => {
-
-                        const text = e.currentTarget.querySelector(".menu-text");
+                        const text =
+                          e.currentTarget.querySelector(".menu-text");
                         const bar = e.currentTarget.querySelector(".menu-bar");
-
                         gsap.killTweensOf([text, bar]);
-
                         gsap.to(text, {
                           rotateY: -8,
                           rotateX: 5,
@@ -136,7 +83,6 @@ export default function FullScreenMenu({
                           duration: 0.5,
                           ease: "power3.out",
                         });
-
                         gsap.to(bar, {
                           scaleX: 1,
                           scaleY: 1,
@@ -145,20 +91,18 @@ export default function FullScreenMenu({
                         });
                       }}
                       onMouseLeave={(e) => {
-                        const text = e.currentTarget.querySelector(".menu-text");
+                        const text =
+                          e.currentTarget.querySelector(".menu-text");
                         const bar = e.currentTarget.querySelector(".menu-bar");
-
                         gsap.killTweensOf([text, bar]);
-
                         gsap.to(text, {
                           rotateY: 0,
                           rotateX: 0,
                           x: 0,
-                          color: isActive ? "var(--foreground)" : "var(--foreground)",
+                          color: "var(--foreground)",
                           duration: 0.5,
                           ease: "power3.out",
                         });
-
                         gsap.to(bar, {
                           scaleX: 0,
                           scaleY: 0.05,
@@ -166,9 +110,8 @@ export default function FullScreenMenu({
                           ease: "power4.out",
                         });
                       }}
-                      className="relative block w-full text-[14vw] md:text-[10vw] lg:text-[90px] font-medium leading-none tracking-tighter uppercase cursor-pointer py-3 md:py-5 focus:outline-none"
+                      className="font-arsenica-display relative block w-full text-[14vw] md:text-[10vw] lg:text-[90px] font-medium leading-none tracking-tighter uppercase cursor-pointer py-3 md:py-5 focus:outline-none"
                       style={{
-                        fontFamily: "'Aresenica', 'Didot', 'Georgia', serif",
                         transformStyle: "preserve-3d",
                         opacity: isActive ? 1 : 0.4,
                         transition: "opacity 0.3s ease",
@@ -203,46 +146,19 @@ export default function FullScreenMenu({
         <div className="absolute bottom-6 md:bottom-10 left-6 right-6 md:left-16 lg:left-24 md:right-16 lg:right-24 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-[10px] md:text-[11px] tracking-[0.15em] uppercase text-foreground/50 border-t border-foreground/10 pt-6">
           <span>{`© ${new Date().getFullYear()} UMAIR`}</span>
           <div className="flex gap-6">
-            <a
-              href={SOCIAL_LINKS.twitter}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors cursor-pointer"
-              onClick={() => playClick()}
-              tabIndex={isOpen ? 0 : -1}
-            >
-              Twitter
-            </a>
-            <a
-              href={SOCIAL_LINKS.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors cursor-pointer"
-              onClick={() => playClick()}
-              tabIndex={isOpen ? 0 : -1}
-            >
-              LinkedIn
-            </a>
-            <a
-              href={SOCIAL_LINKS.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors cursor-pointer"
-              onClick={() => playClick()}
-              tabIndex={isOpen ? 0 : -1}
-            >
-              Github
-            </a>
-            <a
-              href={SOCIAL_LINKS.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors cursor-pointer"
-              onClick={() => playClick()}
-              tabIndex={isOpen ? 0 : -1}
-            >
-              Instagram
-            </a>
+            {SOCIAL_PROFILES.map((p) => (
+              <a
+                key={p.key}
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-foreground transition-colors cursor-pointer capitalize"
+                onClick={() => playClick()}
+                tabIndex={isOpen ? 0 : -1}
+              >
+                {p.key}
+              </a>
+            ))}
           </div>
         </div>
       </div>

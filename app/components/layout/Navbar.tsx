@@ -3,38 +3,28 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { Mail, Github, MousePointer2 } from "lucide-react";
 import { motion, useScroll, useSpring } from "framer-motion";
-import useSound from "use-sound";
-
-import FullScreenMenu from "./FullScreenMenu";
+import { useClickSound } from "@/hooks/use-click-sound";
+import { useScrollVisibility } from "@/hooks/use-scroll-visibility";
 import { SOCIAL_LINKS } from "@/constants";
-import { CLICK_SOUND } from "@/app/constants/sounds";
-import { useLenis } from "lenis/react";
+import NavbarClock from "./NavbarClock";
+import FullScreenMenu from "./FullScreenMenu";
+import { gsap, useGSAP } from "@/lib/gsap";
+
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
 } from "@/components/ui/tooltip";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(useGSAP);
-}
-
 export default function Navbar() {
-  const [time, setTime] = useState("");
-  const [greeting, setGreeting] = useState("");
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
-  const lenis = useLenis();
 
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const { isScrolled, isVisible } = useScrollVisibility();
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -43,28 +33,13 @@ export default function Navbar() {
     restDelta: 0.001,
   });
 
-  const [playClick] = useSound(CLICK_SOUND, { volume: 0.2 });
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsScrolled(currentScrollY > 50);
-
-      if (currentScrollY > lastScrollY && currentScrollY > 200) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  const playClick = useClickSound();
 
   useGSAP(
     () => {
       const tl = gsap.timeline();
+
+      gsap.set(navRef.current, { opacity: 0, y: -10 });
       gsap.set(".nav-item", { opacity: 0, y: -20 });
 
       tl.to(navRef.current, {
@@ -92,37 +67,6 @@ export default function Navbar() {
     return () => cancelAnimationFrame(frame);
   }, []);
 
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const hours = now.getHours();
-
-      if (hours >= 5 && hours < 12) setGreeting("Good Morning");
-      else if (hours >= 12 && hours < 17) setGreeting("Good Afternoon");
-      else if (hours >= 17 && hours < 21) setGreeting("Good Evening");
-      else setGreeting("Good Night");
-
-      const formatter = new Intl.DateTimeFormat("en-US", {
-        timeZone: "Asia/Karachi",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true,
-      });
-
-      setTime(formatter.format(now));
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleScrollToTop = () => {
-    lenis?.scrollTo(0, { lerp: 0.05 });
-    playClick();
-  };
-
   return (
     <>
       <header
@@ -142,7 +86,6 @@ export default function Navbar() {
               ? "mt-[calc(1rem+1vh)] w-[95%] md:w-[92%] xl:w-[85%] 2xl:w-[75%] bg-background/80 backdrop-blur-2xl rounded-full md:rounded-[24px] shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-foreground/10 py-3 px-8"
               : "mt-0 w-full bg-transparent border-transparent py-[clamp(1.5rem,4vh,3rem)]"
           }`}
-          style={{ opacity: 0, transform: "translateY(-10px)" }}
         >
           <motion.div
             className="absolute bottom-0 left-0 right-0 h-px bg-foreground/20 z-60"
@@ -150,13 +93,14 @@ export default function Navbar() {
           />
 
           <div className="flex-1 flex justify-start nav-item">
-            <button
-              onClick={handleScrollToTop}
+            <Link
+              href="/"
+              onClick={() => playClick()}
               className="group flex items-center gap-3 focus:outline-none"
-              aria-label="Scroll to top"
+              aria-label="Go to home"
             >
               <span
-                className="text-lg md:text-2xl font-bold italic cursor-pointer block transform-gpu nav-logo"
+                className="font-arsenica-display text-2xl md:text-4xl font-medium cursor-pointer block transform-gpu nav-logo"
                 onMouseEnter={(e) => {
                   gsap.to(e.currentTarget, {
                     rotateY: 20,
@@ -176,7 +120,6 @@ export default function Navbar() {
                   });
                 }}
                 style={{
-                  fontFamily: "'Aresenica', 'Didot', 'Georgia', serif",
                   letterSpacing: "-0.05em",
                   perspective: "1000px",
                   transformStyle: "preserve-3d",
@@ -184,18 +127,10 @@ export default function Navbar() {
               >
                 Umair
               </span>
-            </button>
+            </Link>
           </div>
 
-          <div
-            className={`nav-item flex flex-col items-center justify-center transition-all duration-500 ${isScrolled ? "scale-90 opacity-40 translate-y-1 hidden xl:flex" : "flex-1 hidden lg:flex"}`}
-          >
-            <div className="flex items-center gap-3 text-[9px] font-bold tracking-[0.2em] uppercase">
-              <span className="hidden xl:inline">{greeting}</span>
-              <span className="w-1 h-1 rounded-full bg-foreground/20 hidden xl:inline" />
-              <span>{time || "00:00:00 AM"}</span>
-            </div>
-          </div>
+          <NavbarClock isScrolled={isScrolled} />
 
           <div className="flex-1 flex justify-end items-center gap-4 md:gap-6 nav-item">
             <div className="hidden lg:flex items-center gap-6">
@@ -293,7 +228,10 @@ export default function Navbar() {
         </nav>
       </header>
 
-      <FullScreenMenu isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
+      <FullScreenMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+      />
     </>
   );
 }

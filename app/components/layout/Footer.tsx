@@ -2,18 +2,16 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import { CONTACT_EMAIL, SOCIAL_LINKS } from "@/constants";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { useThemeScroll } from "@/hooks/use-theme-scroll";
+import { CONTACT_EMAIL, SOCIAL_LINKS, NAV_LINKS } from "@/constants";
 import { ArrowUpRight } from "lucide-react";
+import Container from "@/app/components/ui/Container";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
-}
-
-const Footer = () => {
+const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) => {
   const footerRef = useRef<HTMLElement>(null);
+
+  useThemeScroll(footerRef, { enabled: !disableBodyTheme });
 
   useGSAP(
     () => {
@@ -26,30 +24,6 @@ const Footer = () => {
         scrollTrigger: {
           trigger: footerRef.current,
           start: "top 90%",
-          onEnter: () =>
-            gsap.to("body", {
-              backgroundColor: "var(--foreground)",
-              color: "var(--background)",
-              duration: 1,
-            }),
-          onLeave: () =>
-            gsap.to("body", {
-              backgroundColor: "var(--background)",
-              color: "var(--foreground)",
-              duration: 1,
-            }),
-          onEnterBack: () =>
-            gsap.to("body", {
-              backgroundColor: "var(--foreground)",
-              color: "var(--background)",
-              duration: 1,
-            }),
-          onLeaveBack: () =>
-            gsap.to("body", {
-              backgroundColor: "var(--background)",
-              color: "var(--foreground)",
-              duration: 1,
-            }),
         },
       });
     },
@@ -61,7 +35,7 @@ const Footer = () => {
       ref={footerRef}
       className="relative w-full bg-foreground text-background pt-40 pb-12 px-6 md:px-12 lg:px-24 overflow-hidden"
     >
-      <div className="max-w-[1600px] mx-auto flex flex-col gap-32">
+      <Container className="flex flex-col gap-32">
         <div className="flex flex-col items-start gap-8">
           <span className="text-[11px] font-bold tracking-[0.3em] uppercase opacity-40">
             HAVE A PROJECT IN MIND?
@@ -73,8 +47,7 @@ const Footer = () => {
             <h2 className="text-[14vw] md:text-[10vw] font-medium leading-[0.8] tracking-tighter uppercase transition-colors duration-500">
               LET&apos;S{" "}
               <span
-                className="italic"
-                style={{ fontFamily: "'Aresenica', serif" }}
+                className="italic font-arsenica"
               >
                 WORK
               </span>{" "}
@@ -111,30 +84,15 @@ const Footer = () => {
               SITEMAP
             </span>
             <div className="flex flex-col gap-3">
-              <Link
-                href="/"
-                className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity"
-              >
-                Home
-              </Link>
-              <Link
-                href="/#work"
-                className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity"
-              >
-                Work
-              </Link>
-              <Link
-                href="/#about"
-                className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity"
-              >
-                About
-              </Link>
-              <Link
-                href="/contact"
-                className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity"
-              >
-                Contact
-              </Link>
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity"
+                >
+                  {link.name}
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -154,7 +112,7 @@ const Footer = () => {
           </span>
           <span>DESIGNED & DEVELOPED WITH PASSION</span>
         </div>
-      </div>
+      </Container>
 
       <div className="absolute top-0 right-0 w-1/2 h-full bg-linear-to-l from-background/5 to-transparent pointer-events-none" />
     </footer>

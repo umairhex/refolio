@@ -3,11 +3,12 @@
 import React, { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import { gsap, useGSAP } from "@/lib/gsap";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { PROJECTS } from "@/constants";
+import PageSection from "../components/ui/PageSection";
+import Container from "../components/ui/Container";
 
 const WorkPage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -45,12 +46,11 @@ const WorkPage = () => {
     <main ref={containerRef} className="min-h-screen bg-background">
       <Navbar />
 
-      <section className="pt-40 pb-20 px-6 md:px-12 lg:px-24">
-        <div className="flex flex-col gap-6 max-w-[1600px] mx-auto border-b border-foreground/10 pb-20">
+      <PageSection className="pt-40 pb-20">
+        <Container className="flex flex-col gap-6 border-b border-foreground/10 pb-20">
           <div className="overflow-hidden">
             <h1
-              className="work-header-text text-[15vw] md:text-[8vw] font-medium leading-[0.8] tracking-tighter uppercase italic"
-              style={{ fontFamily: "'Aresenica', serif" }}
+              className="font-arsenica work-header-text text-[15vw] md:text-[8vw] font-medium leading-[0.8] tracking-tighter uppercase italic"
             >
               Selected
             </h1>
@@ -63,11 +63,11 @@ const WorkPage = () => {
               ({PROJECTS.length.toString().padStart(2, "0")}) — TOTAL
             </span>
           </div>
-        </div>
-      </section>
+        </Container>
+      </PageSection>
 
-      <section className="pb-64 px-6 md:px-12 lg:px-24">
-        <div className="max-w-[1600px] mx-auto flex flex-col">
+      <PageSection className="pb-64">
+        <Container className="flex flex-col">
           {PROJECTS.map((project) => (
             <Link
               key={project.id}
@@ -107,8 +107,8 @@ const WorkPage = () => {
               <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/2 transition-colors duration-500 -z-10" />
             </Link>
           ))}
-        </div>
-      </section>
+        </Container>
+      </PageSection>
 
       <Footer />
     </main>

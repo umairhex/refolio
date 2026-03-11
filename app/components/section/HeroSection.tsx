@@ -2,21 +2,15 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { ArrowDownRight } from "lucide-react";
-import { CLICK_SOUND } from "@/app/constants/sounds";
-import useSound from "use-sound";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(useGSAP);
-}
+import { useClickSound } from "@/hooks/use-click-sound";
 
 const HeroSection = () => {
   const container = useRef<HTMLDivElement>(null);
   const heroGrid = useRef<HTMLDivElement>(null);
 
-  const [playClick] = useSound(CLICK_SOUND, { volume: 0.2 });
+  const playClick = useClickSound();
 
   useGSAP(
     () => {
@@ -122,10 +116,7 @@ const HeroSection = () => {
             <span className="text-[10px] font-bold tracking-[0.4em] uppercase opacity-40">
               LOCATION
             </span>
-            <p
-              className="text-sm font-medium italic"
-              style={{ fontFamily: "'Aresenica', serif" }}
-            >
+            <p className="font-arsenica text-sm font-medium italic">
               Islamabad — Pakistan
             </p>
           </div>
@@ -167,10 +158,7 @@ const HeroSection = () => {
 
           <div className="flex flex-col md:items-end gap-12">
             <div className="overflow-hidden mix-blend-difference">
-              <h2
-                className="hero-title-word text-[8vw] md:text-[6vw] font-medium leading-none tracking-tighter italic text-foreground"
-                style={{ fontFamily: "'Aresenica', serif" }}
-              >
+              <h2 className="hero-title-word font-arsenica text-[8vw] md:text-[6vw] font-medium leading-none tracking-tighter italic text-foreground">
                 Engineer
               </h2>
             </div>

@@ -1,4 +1,14 @@
-export const PROJECTS = [
+import { Twitter, Linkedin, Github, Instagram } from "lucide-react";
+import type {
+  Project,
+  ExperienceItem,
+  SkillCategory,
+  Service,
+  NavLink,
+  SocialProfile,
+} from "@/types";
+
+export const PROJECTS: Project[] = [
   {
     id: "01",
     title: "SYNERGY AI",
@@ -56,7 +66,7 @@ export const PROJECTS = [
   },
 ];
 
-export const EXPERIENCE = [
+export const EXPERIENCE: ExperienceItem[] = [
   {
     company: "FASTER SOLUTIONS",
     role: "Senior Full-Stack Engineer",
@@ -87,7 +97,7 @@ export const EXPERIENCE = [
   },
 ];
 
-export const SKILLS = [
+export const SKILLS: SkillCategory[] = [
   {
     category: "ENGINEERING",
     items: ["Next.js", "TypeScript", "Node.js", "PostgreSQL", "AWS"],
@@ -110,7 +120,7 @@ export const SKILLS = [
   },
 ];
 
-export const SERVICES = [
+export const SERVICES: Service[] = [
   {
     title: "FULL-STACK DEVELOPMENT",
     id: "01",
@@ -131,16 +141,40 @@ export const SERVICES = [
   },
 ];
 
-export const SOCIAL_LINKS = {
-  twitter: "https://twitter.com/umairhex",
-  linkedin: "https://www.linkedin.com/in/umairhex",
-  github: "https://github.com/umairhex",
-  instagram: "https://www.instagram.com/umairhex",
-};
+export const SOCIAL_PROFILES: SocialProfile[] = [
+  {
+    key: "twitter",
+    href: "https://twitter.com/umairhex",
+    handle: "@umairhex",
+    icon: Twitter,
+  },
+  {
+    key: "linkedin",
+    href: "https://www.linkedin.com/in/umairhex",
+    handle: "@umairhex",
+    icon: Linkedin,
+  },
+  {
+    key: "github",
+    href: "https://github.com/umairhex",
+    handle: "@umairhex",
+    icon: Github,
+  },
+  {
+    key: "instagram",
+    href: "https://www.instagram.com/umairhex",
+    handle: "@umairhex",
+    icon: Instagram,
+  },
+];
+
+export const SOCIAL_LINKS: Record<string, string> = Object.fromEntries(
+  SOCIAL_PROFILES.map((p) => [p.key, p.href]),
+);
 
 export const CONTACT_EMAIL = "umairnniazidev@gmail.com";
 
-export const NAV_LINKS = [
+export const NAV_LINKS: NavLink[] = [
   { name: "Home", href: "/" },
   { name: "Work", href: "/work" },
   { name: "About", href: "/#about" },

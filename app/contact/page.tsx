@@ -1,22 +1,24 @@
 "use client";
 
 import React, { useRef } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import { gsap, useGSAP } from "@/lib/gsap";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import { CONTACT_EMAIL, SOCIAL_LINKS } from "@/constants";
+import { CONTACT_EMAIL, SOCIAL_PROFILES } from "@/constants";
 import { Mail, ArrowRight } from "lucide-react";
+import { useClickSound } from "@/hooks/use-click-sound";
+import SocialLinkCard from "../components/ui/SocialLinkCard";
+import PageSection from "../components/ui/PageSection";
+import Container from "../components/ui/Container";
 
 const ContactPage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const playClick = useClickSound();
 
   useGSAP(
     () => {
       const tl = gsap.timeline();
-
       gsap.set(".contact-reveal", { y: 100, opacity: 0 });
-
       tl.to(".contact-reveal", {
         y: 0,
         opacity: 1,
@@ -33,13 +35,12 @@ const ContactPage = () => {
     <main ref={containerRef} className="min-h-screen bg-background">
       <Navbar />
 
-      <section className="pt-40 pb-64 px-6 md:px-12 lg:px-24">
-        <div className="max-w-[1600px] mx-auto">
+      <PageSection className="pt-40 pb-64">
+        <Container>
           <div className="flex flex-col gap-8 border-b border-foreground/10 pb-20 overflow-hidden">
             <div className="overflow-hidden">
               <h1
-                className="contact-reveal text-[15vw] md:text-[10vw] font-medium leading-[0.8] tracking-tighter uppercase italic"
-                style={{ fontFamily: "'Aresenica', serif" }}
+                className="font-arsenica contact-reveal text-[15vw] md:text-[10vw] font-medium leading-[0.8] tracking-tighter uppercase italic"
               >
                 Let&apos;s
               </h1>
@@ -73,24 +74,12 @@ const ContactPage = () => {
                   SOCIALS
                 </span>
                 <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-                  {Object.entries(SOCIAL_LINKS).map(([name, href]) => (
-                    <a
-                      key={name}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex flex-col gap-2 py-4 border-b border-foreground/5 hover:border-foreground transition-colors duration-500"
-                    >
-                      <span className="text-xs opacity-40 uppercase font-bold tracking-widest">
-                        {name}
-                      </span>
-                      <div className="flex items-center justify-between">
-                        <span className="text-lg font-medium">
-                          @{name === "twitter" ? "umairhex" : "umairhex"}
-                        </span>
-                        <ArrowRight className="w-4 h-4 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-                      </div>
-                    </a>
+                  {SOCIAL_PROFILES.map((profile) => (
+                    <SocialLinkCard
+                      key={profile.key}
+                      profile={profile}
+                      onClick={() => playClick()}
+                    />
                   ))}
                 </div>
               </div>
@@ -100,16 +89,13 @@ const ContactPage = () => {
               <div className="flex flex-col gap-8">
                 <h3 className="text-3xl md:text-5xl font-medium tracking-tighter leading-tight">
                   READY TO BRING <br /> YOUR IDEAS <br />{" "}
-                  <span
-                    className="italic"
-                    style={{ fontFamily: "'Aresenica', serif" }}
-                  >
+                  <span className="italic font-arsenica">
                     TO LIFE?
                   </span>
                 </h3>
                 <p className="text-sm md:text-base opacity-50 max-w-sm leading-relaxed">
-                  I&apos;m currently accepting new projects and collaborations. If
-                  you have a vision, let&apos;s make it a reality.
+                  I&apos;m currently accepting new projects and collaborations.
+                  If you have a vision, let&apos;s make it a reality.
                 </p>
               </div>
 
@@ -124,10 +110,10 @@ const ContactPage = () => {
               </a>
             </div>
           </div>
-        </div>
-      </section>
+        </Container>
+      </PageSection>
 
-      <Footer />
+      <Footer disableBodyTheme />
     </main>
   );
 };
