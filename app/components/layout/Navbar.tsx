@@ -11,6 +11,7 @@ import useSound from "use-sound";
 
 import FullScreenMenu from "./FullScreenMenu";
 import { SOCIAL_LINKS } from "@/constants";
+import { CLICK_SOUND } from "@/app/constants/sounds";
 import { useLenis } from "lenis/react";
 import {
   Tooltip,
@@ -42,8 +43,7 @@ export default function Navbar() {
     restDelta: 0.001,
   });
 
-  const [playHover] = useSound("/assets/sounds/hover.mp3", { volume: 0.1 });
-  const [playClick] = useSound("/assets/sounds/click.mp3", { volume: 0.2 });
+  const [playClick] = useSound(CLICK_SOUND, { volume: 0.2 });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -152,7 +152,6 @@ export default function Navbar() {
           <div className="flex-1 flex justify-start nav-item">
             <button
               onClick={handleScrollToTop}
-              onMouseEnter={() => playHover()}
               className="group flex items-center gap-3 focus:outline-none"
               aria-label="Scroll to top"
             >
@@ -208,7 +207,6 @@ export default function Navbar() {
                         setTheme("light");
                         playClick();
                       }}
-                      onMouseEnter={() => playHover()}
                       className={`transition-all focus:outline-none ${mounted && resolvedTheme === "light" ? "text-foreground opacity-100" : "hover:text-foreground opacity-50"}`}
                     >
                       L
@@ -224,7 +222,6 @@ export default function Navbar() {
                         setTheme("dark");
                         playClick();
                       }}
-                      onMouseEnter={() => playHover()}
                       className={`transition-all focus:outline-none ${mounted && resolvedTheme === "dark" ? "text-foreground opacity-100" : "hover:text-foreground opacity-50"}`}
                     >
                       D
@@ -243,7 +240,7 @@ export default function Navbar() {
                       href={SOCIAL_LINKS.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onMouseEnter={() => playHover()}
+                      onClick={() => playClick()}
                       className="opacity-40 hover:opacity-100 transition-opacity focus:outline-none"
                     >
                       <Github size={15} />
@@ -255,7 +252,7 @@ export default function Navbar() {
                   <TooltipTrigger asChild>
                     <Link
                       href="/contact"
-                      onMouseEnter={() => playHover()}
+                      onClick={() => playClick()}
                       className="opacity-40 hover:opacity-100 transition-opacity focus:outline-none"
                     >
                       <Mail size={15} />
@@ -269,7 +266,6 @@ export default function Navbar() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onMouseEnter={() => playHover()}
                   className="flex items-center gap-2 px-4 py-1.5 bg-foreground text-background text-[10px] font-bold tracking-widest uppercase rounded-full hover:shadow-lg transition-shadow"
                 >
                   <span className="hidden sm:inline">Hire Me</span>
@@ -283,7 +279,6 @@ export default function Navbar() {
                 setIsMenuOpen(true);
                 playClick();
               }}
-              onMouseEnter={() => playHover()}
               className={`flex items-center gap-3 text-[10px] font-bold tracking-[0.2em] uppercase group transform transition-all duration-500 focus:outline-none ${isScrolled ? "scale-105" : ""}`}
             >
               <span className="hidden md:inline">Menu</span>

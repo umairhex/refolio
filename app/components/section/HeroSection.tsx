@@ -5,6 +5,8 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ArrowDownRight } from "lucide-react";
+import { CLICK_SOUND } from "@/app/constants/sounds";
+import useSound from "use-sound";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP);
@@ -13,6 +15,8 @@ if (typeof window !== "undefined") {
 const HeroSection = () => {
   const container = useRef<HTMLDivElement>(null);
   const heroGrid = useRef<HTMLDivElement>(null);
+
+  const [playClick] = useSound(CLICK_SOUND, { volume: 0.2 });
 
   useGSAP(
     () => {
@@ -171,15 +175,25 @@ const HeroSection = () => {
               </h2>
             </div>
 
-            <div className="hero-tag flex flex-col items-end gap-6 group cursor-pointer">
+            <div
+              className="hero-tag flex flex-col items-end gap-6 group cursor-pointer"
+              onClick={() => {
+                playClick();
+                const experienceSection = document.getElementById("about");
+                if (experienceSection) {
+                  experienceSection.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            >
               <div className="flex items-center gap-4">
-                <span className="text-[11px] font-bold tracking-[0.2em] uppercase">
+                <span className="text-[11px] font-bold tracking-[0.2em] uppercase group-hover:opacity-100 opacity-40 transition-opacity duration-500">
                   Scroll to explore
                 </span>
-                <div className="w-12 h-12 rounded-full border border-foreground flex items-center justify-center group-hover:bg-foreground group-hover:text-background transition-all duration-500">
+                <div className="relative w-12 h-12 rounded-full border border-foreground flex items-center justify-center overflow-hidden transition-colors duration-500 group-hover:border-transparent">
+                  <div className="absolute inset-0 bg-foreground translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-power4.out" />
                   <ArrowDownRight
                     size={18}
-                    className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                    className="relative z-10 transition-all duration-500 group-hover:text-background "
                   />
                 </div>
               </div>

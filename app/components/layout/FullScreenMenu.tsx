@@ -6,6 +6,8 @@ import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NAV_LINKS, SOCIAL_LINKS } from "@/constants";
+import { CLICK_SOUND } from "@/app/constants/sounds";
+import useSound from "use-sound";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP);
@@ -22,6 +24,8 @@ export default function FullScreenMenu({
   const menuRef = useRef<HTMLDivElement>(null);
   const tlContainer = useRef<gsap.core.Timeline | null>(null);
   const pathname = usePathname();
+
+  const [playClick] = useSound(CLICK_SOUND, { volume: 0.2 });
 
   useGSAP(
     () => {
@@ -79,7 +83,11 @@ export default function FullScreenMenu({
         style={{ display: "none" }}
       >
         <button
-          onClick={() => setIsOpen(false)}
+          onClick={() => {
+            setIsOpen(false);
+            playClick();
+          }}
+
           className="absolute top-6 right-6 md:top-10 md:right-10 flex items-center gap-3 text-[10px] md:text-[11px] font-bold tracking-[0.15em] uppercase group cursor-pointer focus:outline-none"
           tabIndex={isOpen ? 0 : -1}
           aria-label="Close Menu"
@@ -108,9 +116,13 @@ export default function FullScreenMenu({
                   >
                     <Link
                       href={link.href}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => {
+                        setIsOpen(false);
+                        playClick();
+                      }}
                       tabIndex={isOpen ? 0 : -1}
                       onMouseEnter={(e) => {
+
                         const text = e.currentTarget.querySelector(".menu-text");
                         const bar = e.currentTarget.querySelector(".menu-bar");
 
@@ -196,6 +208,7 @@ export default function FullScreenMenu({
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-foreground transition-colors cursor-pointer"
+              onClick={() => playClick()}
               tabIndex={isOpen ? 0 : -1}
             >
               Twitter
@@ -205,6 +218,7 @@ export default function FullScreenMenu({
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-foreground transition-colors cursor-pointer"
+              onClick={() => playClick()}
               tabIndex={isOpen ? 0 : -1}
             >
               LinkedIn
@@ -214,6 +228,7 @@ export default function FullScreenMenu({
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-foreground transition-colors cursor-pointer"
+              onClick={() => playClick()}
               tabIndex={isOpen ? 0 : -1}
             >
               Github
@@ -223,6 +238,7 @@ export default function FullScreenMenu({
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-foreground transition-colors cursor-pointer"
+              onClick={() => playClick()}
               tabIndex={isOpen ? 0 : -1}
             >
               Instagram

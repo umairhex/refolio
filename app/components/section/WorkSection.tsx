@@ -7,6 +7,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { PROJECTS } from "@/constants";
+import { CLICK_SOUND } from "@/app/constants/sounds";
+import useSound from "use-sound";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -14,6 +16,7 @@ if (typeof window !== "undefined") {
 
 const WorkSection = () => {
   const containerRef = useRef<HTMLElement>(null);
+  const [playClick] = useSound(CLICK_SOUND, { volume: 0.2 });
 
   useGSAP(
     () => {
@@ -122,7 +125,9 @@ const WorkSection = () => {
                   {project.description}
                 </p>
 
-                <div className="flex items-center gap-4 mt-4 overflow-hidden group/link">
+                <div
+                  className="flex items-center gap-4 mt-4 overflow-hidden group/link"
+                >
                   <div className="w-8 h-px bg-foreground/20 group-hover/link:w-16 transition-all duration-500" />
                   <span className="text-[10px] font-bold tracking-[0.2em] uppercase cursor-pointer">
                     View Project
@@ -136,6 +141,7 @@ const WorkSection = () => {
         <div className="flex justify-center mt-40">
           <Link
             href="/work"
+            onClick={() => playClick()}
             className="group relative flex items-center gap-8 px-12 py-6 rounded-full border border-foreground/30 hover:border-foreground text-foreground bg-foreground/3 backdrop-blur-sm transition-all duration-500 overflow-hidden"
           >
             <span className="relative z-10 text-[11px] font-bold tracking-[0.3em] uppercase group-hover:text-background transition-colors duration-500">
