@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { CONTACT_EMAIL } from "@/constants";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -25,6 +24,11 @@ const HeroSection = () => {
       });
       gsap.set(".hero-image", { scale: 1.4 });
       gsap.set(".hero-cta", { opacity: 0, y: 30 });
+      gsap.set(".hero-decoration", { opacity: 0 });
+      gsap.set(".hero-draw-path", {
+        strokeDasharray: 1000,
+        strokeDashoffset: 1000,
+      });
 
       tl.to(".hero-text", {
         yPercent: 0,
@@ -61,6 +65,26 @@ const HeroSection = () => {
             stagger: 0.1,
           },
           "-=1.0",
+        )
+        .to(
+          ".hero-decoration",
+          {
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out",
+          },
+          "-=0.5",
+        )
+        .to(
+          ".hero-draw-path",
+          {
+            strokeDashoffset: 0,
+            duration: 1.5,
+            stagger: 0.3,
+            ease: "power2.inOut",
+          },
+          "<",
         );
     },
     { scope: container },
@@ -84,6 +108,37 @@ const HeroSection = () => {
           >
             FULL-STACK
           </h1>
+
+          {/* Decorative Sparkle Top Left */}
+          <div className="absolute -top-2 -left-8 hero-decoration opacity-0 pointer-events-none">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"
+                fill="currentColor"
+                className="text-foreground/30"
+              />
+            </svg>
+          </div>
+
+          {/* Long Curled Line under Full-Stack */}
+          <div className="absolute -bottom-1 -right-4 w-32 hero-decoration pointer-events-none">
+            <svg viewBox="0 0 160 20" fill="none" className="w-full">
+              <path
+                className="hero-draw-path"
+                d="M5 15C40 5 120 5 155 15"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeOpacity="0.4"
+              />
+            </svg>
+          </div>
         </div>
 
         <div
@@ -95,6 +150,20 @@ const HeroSection = () => {
             marginBottom: "clamp(-50px, -7vw, -100px)",
           }}
         >
+          {/* Side Annotation Line Left */}
+          <div className="absolute top-1/2 -left-12 hero-decoration opacity-0 hidden md:block">
+            <svg width="2" height="60" viewBox="0 0 2 60" fill="none">
+              <path
+                className="hero-draw-path"
+                d="M1 0V60"
+                stroke="currentColor"
+                strokeWidth="1"
+                strokeDasharray="4 4"
+                strokeOpacity="0.3"
+              />
+            </svg>
+          </div>
+
           <div
             className="hero-image-container w-full h-full overflow-hidden shadow-2xl bg-muted"
             style={{
@@ -108,6 +177,13 @@ const HeroSection = () => {
               alt="Developer Umair"
               priority
             />
+          </div>
+
+          {/* Side Annotation Line Right */}
+          <div className="absolute bottom-1/4 -right-16 hero-decoration opacity-0 hidden lg:block">
+            <p className="text-[10px] tracking-[0.2em] uppercase opacity-40 font-bold rotate-90 origin-left">
+              Based in PK
+            </p>
           </div>
         </div>
 
@@ -126,6 +202,28 @@ const HeroSection = () => {
           >
             ENGINEER
           </h1>
+
+          {/* Curled Scribble Accent */}
+          <div className="absolute bottom-0 right-0 w-48 hero-decoration pointer-events-none opacity-0">
+            <svg viewBox="0 0 200 40" fill="none" className="w-full">
+              <path
+                className="hero-draw-path"
+                d="M10 30C50 10 150 10 190 30"
+                stroke="white"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeOpacity="0.6"
+              />
+              <path
+                className="hero-draw-path"
+                d="M30 35C70 15 130 15 170 35"
+                stroke="white"
+                strokeWidth="1"
+                strokeLinecap="round"
+                strokeOpacity="0.3"
+              />
+            </svg>
+          </div>
         </div>
       </div>
     </section>

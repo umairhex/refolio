@@ -129,6 +129,28 @@
   }
 }
 
+/* Lenis Smooth Scroll Essential CSS */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
 /* Global Custom Scrollbar (Outside Layers for Specificity) */
 ::-webkit-scrollbar {
   width: 4px;
