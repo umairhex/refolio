@@ -48,7 +48,7 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
+  --background: lch(96.19% 0.01 296.81);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -83,7 +83,7 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: lch(2.74% 0 296.81);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -125,5 +125,45 @@
   }
   html {
     @apply font-sans;
+    scrollbar-gutter: stable;
   }
+}
+
+/* Global Custom Scrollbar (Outside Layers for Specificity) */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--foreground);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--foreground) transparent;
+}
+
+/* Hide scrollbar but keep functionality for specific containers if needed */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.font-arsenica {
+  font-family: var(--font-arsenica), var(--font-sans);
 }
