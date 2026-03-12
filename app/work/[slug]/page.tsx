@@ -20,7 +20,7 @@ export async function generateMetadata({
   if (!project) return {};
 
   return {
-    title: `${project.title} — Umair Hex`,
+    title: `${project.title} — M UMAIR KHAN`,
     description: project.description,
   };
 }

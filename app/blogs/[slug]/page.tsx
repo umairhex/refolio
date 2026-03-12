@@ -22,7 +22,7 @@ export async function generateMetadata({
   try {
     const post = getPostBySlug(slug);
     return {
-      title: `${post.title} — Umair Hex`,
+      title: `${post.title} — M UMAIR KHAN`,
       description: post.summary,
     };
   } catch {

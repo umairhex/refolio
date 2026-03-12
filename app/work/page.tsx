@@ -9,10 +9,12 @@ import { PROJECTS } from "@/constants";
 import PageSection from "../components/ui/PageSection";
 import Container from "../components/ui/Container";
 import AnimatedProjectImage from "@/app/components/ui/AnimatedProjectImage";
+import { useClickSound } from "@/hooks/use-click-sound";
 
 const ProjectRow = ({ project }: { project: (typeof PROJECTS)[0] }) => {
   const rowRef = useRef<HTMLAnchorElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  const playClick = useClickSound();
 
   useGSAP(
     () => {
@@ -37,6 +39,7 @@ const ProjectRow = ({ project }: { project: (typeof PROJECTS)[0] }) => {
     <Link
       ref={rowRef}
       href={`/work/${project.slug}`}
+      onClick={() => playClick()}
       className="px-4 project-row group relative flex flex-col md:flex-row md:items-center justify-between py-12 border-b border-foreground/5 transition-colors duration-500 hover:border-foreground"
     >
       <div className="flex items-center gap-8 md:gap-16 z-10">

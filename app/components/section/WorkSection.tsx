@@ -88,6 +88,7 @@ const WorkSection = ({ limit = 4 }: WorkSectionProps) => {
             <Link
               href={`/work/${project.slug}`}
               key={project.id}
+              onClick={() => playClick()}
               className={`project-item group flex flex-col ${
                 index % 2 !== 0 ? "md:mt-40" : ""
               }`}

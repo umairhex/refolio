@@ -41,8 +41,7 @@ const MobileHero = () => {
             SPECIALIZATION
           </span>
           <p className="text-sm font-medium leading-relaxed max-w-[280px]">
-            Architecting digital systems with a focus on high-end motion &
-            brutalist aesthetics.
+            Full-Stack Engineer specialized in AI-powered systems and rapid feature delivery.
           </p>
         </div>
 
@@ -51,7 +50,7 @@ const MobileHero = () => {
             LOCATION
           </span>
           <p className="font-arsenica text-sm font-medium italic">
-            Islamabad — Pakistan
+            Rawalpindi — Pakistan
           </p>
         </div>
       </div>

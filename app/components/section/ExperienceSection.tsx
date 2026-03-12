@@ -3,11 +3,13 @@
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { EXPERIENCE } from "@/constants";
+import { useClickSound } from "@/hooks/use-click-sound";
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
 
 const ExperienceSection = () => {
   const containerRef = useRef<HTMLElement>(null);
+  const playClick = useClickSound();
 
   useGSAP(
     () => {
@@ -59,7 +61,7 @@ const ExperienceSection = () => {
           </div>
           <p className="max-w-xs text-xs md:text-sm opacity-50 font-medium tracking-wide leading-relaxed">
             A record of professional milestones and core contributions within
-            the digital landscape over the last 5 years.
+            the digital landscape since 2019.
           </p>
         </div>
 
@@ -67,7 +69,8 @@ const ExperienceSection = () => {
           {EXPERIENCE.map((item, index) => (
             <div
               key={index}
-              className="experience-row group relative flex flex-col md:flex-row md:items-center py-12 md:py-20"
+              onClick={() => playClick()}
+              className="experience-row group relative flex flex-col md:flex-row md:items-center py-12 md:py-20 cursor-pointer"
             >
               <div className="row-line absolute top-0 left-0 w-full h-px bg-background/10 origin-left" />
 

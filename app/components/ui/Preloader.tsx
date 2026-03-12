@@ -163,7 +163,7 @@ export default function Preloader() {
 
       <div className="absolute bottom-10 right-10 overflow-hidden hidden md:block">
         <span className="text-[10px] font-bold tracking-widest uppercase opacity-20">
-          Umair Hex / 2025
+          M UMAIR KHAN / 2025
         </span>
       </div>
     </div>

@@ -3,7 +3,7 @@ import BlogList from "./BlogList";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Journal — Umair Hex",
+  title: "Journal — M UMAIR KHAN",
   description: "Thoughts and insights on full-stack engineering, brutalist design, and cinematic movement.",
 };
 

@@ -10,6 +10,14 @@ export interface Project {
   video?: string;
   caseStudyImage?: string;
   description: string;
+  overview?: string;
+  subheading?: string;
+  challenge?: string;
+  solution?: string;
+  stack?: string[];
+  details?: { title: string; content: string }[];
+  standout?: string;
+  link?: string;
   color: string;
 }
 

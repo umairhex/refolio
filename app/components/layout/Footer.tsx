@@ -7,9 +7,11 @@ import { useThemeScroll } from "@/hooks/use-theme-scroll";
 import { CONTACT_EMAIL, SOCIAL_LINKS, FOOTER_LINKS } from "@/constants";
 import { ArrowUpRight } from "lucide-react";
 import Container from "@/app/components/ui/Container";
+import { useClickSound } from "@/hooks/use-click-sound";
 
 const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) => {
   const footerRef = useRef<HTMLElement>(null);
+  const playClick = useClickSound();
 
   useThemeScroll(footerRef, { enabled: !disableBodyTheme });
 
@@ -42,6 +44,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
           </span>
           <a
             href={`mailto:${CONTACT_EMAIL}`}
+            onClick={() => playClick()}
             className="footer-title group relative inline-block group"
           >
             <h2 className="text-[14vw] md:text-[10vw] font-medium leading-[0.8] tracking-tighter uppercase transition-colors duration-500">
@@ -72,6 +75,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm font-medium hover:opacity-100 transition-opacity opacity-60 capitalize"
+                  onClick={() => playClick()}
                 >
                   {key}
                 </a>
@@ -89,6 +93,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
                   key={link.href}
                   href={link.href}
                   className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity"
+                  onClick={() => playClick()}
                 >
                   {link.name}
                 </Link>
@@ -101,14 +106,14 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
               LOCAL TIME
             </span>
             <p className="text-3xl md:text-5xl font-medium tracking-tighter">
-              Islamabad, PK
+              Rawalpindi, PK
             </p>
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 border-t border-background/5 pt-12 text-[10px] font-bold tracking-widest opacity-30">
           <span>
-            © {new Date().getFullYear()} UMAIR HEX. ALL RIGHTS RESERVED.
+            © {new Date().getFullYear()} M UMAIR KHAN. ALL RIGHTS RESERVED.
           </span>
           <span>DESIGNED & DEVELOPED WITH PASSION</span>
         </div>

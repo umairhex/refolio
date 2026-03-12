@@ -94,7 +94,7 @@ const HeroSection = () => {
     >
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
         <h2 className="hero-bg-text text-[25vw] font-black tracking-tighter opacity-0 text-stroke whitespace-nowrap">
-          UMAIR HEX
+          M UMAIR KHAN
         </h2>
       </div>
 
@@ -108,8 +108,7 @@ const HeroSection = () => {
               SPECIALIZATION
             </span>
             <p className="text-sm font-medium leading-relaxed max-w-[200px]">
-              Architecting digital systems with a focus on high-end motion &
-              brutalist aesthetics.
+              Full-Stack Engineer specialized in AI-powered systems and rapid feature delivery.
             </p>
           </div>
 
@@ -118,7 +117,7 @@ const HeroSection = () => {
               LOCATION
             </span>
             <p className="font-arsenica text-sm font-medium italic">
-              Islamabad — Pakistan
+              Rawalpindi — Pakistan
             </p>
           </div>
         </div>

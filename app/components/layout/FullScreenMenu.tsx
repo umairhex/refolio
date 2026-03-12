@@ -144,7 +144,7 @@ export default function FullScreenMenu({
         </div>
 
         <div className="absolute bottom-6 md:bottom-10 left-6 right-6 md:left-16 lg:left-24 md:right-16 lg:right-24 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-[10px] md:text-[11px] tracking-[0.15em] uppercase text-foreground/50 border-t border-foreground/10 pt-6">
-          <span>{`© ${new Date().getFullYear()} UMAIR`}</span>
+          <span>{`© ${new Date().getFullYear()} M UMAIR KHAN`}</span>
           <div className="flex gap-6">
             {SOCIAL_PROFILES.map((p) => (
               <a

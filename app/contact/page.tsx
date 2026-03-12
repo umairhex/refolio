@@ -60,6 +60,7 @@ const ContactPage = () => {
                 </span>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
+                  onClick={() => playClick()}
                   className="group flex items-center gap-4 md:gap-6 text-lg sm:text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight hover:italic transition-all duration-300 break-all"
                 >
                   <div className="p-3 md:p-4 rounded-full border border-foreground/10 group-hover:bg-foreground group-hover:text-background transition-colors duration-500 shrink-0">
@@ -101,6 +102,7 @@ const ContactPage = () => {
 
               <a
                 href={`mailto:${CONTACT_EMAIL}`}
+                onClick={() => playClick()}
                 className="group flex items-center gap-6 text-[11px] font-bold tracking-[0.4em] uppercase"
               >
                 START A PROJECT

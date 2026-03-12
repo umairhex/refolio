@@ -70,23 +70,22 @@ const AboutSection = () => {
           <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-20">
             <div className="flex flex-col gap-8">
               <p className="text-xl md:text-2xl leading-relaxed font-light opacity-80">
-                I am a multi-disciplinary engineer based in Pakistan,
-                specialized in bridging the gap between design and technology.
+                I am a full-stack engineer specialized in building high-performance SaaS products, 
+                automating complex workflows with AI, and crafting pixel-perfect digital experiences.
               </p>
               <div className="w-20 h-px bg-foreground/30" />
             </div>
 
             <div className="flex flex-col gap-12 text-sm md:text-base opacity-60 leading-relaxed font-medium tracking-wide prose prose-invert">
               <p>
-                My approach is rooted in brutalist minimalism and cinematic
-                motion. I believe that every interaction should feel deliberate,
-                every pixel should serve a purpose, and every animation should
-                tell a story.
+                With a background in computer science and specialized training from Meta, I bridge
+                the gap between complex AI models and seamless user interfaces. My work focuses on 
+                integrating LLMs (GPT, Gemini, Claude) into real-time production systems.
               </p>
               <p>
-                Armed with the latest in modern web technologies, I build
-                scalable, high-performance applications that don&apos;t just
-                work—they wow.
+                From leading award-winning teams at Air University to optimizing feature delivery 
+                at Strug Inc. by 85%, I thrive on creating digital ecosystems that are both 
+                technically robust and visually striking.
               </p>
             </div>
           </div>
@@ -94,7 +93,7 @@ const AboutSection = () => {
       </Container>
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 select-none pointer-events-none opacity-[0.02] whitespace-nowrap">
-        <span className="text-[40vw] font-bold tracking-tighter">CREATIVE</span>
+        <span className="text-[40vw] font-bold tracking-tighter uppercase italic">ARCHITECT</span>
       </div>
     </PageSection>
   );

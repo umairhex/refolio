@@ -27,9 +27,9 @@ const aresenica = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Umair Hex — Full-Stack Engineer & Creative Technologist",
+  title: "M UMAIR KHAN — Full-Stack Engineer & AI Architect",
   description:
-    "I'm Umair, a full-stack engineer crafting high-performance digital experiences with a focus on motion, brutalist aesthetics, and precision engineering.",
+    "I'm M Umair Khan, a full-stack engineer specialized in high-performance SaaS products, AI integration, and rapid feature delivery.",
 };
 
 import { TooltipProvider } from "@/components/ui/tooltip";
