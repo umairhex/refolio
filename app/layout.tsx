@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
 import SmoothScroll from "@/app/components/SmoothScroll";
+import Preloader from "@/app/components/ui/Preloader";
+import { LoadingProvider } from "@/app/context/LoadingContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -52,9 +54,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider delayDuration={0}>
-            <SmoothScroll>{children}</SmoothScroll>
-          </TooltipProvider>
+          <LoadingProvider>
+            <Preloader />
+            <TooltipProvider delayDuration={0}>
+              <SmoothScroll>{children}</SmoothScroll>
+            </TooltipProvider>
+          </LoadingProvider>
         </ThemeProvider>
       </body>
     </html>

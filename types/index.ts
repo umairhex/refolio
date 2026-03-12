@@ -7,6 +7,7 @@ export interface Project {
   category: string;
   year: string;
   image: string;
+  video?: string;
   description: string;
   color: string;
 }

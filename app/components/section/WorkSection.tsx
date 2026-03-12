@@ -2,12 +2,12 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { PROJECTS } from "@/constants";
 import { useClickSound } from "@/hooks/use-click-sound";
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
+import AnimatedProjectImage from "@/app/components/ui/AnimatedProjectImage";
 
 interface WorkSectionProps {
   limit?: number;
@@ -55,7 +55,6 @@ const WorkSection = ({ limit = 4 }: WorkSectionProps) => {
       });
 
       gsap.to(".project-image", {
-        y: -100,
         ease: "none",
         scrollTrigger: {
           trigger: containerRef.current,
@@ -80,7 +79,7 @@ const WorkSection = ({ limit = 4 }: WorkSectionProps) => {
             SELECTED PROJECTS
           </h2>
           <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] opacity-40 uppercase pb-2">
-            (04) — WORK
+            ({limit.toString().padStart(2, "0")}) — WORK
           </span>
         </div>
 
@@ -94,14 +93,13 @@ const WorkSection = ({ limit = 4 }: WorkSectionProps) => {
               }`}
             >
               <div className="project-image-wrapper relative w-full aspect-4/5 overflow-hidden bg-muted mb-8 group-hover:shadow-2xl transition-shadow duration-500">
-                <Image
+                <AnimatedProjectImage
                   src={project.image}
                   alt={project.title}
-                  fill
-                  className="project-image object-cover scale-110"
+                  videoSrc={project.video}
                 />
 
-                <div className="absolute top-6 left-6 z-10">
+                <div className="absolute bottom-6 left-6 z-10">
                   <span className="px-4 py-2 bg-background/80 backdrop-blur-md rounded-full text-[10px] font-bold tracking-widest uppercase border border-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     {project.category}
                   </span>
