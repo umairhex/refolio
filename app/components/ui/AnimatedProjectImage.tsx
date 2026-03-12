@@ -2,7 +2,6 @@
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { Play } from "lucide-react";
 
 interface AnimatedProjectImageProps {
   src: string;
@@ -10,6 +9,8 @@ interface AnimatedProjectImageProps {
   videoSrc?: string;
   width?: number;
   height?: number;
+  forcePlay?: boolean;
+  objectPosition?: "top" | "center" | "bottom";
 }
 
 export default function AnimatedProjectImage({
@@ -18,6 +19,8 @@ export default function AnimatedProjectImage({
   videoSrc,
   width = 1200,
   height = 1500,
+  forcePlay = false,
+  objectPosition = "center",
 }: AnimatedProjectImageProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isHovering, setIsHovering] = useState(false);
@@ -27,7 +30,7 @@ export default function AnimatedProjectImage({
     const video = videoRef.current;
     if (!video || !videoSrc) return;
 
-    if (isHovering) {
+    if (isHovering || forcePlay) {
       video.play().catch((err) => {
         console.warn("Video playback was interrupted or blocked:", err);
       });
@@ -35,7 +38,7 @@ export default function AnimatedProjectImage({
       video.pause();
       video.currentTime = 0;
     }
-  }, [isHovering, videoSrc]);
+  }, [isHovering, forcePlay, videoSrc]);
 
   return (
     <div
@@ -50,7 +53,13 @@ export default function AnimatedProjectImage({
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         className={`object-cover transition-opacity duration-700 ease-in-out ${
-          isHovering && isPlaying ? "opacity-0" : "opacity-100"
+          objectPosition === "top"
+            ? "object-top"
+            : objectPosition === "bottom"
+            ? "object-bottom"
+            : "object-center"
+        } ${
+          (isHovering || forcePlay) && isPlaying ? "opacity-0" : "opacity-100"
         }`}
         priority
       />
@@ -64,7 +73,7 @@ export default function AnimatedProjectImage({
           disablePictureInPicture
           disableRemotePlayback
           onContextMenu={(e) => e.preventDefault()}
-          preload="metadata"
+          preload="auto"
           poster={src}
           width={width}
           height={height}
@@ -72,7 +81,13 @@ export default function AnimatedProjectImage({
           onPause={() => setIsPlaying(false)}
           onEnded={() => setIsPlaying(false)}
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${
-            isHovering && isPlaying ? "opacity-100" : "opacity-0"
+            objectPosition === "top"
+              ? "object-top"
+              : objectPosition === "bottom"
+              ? "object-bottom"
+              : "object-center"
+          } ${
+            (isHovering || forcePlay) && isPlaying ? "opacity-100" : "opacity-0"
           }`}
         >
           {videoSrc.endsWith(".mp4") && (

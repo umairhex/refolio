@@ -2,13 +2,83 @@
 
 import React, { useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { PROJECTS } from "@/constants";
 import PageSection from "../components/ui/PageSection";
 import Container from "../components/ui/Container";
+import AnimatedProjectImage from "@/app/components/ui/AnimatedProjectImage";
+
+const ProjectRow = ({ project }: { project: (typeof PROJECTS)[0] }) => {
+  const rowRef = useRef<HTMLAnchorElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (!rowRef.current || !imageRef.current) return;
+
+      const moveImage = (e: MouseEvent) => {
+        gsap.to(imageRef.current, {
+          x: e.clientX,
+          y: e.clientY,
+          duration: 0.1,
+          ease: "none",
+        });
+      };
+
+      rowRef.current.addEventListener("mousemove", moveImage);
+      return () => rowRef.current?.removeEventListener("mousemove", moveImage);
+    },
+    { scope: rowRef },
+  );
+
+  return (
+    <Link
+      ref={rowRef}
+      href={`/work/${project.slug}`}
+      className="px-4 project-row group relative flex flex-col md:flex-row md:items-center justify-between py-12 border-b border-foreground/5 transition-colors duration-500 hover:border-foreground"
+    >
+      <div className="flex items-center gap-8 md:gap-16 z-10">
+        <span className="text-[10px] md:text-sm font-bold opacity-30 group-hover:opacity-100 transition-opacity">
+          {project.id}
+        </span>
+        <h2
+          className="text-3xl md:text-6xl font-medium tracking-tight uppercase group-hover:italic group-hover:translate-x-6 group-hover:tracking-widest transition-all duration-700 ease-expo"
+          style={{ fontFamily: "inherit" }}
+        >
+          {project.title}
+        </h2>
+      </div>
+
+      <div className="flex items-baseline gap-8 md:gap-32 z-10 mt-6 md:mt-0">
+        <span className="text-[10px] md:text-sm font-bold tracking-widest uppercase opacity-40">
+          {project.category}
+        </span>
+        <span className="text-[10px] md:text-sm font-bold opacity-40">
+          {project.year}
+        </span>
+      </div>
+
+      <div
+        ref={imageRef}
+        className="fixed top-0 left-0 pointer-events-none opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 -translate-x-1/2 -translate-y-1/2 w-80 h-48 z-0 transition-opacity duration-700 ease-power4.out"
+      >
+        <AnimatedProjectImage
+          src={project.image}
+          alt={project.title}
+          videoSrc={project.video}
+          width={320}
+          height={192}
+          forcePlay={true}
+          objectPosition="top"
+        />
+      </div>
+
+      <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/2 transition-colors duration-500 -z-10" />
+    </Link>
+  );
+};
 
 const WorkPage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -67,43 +137,7 @@ const WorkPage = () => {
       <PageSection className="pb-64">
         <Container className="flex flex-col">
           {PROJECTS.map((project) => (
-            <Link
-              key={project.id}
-              href={`/work/${project.slug}`}
-              className="px-4 project-row group relative flex flex-col md:flex-row md:items-center justify-between py-12 border-b border-foreground/5 transition-colors duration-500 hover:border-foreground"
-            >
-              <div className="flex items-center gap-8 md:gap-16 z-10">
-                <span className="text-[10px] md:text-sm font-bold opacity-30 group-hover:opacity-100 transition-opacity">
-                  {project.id}
-                </span>
-                <h2
-                  className="text-3xl md:text-6xl font-medium tracking-tight uppercase group-hover:italic transition-all duration-500"
-                  style={{ fontFamily: "inherit" }}
-                >
-                  {project.title}
-                </h2>
-              </div>
-
-              <div className="flex items-baseline gap-8 md:gap-32 z-10 mt-6 md:mt-0">
-                <span className="text-[10px] md:text-sm font-bold tracking-widest uppercase opacity-40">
-                  {project.category}
-                </span>
-                <span className="text-[10px] md:text-sm font-bold opacity-40">
-                  {project.year}
-                </span>
-              </div>
-
-              <div className="fixed pointer-events-none opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-48 z-0 transition-all duration-700 ease-power4.out">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover rounded-sm grayscale"
-                />
-              </div>
-
-              <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/2 transition-colors duration-500 -z-10" />
-            </Link>
+            <ProjectRow key={project.id} project={project} />
           ))}
         </Container>
       </PageSection>

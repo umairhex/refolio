@@ -70,7 +70,7 @@ export default function ProjectCaseStudyClient({
                 {project.title}
               </span>
             </div>
-            
+
             <div className="flex flex-col md:items-end gap-4">
               <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
                 ROLE
@@ -104,15 +104,14 @@ export default function ProjectCaseStudyClient({
       <PageSection className="pb-32">
         <Container className="flex flex-col gap-32">
           <div className="w-full aspect-video relative case-hero-image overflow-hidden shadow-2xl bg-muted">
-            <div
-              className="absolute inset-0 opacity-20 z-10"
-              style={{ backgroundColor: project.color }}
-            />
             <Image
-              src={project.image}
+              src={project.caseStudyImage || project.image}
               alt={project.title}
-              fill
-              className="object-cover scale-105"
+              height={1080}
+              width={1920}
+              quality={100}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1600px"
+              className="object-cover"
               priority
             />
           </div>
@@ -133,7 +132,11 @@ export default function ProjectCaseStudyClient({
                 The Challenge
               </h2>
               <p className="text-lg md:text-xl leading-relaxed opacity-70 font-medium">
-                Bringing brutalist architecture and cinematic motion to a modern web application requires strict attention to frame budgets and typography scale. {project.title} pushed the boundaries of what was computationally acceptable in-browser, combining multi-threaded design patterns with raw interaction hooks.
+                Bringing brutalist architecture and cinematic motion to a modern
+                web application requires strict attention to frame budgets and
+                typography scale. {project.title} pushed the boundaries of what
+                was computationally acceptable in-browser, combining
+                multi-threaded design patterns with raw interaction hooks.
               </p>
             </div>
           </div>

@@ -8,6 +8,7 @@ export interface Project {
   year: string;
   image: string;
   video?: string;
+  caseStudyImage?: string;
   description: string;
   color: string;
 }
