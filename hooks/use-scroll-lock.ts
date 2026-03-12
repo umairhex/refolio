@@ -4,9 +4,17 @@ import { useEffect } from "react";
 
 export const useScrollLock = (active: boolean) => {
   useEffect(() => {
-    document.body.style.overflow = active ? "hidden" : "";
+    const html = document.documentElement;
+    const SCROLL_LOCK_CLASS = "scroll-locked";
+
+    if (active) {
+      html.classList.add(SCROLL_LOCK_CLASS);
+    } else {
+      html.classList.remove(SCROLL_LOCK_CLASS);
+    }
+
     return () => {
-      document.body.style.overflow = "";
+      html.classList.remove(SCROLL_LOCK_CLASS);
     };
   }, [active]);
 };

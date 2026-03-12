@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useGSAP } from "@/lib/gsap";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { CONTACT_EMAIL, SOCIAL_PROFILES } from "@/constants";
@@ -10,6 +10,7 @@ import { useClickSound } from "@/hooks/use-click-sound";
 import SocialLinkCard from "../components/ui/SocialLinkCard";
 import PageSection from "../components/ui/PageSection";
 import Container from "../components/ui/Container";
+import { createTimeline, animateTo } from "@/lib/animations";
 
 const ContactPage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -17,8 +18,8 @@ const ContactPage = () => {
 
   useGSAP(
     () => {
-      const tl = gsap.timeline();
-      gsap.set(".contact-reveal", { y: 100, opacity: 0 });
+      const tl = createTimeline();
+      animateTo(".contact-reveal", { y: 100, opacity: 0 });
       tl.to(".contact-reveal", {
         y: 0,
         opacity: 1,
@@ -53,7 +54,7 @@ const ContactPage = () => {
           <div className="mt-32 grid grid-cols-1 gap-20 lg:grid-cols-2">
             <div className="flex flex-col gap-20">
               <div className="contact-reveal flex flex-col gap-8">
-                <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
+                <span className="label-accent tracking-[0.3em]">
                   DIRECT EMAIL
                 </span>
                 <a
@@ -69,7 +70,7 @@ const ContactPage = () => {
               </div>
 
               <div className="contact-reveal flex flex-col gap-8">
-                <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
+                <span className="label-accent tracking-[0.3em]">
                   SOCIALS
                 </span>
                 <div className="grid grid-cols-2 gap-x-8 gap-y-4">
@@ -84,7 +85,7 @@ const ContactPage = () => {
               </div>
             </div>
 
-            <div className="contact-reveal bg-foreground/2 border-foreground/5 flex h-full min-h-[500px] flex-col justify-between border p-12 md:p-20">
+            <div className="contact-reveal bg-foreground/2 border-foreground/5 flex h-full min-h-125x-col justify-between border p-12 md:p-20">
               <div className="flex flex-col gap-8">
                 <h3 className="text-3xl leading-tight font-medium tracking-tighter md:text-5xl">
                   READY TO BRING <br /> YOUR IDEAS <br />{" "}

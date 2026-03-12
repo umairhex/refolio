@@ -1,112 +1,24 @@
 "use client";
 
 import React, { useRef } from "react";
-import Link from "next/link";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useGSAP } from "@/lib/gsap";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { PROJECTS } from "@/constants";
 import PageSection from "../components/ui/PageSection";
 import Container from "../components/ui/Container";
-import AnimatedProjectImage from "@/app/components/ui/AnimatedProjectImage";
-import { useClickSound } from "@/hooks/use-click-sound";
-
-const ProjectRow = ({ project }: { project: (typeof PROJECTS)[0] }) => {
-  const rowRef = useRef<HTMLAnchorElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const playClick = useClickSound();
-
-  useGSAP(
-    () => {
-      if (!rowRef.current || !imageRef.current) return;
-
-      const xTo = gsap.quickTo(imageRef.current, "x", {
-        duration: 0.4,
-        ease: "power3",
-      });
-      const yTo = gsap.quickTo(imageRef.current, "y", {
-        duration: 0.4,
-        ease: "power3",
-      });
-
-      const moveImage = (e: MouseEvent) => {
-        xTo(e.clientX);
-        yTo(e.clientY);
-      };
-
-      const handleMouseEnter = (e: MouseEvent) => {
-        gsap.set(imageRef.current, {
-          x: e.clientX,
-          y: e.clientY,
-        });
-      };
-
-      rowRef.current.addEventListener("mousemove", moveImage);
-      rowRef.current.addEventListener("mouseenter", handleMouseEnter);
-
-      return () => {
-        rowRef.current?.removeEventListener("mousemove", moveImage);
-        rowRef.current?.removeEventListener("mouseenter", handleMouseEnter);
-      };
-    },
-    { scope: rowRef },
-  );
-
-  return (
-    <Link
-      ref={rowRef}
-      href={`/work/${project.slug}`}
-      onClick={() => playClick()}
-      className="project-row group border-foreground/5 hover:border-foreground relative flex flex-col justify-between border-b px-4 py-12 transition-colors duration-500 md:flex-row md:items-center"
-    >
-      <div className="z-10 flex items-center gap-8 md:gap-16">
-        <span className="text-[10px] font-bold opacity-30 transition-opacity group-hover:opacity-100 md:text-sm">
-          {project.id}
-        </span>
-        <h2
-          className="ease-expo text-3xl font-medium tracking-tight uppercase transition-all duration-700 group-hover:translate-x-6 group-hover:tracking-widest group-hover:italic md:text-6xl"
-          style={{ fontFamily: "inherit" }}
-        >
-          {project.title}
-        </h2>
-      </div>
-
-      <div className="z-10 mt-6 flex items-baseline gap-8 md:mt-0 md:gap-32">
-        <span className="text-[10px] font-bold tracking-widest uppercase opacity-40 md:text-sm">
-          {project.category}
-        </span>
-        <span className="text-[10px] font-bold opacity-40 md:text-sm">{project.year}</span>
-      </div>
-
-      <div
-        ref={imageRef}
-        className="ease-power4.out pointer-events-none fixed top-0 left-0 z-0 h-48 w-80 -translate-x-1/2 -translate-y-1/2 scale-50 opacity-0 transition-opacity duration-700 group-hover:scale-100 group-hover:opacity-100"
-      >
-        <AnimatedProjectImage
-          src={project.image}
-          alt={project.title}
-          videoSrc={project.video}
-          width={320}
-          height={192}
-          forcePlay={true}
-          objectPosition="top"
-        />
-      </div>
-
-      <div className="bg-foreground/0 group-hover:bg-foreground/2 absolute inset-0 -z-10 transition-colors duration-500" />
-    </Link>
-  );
-};
+import { ProjectRow } from "./components/ProjectRow";
+import { createTimeline, animateTo } from "@/lib/animations";
 
 const WorkPage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const tl = gsap.timeline();
+      const tl = createTimeline();
 
-      gsap.set(".work-header-text", { y: 100, opacity: 0 });
-      gsap.set(".project-row", { y: 50, opacity: 0 });
+      animateTo(".work-header-text", { y: 100, opacity: 0 });
+      animateTo(".project-row", { y: 50, opacity: 0 });
 
       tl.to(".work-header-text", {
         y: 0,

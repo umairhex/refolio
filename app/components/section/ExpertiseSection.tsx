@@ -1,38 +1,35 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useGSAP } from "@/lib/gsap";
 import { SKILLS, SERVICES } from "@/constants";
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
+import { ServiceItem } from "./ExpertiseSection/ServiceItem";
+import { SkillCategory } from "./ExpertiseSection/SkillCategory";
+import { animateFromViewport } from "@/lib/animations";
 
 const ExpertiseSection = () => {
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
-      gsap.from(".service-item", {
+      animateFromViewport(".service-item", {
         y: 60,
         opacity: 0,
         stagger: 0.15,
         duration: 1.2,
         ease: "power4.out",
-        scrollTrigger: {
-          trigger: ".services-grid",
-          start: "top 80%",
-        },
+        trigger: ".services-grid",
       });
 
-      gsap.from(".skill-category", {
+      animateFromViewport(".skill-category", {
         y: 40,
         opacity: 0,
         stagger: 0.1,
         duration: 1,
         ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".skills-grid",
-          start: "top 85%",
-        },
+        trigger: ".skills-grid",
       });
     },
     { scope: containerRef },
@@ -45,7 +42,7 @@ const ExpertiseSection = () => {
     >
       <Container className="flex flex-col gap-40">
         <div className="flex max-w-2xl flex-col gap-8">
-          <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
+          <span className="label-accent tracking-[0.3em]">
             OUR EXPERTISE
           </span>
           <h2 className="text-4xl leading-[0.9] font-medium tracking-tighter md:text-7xl">
@@ -56,19 +53,7 @@ const ExpertiseSection = () => {
 
         <div className="services-grid grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
           {SERVICES.map((service) => (
-            <div
-              key={service.id}
-              className="service-item group border-foreground/5 hover:border-foreground flex flex-col gap-8 border p-8 transition-colors duration-500"
-            >
-              <span className="text-[12px] font-bold opacity-30">{service.id}</span>
-              <h3 className="text-2xl font-medium tracking-tight uppercase">{service.title}</h3>
-              <p className="max-w-[280px] text-sm leading-relaxed opacity-60">
-                {service.description}
-              </p>
-              <div className="mt-auto flex items-center gap-4 overflow-hidden pt-8">
-                <div className="bg-foreground/20 h-px w-8 transition-all duration-700 group-hover:w-full" />
-              </div>
-            </div>
+            <ServiceItem key={service.id} service={service} />
           ))}
         </div>
 
@@ -85,22 +70,7 @@ const ExpertiseSection = () => {
 
           <div className="grid flex-1 grid-cols-2 gap-12 lg:grid-cols-4">
             {SKILLS.map((set) => (
-              <div key={set.category} className="skill-category flex flex-col gap-6">
-                <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-30">
-                  {set.category}
-                </span>
-                <ul className="flex flex-col gap-3">
-                  {set.items.map((skill) => (
-                    <li
-                      key={skill}
-                      className="group flex cursor-default items-center gap-3 text-sm font-medium opacity-70 transition-opacity hover:opacity-100"
-                    >
-                      <div className="bg-foreground h-1 w-1 scale-0 rounded-full transition-transform group-hover:scale-100" />
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <SkillCategory key={set.category} skillCategory={set} />
             ))}
           </div>
         </div>

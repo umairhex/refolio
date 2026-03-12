@@ -1,23 +1,46 @@
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { RefObject } from "react";
 
+type ThemeScrollMode = "light-to-dark" | "dark-to-light";
+
+interface UseThemeScrollOptions {
+  mode?: ThemeScrollMode;
+
+  enabled?: boolean;
+
+  target?: string | HTMLElement;
+}
+
+const THEME_COLORS = {
+  "light-to-dark": {
+    enterBg: "var(--foreground)",
+    enterText: "var(--background)",
+    leaveBg: "var(--background)",
+    leaveText: "var(--foreground)",
+  },
+  "dark-to-light": {
+    enterBg: "var(--background)",
+    enterText: "var(--foreground)",
+    leaveBg: "var(--foreground)",
+    leaveText: "var(--background)",
+  },
+} as const;
+
 export const useThemeScroll = (
   triggerRef: RefObject<HTMLElement | null>,
-  options?: { invert?: boolean; enabled?: boolean },
+  options?: UseThemeScrollOptions,
 ) => {
   useGSAP(
     () => {
       if (!triggerRef.current) return;
       if (options?.enabled === false) return;
 
-      const invert = options?.invert ?? false;
-      const enterBg = invert ? "var(--background)" : "var(--foreground)";
-      const enterText = invert ? "var(--foreground)" : "var(--background)";
-      const leaveBg = invert ? "var(--foreground)" : "var(--background)";
-      const leaveText = invert ? "var(--background)" : "var(--foreground)";
+      const { enterBg, enterText, leaveBg, leaveText } =
+        THEME_COLORS[options?.mode ?? "light-to-dark"];
+      const target = options?.target ?? "body";
 
       const animateBody = (bg: string, color: string) =>
-        gsap.to("body", { backgroundColor: bg, color, duration: 1 });
+        gsap.to(target, { backgroundColor: bg, color, duration: 1 });
 
       ScrollTrigger.create({
         trigger: triggerRef.current,

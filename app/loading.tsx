@@ -3,7 +3,7 @@ export default function Loading() {
     <div className="bg-background pointer-events-none fixed inset-0 z-50 flex items-center justify-center">
       <div className="relative flex flex-col items-center gap-4">
         <div className="border-foreground/20 border-t-foreground h-12 w-12 animate-spin rounded-full border-2" />
-        <span className="animate-pulse text-[10px] font-bold tracking-[0.4em] uppercase opacity-40">
+        <span className="label-accent animate-pulse tracking-[0.4em]">
           Initializing System
         </span>
       </div>

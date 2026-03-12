@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useRef } from "react";
 
-interface ScrollVisibility {
+interface NavbarVisibility {
   isScrolled: boolean;
   isVisible: boolean;
 }
 
-export const useScrollVisibility = (): ScrollVisibility => {
+export const useNavbarVisibility = (): NavbarVisibility => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollYRef = useRef(0);
@@ -15,6 +15,7 @@ export const useScrollVisibility = (): ScrollVisibility => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+
       setIsScrolled(currentScrollY > 50);
 
       if (currentScrollY > lastScrollYRef.current && currentScrollY > 200) {
@@ -22,6 +23,7 @@ export const useScrollVisibility = (): ScrollVisibility => {
       } else {
         setIsVisible(true);
       }
+
       lastScrollYRef.current = currentScrollY;
     };
 

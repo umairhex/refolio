@@ -1,9 +1,9 @@
 "use client";
 
 import useSound from "use-sound";
-import { CLICK_SOUND } from "@/app/constants/sounds";
+import { SOUND_PATHS } from "@/app/constants/sounds";
 
 export const useClickSound = () => {
-  const [playClick] = useSound(CLICK_SOUND, { volume: 0.2 });
+  const [playClick] = useSound(SOUND_PATHS.click, { volume: 0.2 });
   return playClick;
 };

@@ -10,7 +10,7 @@ interface PageSectionProps {
 
 const PageSection = forwardRef<HTMLElement, PageSectionProps>(
   ({ children, className, id, as: Tag = "section" }, ref) => (
-    <Tag ref={ref} id={id} className={cn("px-6 md:px-12 lg:px-24", className)}>
+    <Tag ref={ref} id={id} className={cn("relative w-full", className)}>
       {children}
     </Tag>
   ),

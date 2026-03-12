@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { gsap } from "@/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { useLoading } from "@/app/context/LoadingContext";
+import { createTimeline, animateTo } from "@/lib/animations";
 
 export default function Preloader() {
   const [percentage, setPercentage] = useState(0);
@@ -19,12 +19,16 @@ export default function Preloader() {
   const { setIsLoaded } = useLoading();
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const hasSeenPreloader = sessionStorage.getItem("refolio_preloader_seen");
 
     if (!hasSeenPreloader) {
-      setIsHidden(false);
-      setIsVisible(true);
       document.body.style.overflow = "hidden";
+      requestAnimationFrame(() => {
+        setIsHidden(false);
+        setIsVisible(true);
+      });
     }
 
     return () => {
@@ -40,7 +44,7 @@ export default function Preloader() {
     const x = (clientX - innerWidth / 2) / 50;
     const y = (clientY - innerHeight / 2) / 50;
 
-    gsap.to(contentRef.current, {
+    animateTo(contentRef.current, {
       x,
       y,
       duration: 1,
@@ -54,11 +58,11 @@ export default function Preloader() {
 
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      const tl = gsap.timeline({
+      const tl = createTimeline({
         onComplete: () => {
           sessionStorage.setItem("refolio_preloader_seen", "true");
 
-          gsap.to(containerRef.current, {
+          animateTo(containerRef.current, {
             yPercent: -100,
             duration: prefersReducedMotion ? 0.6 : 1.2,
             ease: "expo.inOut",
@@ -72,16 +76,14 @@ export default function Preloader() {
       });
 
       if (prefersReducedMotion) {
-        tl.to(
-          { val: 0 },
-          {
-            val: 100,
-            duration: 1,
-            onUpdate: function () {
-              setPercentage(Math.floor(this.targets()[0].val));
-            },
+        const obj = { val: 0 };
+        tl.to(obj, {
+          val: 100,
+          duration: 1,
+          onUpdate: () => {
+            setPercentage(Math.floor(obj.val));
           },
-        );
+        });
         return;
       }
 

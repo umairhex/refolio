@@ -1,11 +1,11 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useGSAP } from "@/lib/gsap";
 import { useThemeScroll } from "@/hooks/use-theme-scroll";
-
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
+import { animateFromViewport } from "@/lib/animations";
 
 const AboutSection = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -15,25 +15,12 @@ const AboutSection = () => {
 
   useGSAP(
     () => {
-      const lines = gsap.utils.toArray<HTMLElement>(".about-line");
-
-      lines.forEach((line) => {
-        gsap.fromTo(
-          line,
-          { y: 100, opacity: 0, rotateZ: 2 },
-          {
-            y: 0,
-            opacity: 1,
-            rotateZ: 0,
-            duration: 1.5,
-            ease: "power4.out",
-            scrollTrigger: {
-              trigger: line,
-              start: "top 90%",
-              toggleActions: "play none none reverse",
-            },
-          },
-        );
+      animateFromViewport(".about-line", {
+        y: 100,
+        opacity: 0,
+        rotationZ: 2,
+        duration: 1.5,
+        ease: "power4.out",
       });
     },
     { scope: containerRef },

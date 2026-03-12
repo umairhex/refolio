@@ -3,15 +3,29 @@
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 
-interface AnimatedProjectImageProps {
+interface ImageDimensions {
+  width?: number;
+  height?: number;
+}
+
+interface ImageDisplayOptions {
+  objectPosition?: "top" | "center" | "bottom";
+  forcePlay?: boolean;
+}
+
+interface AnimatedProjectImageProps extends ImageDimensions, ImageDisplayOptions {
   src: string;
   alt: string;
   videoSrc?: string;
-  width?: number;
-  height?: number;
-  forcePlay?: boolean;
-  objectPosition?: "top" | "center" | "bottom";
 }
+
+const POSITION_CLASS: Record<string, string> = {
+  top: "object-top",
+  bottom: "object-bottom",
+  center: "object-center",
+};
+
+const getPositionClass = (pos: string) => POSITION_CLASS[pos] ?? "object-center";
 
 export default function AnimatedProjectImage({
   src,
@@ -52,13 +66,7 @@ export default function AnimatedProjectImage({
         alt={alt}
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        className={`object-cover transition-opacity duration-700 ease-in-out ${
-          objectPosition === "top"
-            ? "object-top"
-            : objectPosition === "bottom"
-              ? "object-bottom"
-              : "object-center"
-        } ${(isHovering || forcePlay) && isPlaying ? "opacity-0" : "opacity-100"}`}
+        className={`object-cover transition-opacity duration-700 ease-in-out ${getPositionClass(objectPosition)} ${(isHovering || forcePlay) && isPlaying ? "opacity-0" : "opacity-100"}`}
         priority
       />
 
@@ -78,13 +86,7 @@ export default function AnimatedProjectImage({
           onPlaying={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
           onEnded={() => setIsPlaying(false)}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out ${
-            objectPosition === "top"
-              ? "object-top"
-              : objectPosition === "bottom"
-                ? "object-bottom"
-                : "object-center"
-          } ${(isHovering || forcePlay) && isPlaying ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out ${getPositionClass(objectPosition)} ${(isHovering || forcePlay) && isPlaying ? "opacity-100" : "opacity-0"}`}
         >
           {videoSrc.endsWith(".mp4") && (
             <source src={videoSrc.replace(".mp4", ".webm")} type="video/webm" />

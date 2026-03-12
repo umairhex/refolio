@@ -2,13 +2,15 @@
 
 import React, { useRef } from "react";
 import Image from "next/image";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useGSAP } from "@/lib/gsap";
 import Navbar from "@/app/components/layout/Navbar";
 import Footer from "@/app/components/layout/Footer";
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
 import { useClickSound } from "@/hooks/use-click-sound";
 import type { Project } from "@/types";
+import { createTimeline, animateTo, animateFromViewport } from "@/lib/animations";
+import { gsap } from "@/lib/gsap";
 
 export default function ProjectCaseStudyClient({ project }: { project: Project }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -16,12 +18,12 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
 
   useGSAP(
     () => {
-      const tl = gsap.timeline();
+      const tl = createTimeline();
 
-      gsap.set(".case-title-word", { y: 100, opacity: 0 });
-      gsap.set(".case-subheading", { opacity: 0, y: 20 });
-      gsap.set(".case-header-meta", { opacity: 0, y: 20 });
-      gsap.set(".case-hero-image", { clipPath: "inset(100% 0 0 0)" });
+      animateTo(".case-title-word", { y: 100, opacity: 0 });
+      animateTo(".case-subheading", { opacity: 0, y: 20 });
+      animateTo(".case-header-meta", { opacity: 0, y: 20 });
+      animateTo(".case-hero-image", { clipPath: "inset(100% 0 0 0)" });
 
       tl.to(".case-title-word", {
         y: 0,
@@ -61,17 +63,12 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
           "-=1",
         );
 
-      // Scroll reveal for details
       gsap.utils.toArray<HTMLElement>(".case-detail-block").forEach((block) => {
-        gsap.from(block, {
+        animateFromViewport(block, {
           y: 60,
           opacity: 0,
           duration: 1.2,
           ease: "power3.out",
-          scrollTrigger: {
-            trigger: block,
-            start: "top 85%",
-          },
         });
       });
     },
@@ -86,18 +83,14 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
         <Container className="border-foreground/10 flex flex-col gap-12 border-b pb-20">
           <div className="case-header-meta flex flex-col justify-between gap-12 md:flex-row md:items-end">
             <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
-                CLIENT
-              </span>
+              <span className="label-accent tracking-[0.3em]">CLIENT</span>
               <span className="text-sm font-bold tracking-widest uppercase opacity-80">
                 {project.title}
               </span>
             </div>
 
             <div className="flex flex-col gap-4 md:items-end">
-              <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
-                ROLE
-              </span>
+              <span className="label-accent tracking-[0.3em]">ROLE</span>
               <div className="flex items-center gap-6">
                 <span className="text-sm font-bold tracking-widest uppercase opacity-80">
                   {project.category}
@@ -144,12 +137,10 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
             />
           </div>
 
-          <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-16 md:grid-cols-12 md:gap-8">
+          <div className="mx-auto grid max-w-300 grid-cols-1 gap-16 md:grid-cols-12 md:gap-8">
             <div className="flex flex-col gap-12 md:col-span-4">
               <div className="flex flex-col gap-4">
-                <span className="text-[10px] font-bold tracking-widest uppercase opacity-40">
-                  OVERVIEW
-                </span>
+                <span className="label-accent tracking-widest">OVERVIEW</span>
                 <p className="text-base leading-relaxed font-medium opacity-80 md:text-lg">
                   {project.overview || project.description}
                 </p>
@@ -157,9 +148,7 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
 
               {project.stack && (
                 <div className="flex flex-col gap-4">
-                  <span className="text-[10px] font-bold tracking-widest uppercase opacity-40">
-                    TECHNOLOGY STACK
-                  </span>
+                  <span className="label-accent tracking-widest">TECHNOLOGY STACK</span>
                   <div className="flex flex-wrap gap-2">
                     {project.stack.map((item, i) => (
                       <span
@@ -175,9 +164,7 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
 
               {project.link && (
                 <div className="flex flex-col gap-4">
-                  <span className="text-[10px] font-bold tracking-widest uppercase opacity-40">
-                    LIVE LINK
-                  </span>
+                  <span className="label-accent tracking-widest">LIVE LINK</span>
                   <a
                     href={project.link}
                     target="_blank"
@@ -194,9 +181,7 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
             <div className="border-foreground/10 flex flex-col gap-24 border-l md:col-span-8 md:pl-16 lg:pl-32">
               {project.standout && (
                 <div className="border-foreground/20 relative flex flex-col gap-6 border-l-2 py-4 pl-8 md:pl-12">
-                  <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
-                    CORE INNOVATION
-                  </span>
+                  <span className="label-accent tracking-[0.3em]">CORE INNOVATION</span>
                   <p className="font-arsenica max-w-2xl text-2xl leading-[1.1] font-medium tracking-tight italic opacity-90 md:text-4xl">
                     {project.standout}
                   </p>

@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useGSAP } from "@/lib/gsap";
+import { createTimeline, animateTo } from "@/lib/animations";
+import { gsap } from "@/lib/gsap";
 
 interface UseMenuAnimationOptions {
   isOpen: boolean;
@@ -10,13 +11,21 @@ interface UseMenuAnimationOptions {
 }
 
 export const useMenuAnimation = ({ isOpen, menuRef, containerRef }: UseMenuAnimationOptions) => {
-  const tlRef = useRef<gsap.core.Timeline | null>(null);
+  useGSAP(
+    () => {
+      animateTo(menuRef.current, { yPercent: -100, display: "none" });
+    },
+    { scope: containerRef },
+  );
 
   useGSAP(
     () => {
-      gsap.set(menuRef.current, { yPercent: -100, display: "none" });
+      if (!menuRef.current) return;
 
-      const tl = gsap.timeline({ paused: true });
+      const tl = createTimeline({
+        paused: true,
+        reversed: true,
+      });
 
       tl.to(menuRef.current, {
         yPercent: 0,
@@ -24,6 +33,9 @@ export const useMenuAnimation = ({ isOpen, menuRef, containerRef }: UseMenuAnima
         ease: "power4.inOut",
         onStart: () => {
           gsap.set(menuRef.current, { display: "flex" });
+        },
+        onReverseComplete: () => {
+          gsap.set(menuRef.current, { display: "none" });
         },
       }).fromTo(
         ".menu-link",
@@ -39,19 +51,12 @@ export const useMenuAnimation = ({ isOpen, menuRef, containerRef }: UseMenuAnima
         "-=0.5",
       );
 
-      tlRef.current = tl;
+      if (isOpen) {
+        tl.play();
+      } else {
+        tl.reverse();
+      }
     },
-    { scope: containerRef },
+    { scope: containerRef, dependencies: [isOpen] },
   );
-
-  useEffect(() => {
-    if (!tlRef.current) return;
-    if (isOpen) {
-      tlRef.current.play();
-    } else {
-      tlRef.current.reverse().then(() => {
-        gsap.set(menuRef.current, { display: "none" });
-      });
-    }
-  }, [isOpen, menuRef]);
 };

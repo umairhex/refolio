@@ -1,6 +1,12 @@
 import type { MDXComponents } from "mdx/types";
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { SoundAnchor } from "./SoundAnchor";
+
+export const createMDXComponents = (overrides: MDXComponents = {}): MDXComponents => ({
+  ...mdxComponents,
+  ...overrides,
+});
 
 export const mdxComponents: MDXComponents = {
   h1: ({ children }: { children?: ReactNode }) => (
@@ -19,22 +25,22 @@ export const mdxComponents: MDXComponents = {
     </h3>
   ),
   p: ({ children }: { children?: ReactNode }) => (
-    <p className="mb-8 max-w-[800px] text-base leading-relaxed font-medium tracking-wide opacity-80 md:text-lg">
+    <p className="mb-8 max-w-200 text-base leading-relaxed font-medium tracking-wide opacity-80 md:text-lg">
       {children}
     </p>
   ),
   a: ({ href, children }: { href?: string; children?: ReactNode }) => (
-    <a
+    <SoundAnchor
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       className="decoration-foreground/30 hover:decoration-foreground font-bold underline transition-colors"
     >
       {children}
-    </a>
+    </SoundAnchor>
   ),
   blockquote: ({ children }: { children?: ReactNode }) => (
-    <blockquote className="border-foreground relative my-24 max-w-[850px] overflow-visible border-l-4 py-4 pl-8 md:pl-12">
+    <blockquote className="border-foreground relative my-24 max-w-212.5 overflow-visible border-l-4 py-4 pl-8 md:pl-12">
       <div className="font-arsenica pointer-events-none absolute -top-12 -left-6 text-[180px] leading-none opacity-[0.03] select-none"></div>
       <div className="[&_p]:font-arsenica! relative z-10 [&_p]:mb-0! [&_p]:text-3xl! [&_p]:leading-[1.1]! [&_p]:tracking-tighter! [&_p]:italic! [&_p]:opacity-100! [&_p]:md:text-5xl!">
         {children}
@@ -42,21 +48,21 @@ export const mdxComponents: MDXComponents = {
     </blockquote>
   ),
   ul: ({ children }: { children?: ReactNode }) => (
-    <ul className="mb-10 flex max-w-[800px] list-none flex-col gap-4">{children}</ul>
+    <ul className="mb-10 flex max-w-200 list-none flex-col gap-4">{children}</ul>
   ),
   ol: ({ children }: { children?: ReactNode }) => (
-    <ol className="mb-10 flex max-w-[800px] list-decimal flex-col gap-4 pl-5 text-base opacity-80 md:text-lg">
+    <ol className="mb-10 flex max-w-200 list-decimal flex-col gap-4 pl-5 text-base opacity-80 md:text-lg">
       {children}
     </ol>
   ),
   li: ({ children }: { children?: ReactNode }) => (
     <li className="group flex items-start gap-5 text-base opacity-80 md:text-lg">
-      <div className="border-foreground group-hover:bg-foreground mt-[10px] h-2 w-2 shrink-0 rounded-full border transition-colors" />
+      <div className="border-foreground group-hover:bg-foreground mt-2.5 h-2 w-2 shrink-0 rounded-full border transition-colors" />
       <span className="leading-relaxed font-medium tracking-wide">{children}</span>
     </li>
   ),
   pre: (props: React.ComponentPropsWithoutRef<"pre">) => (
-    <div className="group border-foreground/10 relative my-12 max-w-[850px] overflow-hidden rounded-sm border bg-[#0E0E0E] shadow-2xl">
+    <div className="group border-foreground/10 relative my-12 max-w-212.5 overflow-hidden rounded-sm border bg-[#0E0E0E] shadow-2xl">
       <div className="flex h-8 w-full items-center gap-2 border-b border-white/5 bg-[#161616] px-4 shadow-xl select-none">
         <div className="h-2.5 w-2.5 rounded-full bg-white/20" />
         <div className="h-2.5 w-2.5 rounded-full bg-white/20" />
@@ -83,7 +89,7 @@ export const mdxComponents: MDXComponents = {
     );
   },
   img: (props: React.ComponentPropsWithoutRef<"img">) => (
-    <div className="bg-muted relative my-16 aspect-video w-full max-w-[900px] overflow-hidden shadow-2xl">
+    <div className="bg-muted relative my-16 aspect-video w-full max-w-225 overflow-hidden shadow-2xl">
       {props.src && (
         <Image
           src={props.src as string}

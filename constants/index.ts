@@ -401,3 +401,13 @@ export const FOOTER_LINKS: NavLink[] = [
   { name: "Blogs", href: "/blogs" },
   ...NAV_LINKS.slice(2),
 ];
+
+export const HERO_CONTENT = {
+  title: {
+    line1: "FULL",
+    line2: "STACK",
+    line3: "Engineer",
+  },
+  specialization: "Full-Stack Engineer specialized in AI-powered systems and rapid feature delivery.",
+  location: "Islamabad — Pakistan",
+};

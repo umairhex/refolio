@@ -9,7 +9,7 @@ interface ContainerProps {
 
 const Container = forwardRef<HTMLDivElement, ContainerProps>(
   ({ children, className, as: Tag = "div" }, ref) => (
-    <Tag ref={ref} className={cn("mx-auto max-w-[1600px]", className)}>
+    <Tag ref={ref} className={cn("mx-auto max-w-400 px-6 md:px-12 lg:px-24", className)}>
       {children}
     </Tag>
   ),

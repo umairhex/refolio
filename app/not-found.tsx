@@ -10,7 +10,7 @@ export default function NotFound() {
 
       <div className="relative z-10 flex flex-col items-center space-y-6 text-center">
         <div className="space-y-2">
-          <span className="text-[10px] font-bold tracking-[0.5em] uppercase opacity-40">
+          <span className="label-accent tracking-[0.5em]">
             Navigation Interrupted
           </span>
           <h2 className="text-5xl leading-none font-black tracking-tighter uppercase italic md:text-8xl">

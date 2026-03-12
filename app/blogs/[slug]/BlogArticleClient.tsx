@@ -65,7 +65,7 @@ export default function BlogArticleClient({
         <Container className="border-foreground/10 flex flex-col gap-16 border-b pb-20">
           <div className="article-header-meta flex flex-col justify-between gap-12 md:flex-row md:items-end">
             <div className="flex flex-col gap-4">
-              <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
+              <span className="label-accent tracking-[0.3em]">
                 DATE
               </span>
               <span className="text-sm font-bold tracking-widest uppercase opacity-80">
@@ -74,7 +74,7 @@ export default function BlogArticleClient({
             </div>
 
             <div className="flex flex-col gap-4 md:items-end">
-              <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
+              <span className="label-accent tracking-[0.3em]">
                 DETAILS
               </span>
               <div className="flex items-center gap-6">
@@ -113,7 +113,7 @@ export default function BlogArticleClient({
             />
           </div>
 
-          <article className="prose prose-invert prose-headings:font-normal prose-h1:text-foreground prose-h2:text-foreground selection:bg-foreground/20 selection:text-foreground mx-auto w-full max-w-[850px] leading-relaxed">
+          <article className="prose prose-invert prose-headings:font-normal prose-h1:text-foreground prose-h2:text-foreground selection:bg-foreground/20 selection:text-foreground mx-auto w-full max-w-212.5 leading-relaxed">
             {children}
           </article>
         </Container>
