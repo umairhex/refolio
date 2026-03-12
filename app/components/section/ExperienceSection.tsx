@@ -45,23 +45,21 @@ const ExperienceSection = () => {
   return (
     <PageSection
       ref={containerRef}
-      className="relative w-full py-32 md:py-64 bg-foreground text-background overflow-hidden"
+      className="bg-foreground text-background relative w-full overflow-hidden py-32 md:py-64"
     >
       <Container>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-32 gap-8">
+        <div className="mb-32 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
           <div className="flex flex-col gap-6">
             <span className="text-[10px] font-bold tracking-[0.4em] uppercase opacity-40">
               RESUME — 05
             </span>
-            <h2
-              className="font-arsenica text-4xl md:text-8xl font-medium tracking-tighter italic"
-            >
+            <h2 className="font-arsenica text-4xl font-medium tracking-tighter italic md:text-8xl">
               JOURNEY
             </h2>
           </div>
-          <p className="max-w-xs text-xs md:text-sm opacity-50 font-medium tracking-wide leading-relaxed">
-            A record of professional milestones and core contributions within
-            the digital landscape since 2019.
+          <p className="max-w-xs text-xs leading-relaxed font-medium tracking-wide opacity-50 md:text-sm">
+            A record of professional milestones and core contributions within the digital landscape
+            since 2019.
           </p>
         </div>
 
@@ -70,38 +68,36 @@ const ExperienceSection = () => {
             <div
               key={index}
               onClick={() => playClick()}
-              className="experience-row group relative flex flex-col md:flex-row md:items-center py-12 md:py-20 cursor-pointer"
+              className="experience-row group relative flex cursor-pointer flex-col py-12 md:flex-row md:items-center md:py-20"
             >
-              <div className="row-line absolute top-0 left-0 w-full h-px bg-background/10 origin-left" />
+              <div className="row-line bg-background/10 absolute top-0 left-0 h-px w-full origin-left" />
 
               <div className="flex flex-col gap-2 md:w-1/4">
-                <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] opacity-40">
+                <span className="text-[10px] font-bold tracking-[0.2em] opacity-40 md:text-xs">
                   {item.period}
                 </span>
-                <h3
-                  className="font-arsenica text-xl md:text-2xl font-bold tracking-tight group-hover:italic transition-all"
-                >
+                <h3 className="font-arsenica text-xl font-bold tracking-tight transition-all group-hover:italic md:text-2xl">
                   {item.company}
                 </h3>
               </div>
 
-              <div className="flex flex-col gap-4 md:flex-1 mt-6 md:mt-0">
-                <h4 className="text-2xl md:text-4xl font-medium tracking-tighter uppercase">
+              <div className="mt-6 flex flex-col gap-4 md:mt-0 md:flex-1">
+                <h4 className="text-2xl font-medium tracking-tighter uppercase md:text-4xl">
                   {item.role}
                 </h4>
-                <p className="text-sm md:text-base opacity-50 max-w-xl leading-relaxed">
+                <p className="max-w-xl text-sm leading-relaxed opacity-50 md:text-base">
                   {item.description}
                 </p>
               </div>
 
-              <div className="absolute inset-0 bg-background/0 group-hover:bg-background/2 transition-colors duration-500 -z-10" />
+              <div className="bg-background/0 group-hover:bg-background/2 absolute inset-0 -z-10 transition-colors duration-500" />
             </div>
           ))}
-          <div className="row-line w-full h-px bg-background/10" />
+          <div className="row-line bg-background/10 h-px w-full" />
         </div>
       </Container>
 
-      <div className="absolute top-1/2 right-[-10%] -translate-y-1/2 rotate-90 select-none pointer-events-none opacity-[0.03]">
+      <div className="pointer-events-none absolute top-1/2 right-[-10%] -translate-y-1/2 rotate-90 opacity-[0.03] select-none">
         <span className="text-[30vw] font-bold tracking-tighter">ENGINEER</span>
       </div>
     </PageSection>

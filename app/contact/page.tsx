@@ -32,45 +32,43 @@ const ContactPage = () => {
   );
 
   return (
-    <main ref={containerRef} className="min-h-screen bg-background">
+    <main ref={containerRef} className="bg-background min-h-screen">
       <Navbar />
 
       <PageSection className="pt-40 pb-64">
         <Container>
-          <div className="flex flex-col gap-8 border-b border-foreground/10 pb-20 overflow-hidden">
+          <div className="border-foreground/10 flex flex-col gap-8 overflow-hidden border-b pb-20">
             <div className="overflow-hidden">
-              <h1
-                className="font-arsenica contact-reveal text-[15vw] md:text-[10vw] font-medium leading-[0.8] tracking-tighter uppercase italic"
-              >
+              <h1 className="font-arsenica contact-reveal text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase italic md:text-[10vw]">
                 Let&apos;s
               </h1>
             </div>
             <div className="overflow-hidden">
-              <h1 className="contact-reveal text-[15vw] md:text-[10vw] font-medium leading-[0.8] tracking-tighter uppercase">
+              <h1 className="contact-reveal text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase md:text-[10vw]">
                 Connect
               </h1>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 mt-32">
+          <div className="mt-32 grid grid-cols-1 gap-20 lg:grid-cols-2">
             <div className="flex flex-col gap-20">
-              <div className="flex flex-col gap-8 contact-reveal">
+              <div className="contact-reveal flex flex-col gap-8">
                 <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
                   DIRECT EMAIL
                 </span>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
                   onClick={() => playClick()}
-                  className="group flex items-center gap-4 md:gap-6 text-lg sm:text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight hover:italic transition-all duration-300 break-all"
+                  className="group flex items-center gap-4 text-lg font-medium tracking-tight break-all transition-all duration-300 hover:italic sm:text-2xl md:gap-6 md:text-3xl lg:text-4xl"
                 >
-                  <div className="p-3 md:p-4 rounded-full border border-foreground/10 group-hover:bg-foreground group-hover:text-background transition-colors duration-500 shrink-0">
+                  <div className="border-foreground/10 group-hover:bg-foreground group-hover:text-background shrink-0 rounded-full border p-3 transition-colors duration-500 md:p-4">
                     <Mail size={24} />
                   </div>
                   {CONTACT_EMAIL}
                 </a>
               </div>
 
-              <div className="flex flex-col gap-8 contact-reveal">
+              <div className="contact-reveal flex flex-col gap-8">
                 <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-40">
                   SOCIALS
                 </span>
@@ -86,17 +84,15 @@ const ContactPage = () => {
               </div>
             </div>
 
-            <div className="flex flex-col justify-between contact-reveal bg-foreground/2 p-12 md:p-20 border border-foreground/5 h-full min-h-[500px]">
+            <div className="contact-reveal bg-foreground/2 border-foreground/5 flex h-full min-h-[500px] flex-col justify-between border p-12 md:p-20">
               <div className="flex flex-col gap-8">
-                <h3 className="text-3xl md:text-5xl font-medium tracking-tighter leading-tight">
+                <h3 className="text-3xl leading-tight font-medium tracking-tighter md:text-5xl">
                   READY TO BRING <br /> YOUR IDEAS <br />{" "}
-                  <span className="italic font-arsenica">
-                    TO LIFE?
-                  </span>
+                  <span className="font-arsenica italic">TO LIFE?</span>
                 </h3>
-                <p className="text-sm md:text-base opacity-50 max-w-sm leading-relaxed">
-                  I&apos;m currently accepting new projects and collaborations.
-                  If you have a vision, let&apos;s make it a reality.
+                <p className="max-w-sm text-sm leading-relaxed opacity-50 md:text-base">
+                  I&apos;m currently accepting new projects and collaborations. If you have a
+                  vision, let&apos;s make it a reality.
                 </p>
               </div>
 
@@ -106,7 +102,7 @@ const ContactPage = () => {
                 className="group flex items-center gap-6 text-[11px] font-bold tracking-[0.4em] uppercase"
               >
                 START A PROJECT
-                <div className="w-12 h-12 rounded-full border border-foreground flex items-center justify-center group-hover:bg-foreground group-hover:text-background transition-all duration-500">
+                <div className="border-foreground group-hover:bg-foreground group-hover:text-background flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-500">
                   <ArrowRight size={16} />
                 </div>
               </a>

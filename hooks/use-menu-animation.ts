@@ -9,11 +9,7 @@ interface UseMenuAnimationOptions {
   containerRef: React.RefObject<HTMLDivElement | null>;
 }
 
-export const useMenuAnimation = ({
-  isOpen,
-  menuRef,
-  containerRef,
-}: UseMenuAnimationOptions) => {
+export const useMenuAnimation = ({ isOpen, menuRef, containerRef }: UseMenuAnimationOptions) => {
   const tlRef = useRef<gsap.core.Timeline | null>(null);
 
   useGSAP(

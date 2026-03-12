@@ -43,56 +43,53 @@ const AboutSection = () => {
     <PageSection
       ref={containerRef}
       id="about"
-      className="relative w-full py-32 md:py-64 flex flex-col items-center justify-center overflow-hidden"
+      className="relative flex w-full flex-col items-center justify-center overflow-hidden py-32 md:py-64"
     >
       <Container className="w-full">
         <div className="flex flex-col gap-12" ref={textRef}>
           <div className="overflow-hidden">
-            <h2
-              className="about-line font-arsenica text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter leading-[0.9] italic"
-            >
+            <h2 className="about-line font-arsenica text-5xl leading-[0.9] font-medium tracking-tighter italic md:text-7xl lg:text-8xl">
               CRAFTING DIGITAL
             </h2>
           </div>
           <div className="overflow-hidden">
-            <h2 className="about-line text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter leading-[0.9]">
+            <h2 className="about-line text-5xl leading-[0.9] font-medium tracking-tighter md:text-7xl lg:text-8xl">
               EXPERIENCES WITH
             </h2>
           </div>
           <div className="overflow-hidden">
-            <h2
-              className="about-line font-arsenica text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter leading-[0.9] italic"
-            >
+            <h2 className="about-line font-arsenica text-5xl leading-[0.9] font-medium tracking-tighter italic md:text-7xl lg:text-8xl">
               PRECISION & ARTISTRY
             </h2>
           </div>
 
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-20">
+          <div className="mt-20 grid grid-cols-1 gap-20 md:grid-cols-2">
             <div className="flex flex-col gap-8">
-              <p className="text-xl md:text-2xl leading-relaxed font-light opacity-80">
-                I am a full-stack engineer specialized in building high-performance SaaS products, 
-                automating complex workflows with AI, and crafting pixel-perfect digital experiences.
+              <p className="text-xl leading-relaxed font-light opacity-80 md:text-2xl">
+                I am a full-stack engineer specialized in building high-performance SaaS products,
+                automating complex workflows with AI, and crafting pixel-perfect digital
+                experiences.
               </p>
-              <div className="w-20 h-px bg-foreground/30" />
+              <div className="bg-foreground/30 h-px w-20" />
             </div>
 
-            <div className="flex flex-col gap-12 text-sm md:text-base opacity-60 leading-relaxed font-medium tracking-wide prose prose-invert">
+            <div className="prose prose-invert flex flex-col gap-12 text-sm leading-relaxed font-medium tracking-wide opacity-60 md:text-base">
               <p>
                 With a background in computer science and specialized training from Meta, I bridge
-                the gap between complex AI models and seamless user interfaces. My work focuses on 
+                the gap between complex AI models and seamless user interfaces. My work focuses on
                 integrating LLMs (GPT, Gemini, Claude) into real-time production systems.
               </p>
               <p>
-                From leading award-winning teams at Air University to optimizing feature delivery 
-                at Strug Inc. by 85%, I thrive on creating digital ecosystems that are both 
-                technically robust and visually striking.
+                From leading award-winning teams at Air University to optimizing feature delivery at
+                Strug Inc. by 85%, I thrive on creating digital ecosystems that are both technically
+                robust and visually striking.
               </p>
             </div>
           </div>
         </div>
       </Container>
 
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 select-none pointer-events-none opacity-[0.02] whitespace-nowrap">
+      <div className="pointer-events-none absolute top-1/2 left-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap opacity-[0.02] select-none">
         <span className="text-[40vw] font-bold tracking-tighter uppercase italic">ARCHITECT</span>
       </div>
     </PageSection>

@@ -57,32 +57,30 @@ const ProjectRow = ({ project }: { project: (typeof PROJECTS)[0] }) => {
       ref={rowRef}
       href={`/work/${project.slug}`}
       onClick={() => playClick()}
-      className="px-4 project-row group relative flex flex-col md:flex-row md:items-center justify-between py-12 border-b border-foreground/5 transition-colors duration-500 hover:border-foreground"
+      className="project-row group border-foreground/5 hover:border-foreground relative flex flex-col justify-between border-b px-4 py-12 transition-colors duration-500 md:flex-row md:items-center"
     >
-      <div className="flex items-center gap-8 md:gap-16 z-10">
-        <span className="text-[10px] md:text-sm font-bold opacity-30 group-hover:opacity-100 transition-opacity">
+      <div className="z-10 flex items-center gap-8 md:gap-16">
+        <span className="text-[10px] font-bold opacity-30 transition-opacity group-hover:opacity-100 md:text-sm">
           {project.id}
         </span>
         <h2
-          className="text-3xl md:text-6xl font-medium tracking-tight uppercase group-hover:italic group-hover:translate-x-6 group-hover:tracking-widest transition-all duration-700 ease-expo"
+          className="ease-expo text-3xl font-medium tracking-tight uppercase transition-all duration-700 group-hover:translate-x-6 group-hover:tracking-widest group-hover:italic md:text-6xl"
           style={{ fontFamily: "inherit" }}
         >
           {project.title}
         </h2>
       </div>
 
-      <div className="flex items-baseline gap-8 md:gap-32 z-10 mt-6 md:mt-0">
-        <span className="text-[10px] md:text-sm font-bold tracking-widest uppercase opacity-40">
+      <div className="z-10 mt-6 flex items-baseline gap-8 md:mt-0 md:gap-32">
+        <span className="text-[10px] font-bold tracking-widest uppercase opacity-40 md:text-sm">
           {project.category}
         </span>
-        <span className="text-[10px] md:text-sm font-bold opacity-40">
-          {project.year}
-        </span>
+        <span className="text-[10px] font-bold opacity-40 md:text-sm">{project.year}</span>
       </div>
 
       <div
         ref={imageRef}
-        className="fixed top-0 left-0 pointer-events-none opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 -translate-x-1/2 -translate-y-1/2 w-80 h-48 z-0 transition-opacity duration-700 ease-power4.out"
+        className="ease-power4.out pointer-events-none fixed top-0 left-0 z-0 h-48 w-80 -translate-x-1/2 -translate-y-1/2 scale-50 opacity-0 transition-opacity duration-700 group-hover:scale-100 group-hover:opacity-100"
       >
         <AnimatedProjectImage
           src={project.image}
@@ -95,7 +93,7 @@ const ProjectRow = ({ project }: { project: (typeof PROJECTS)[0] }) => {
         />
       </div>
 
-      <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/2 transition-colors duration-500 -z-10" />
+      <div className="bg-foreground/0 group-hover:bg-foreground/2 absolute inset-0 -z-10 transition-colors duration-500" />
     </Link>
   );
 };
@@ -134,21 +132,21 @@ const WorkPage = () => {
   );
 
   return (
-    <main ref={containerRef} className="min-h-screen bg-background">
+    <main ref={containerRef} className="bg-background min-h-screen">
       <Navbar />
 
       <PageSection className="pt-40 pb-20">
-        <Container className="flex flex-col gap-6 border-b border-foreground/10 pb-20">
+        <Container className="border-foreground/10 flex flex-col gap-6 border-b pb-20">
           <div className="overflow-hidden">
-            <h1 className="font-arsenica work-header-text text-[15vw] md:text-[8vw] font-medium leading-[0.8] tracking-tighter uppercase italic">
+            <h1 className="font-arsenica work-header-text text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase italic md:text-[8vw]">
               Selected
             </h1>
           </div>
-          <div className="overflow-hidden flex justify-between items-end">
-            <h1 className="work-header-text text-[15vw] md:text-[8vw] font-medium leading-[0.8] tracking-tighter uppercase">
+          <div className="flex items-end justify-between overflow-hidden">
+            <h1 className="work-header-text text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase md:text-[8vw]">
               Archive
             </h1>
-            <span className="work-header-text text-[11px] font-bold tracking-[0.3em] uppercase opacity-40 pb-4 hidden md:block">
+            <span className="work-header-text hidden pb-4 text-[11px] font-bold tracking-[0.3em] uppercase opacity-40 md:block">
               ({PROJECTS.length.toString().padStart(2, "0")}) — TOTAL
             </span>
           </div>

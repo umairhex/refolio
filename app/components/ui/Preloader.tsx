@@ -52,9 +52,7 @@ export default function Preloader() {
     () => {
       if (!isVisible) return;
 
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       const tl = gsap.timeline({
         onComplete: () => {
@@ -131,37 +129,34 @@ export default function Preloader() {
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label="Loading Portfolio"
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background text-foreground select-none overflow-hidden"
+      className="bg-background text-foreground fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden select-none"
     >
-      <div
-        ref={contentRef}
-        className="relative flex flex-col items-center will-change-transform"
-      >
-        <div className="overflow-hidden flex items-center gap-4">
-          <span className="text-[20vw] lg:text-[12rem] font-bold tracking-tighter leading-none italic uppercase">
+      <div ref={contentRef} className="relative flex flex-col items-center will-change-transform">
+        <div className="flex items-center gap-4 overflow-hidden">
+          <span className="text-[20vw] leading-none font-bold tracking-tighter uppercase italic lg:text-[12rem]">
             {percentage}%
           </span>
         </div>
 
-        <div className="mt-8 overflow-hidden h-6">
+        <div className="mt-8 h-6 overflow-hidden">
           <span
             ref={wordRef}
             aria-live="polite"
-            className="block text-[10px] md:text-xs font-bold tracking-[0.3em] uppercase opacity-50"
+            className="block text-[10px] font-bold tracking-[0.3em] uppercase opacity-50 md:text-xs"
           >
             {words[0]}
           </span>
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 w-full h-px bg-foreground/10">
+      <div className="bg-foreground/10 absolute bottom-0 left-0 h-px w-full">
         <div
-          className="h-full bg-foreground transition-all duration-300 ease-out"
+          className="bg-foreground h-full transition-all duration-300 ease-out"
           style={{ width: `${percentage}%` }}
         />
       </div>
 
-      <div className="absolute bottom-10 right-10 overflow-hidden hidden md:block">
+      <div className="absolute right-10 bottom-10 hidden overflow-hidden md:block">
         <span className="text-[10px] font-bold tracking-widest uppercase opacity-20">
           M UMAIR KHAN / 2025
         </span>

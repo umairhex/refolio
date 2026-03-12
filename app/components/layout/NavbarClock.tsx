@@ -34,11 +34,11 @@ const NavbarClock = ({ isScrolled }: { isScrolled: boolean }) => {
 
   return (
     <div
-      className={`nav-item flex flex-col items-center justify-center transition-all duration-500 ${isScrolled ? "scale-90 opacity-40 translate-y-1 hidden xl:flex" : "flex-1 hidden lg:flex"}`}
+      className={`nav-item flex flex-col items-center justify-center transition-all duration-500 ${isScrolled ? "hidden translate-y-1 scale-90 opacity-40 xl:flex" : "hidden flex-1 lg:flex"}`}
     >
       <div className="flex items-center gap-3 text-[9px] font-bold tracking-[0.2em] uppercase">
         <span className="hidden xl:inline">{greeting}</span>
-        <span className="w-1 h-1 rounded-full bg-foreground/20 hidden xl:inline" />
+        <span className="bg-foreground/20 hidden h-1 w-1 rounded-full xl:inline" />
         <span>{time || "00:00:00 AM"}</span>
       </div>
     </div>

@@ -23,9 +23,7 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <LoadingContext.Provider value={{ isLoaded, setIsLoaded }}>
-      {children}
-    </LoadingContext.Provider>
+    <LoadingContext.Provider value={{ isLoaded, setIsLoaded }}>{children}</LoadingContext.Provider>
   );
 }
 

@@ -42,7 +42,7 @@ export default function AnimatedProjectImage({
 
   return (
     <div
-      className="relative w-full h-full overflow-hidden bg-muted"
+      className="bg-muted relative h-full w-full overflow-hidden"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       style={{ aspectRatio: `${width} / ${height}` }}
@@ -56,11 +56,9 @@ export default function AnimatedProjectImage({
           objectPosition === "top"
             ? "object-top"
             : objectPosition === "bottom"
-            ? "object-bottom"
-            : "object-center"
-        } ${
-          (isHovering || forcePlay) && isPlaying ? "opacity-0" : "opacity-100"
-        }`}
+              ? "object-bottom"
+              : "object-center"
+        } ${(isHovering || forcePlay) && isPlaying ? "opacity-0" : "opacity-100"}`}
         priority
       />
 
@@ -80,15 +78,13 @@ export default function AnimatedProjectImage({
           onPlaying={() => setIsPlaying(true)}
           onPause={() => setIsPlaying(false)}
           onEnded={() => setIsPlaying(false)}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${
+          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out ${
             objectPosition === "top"
               ? "object-top"
               : objectPosition === "bottom"
-              ? "object-bottom"
-              : "object-center"
-          } ${
-            (isHovering || forcePlay) && isPlaying ? "opacity-100" : "opacity-0"
-          }`}
+                ? "object-bottom"
+                : "object-center"
+          } ${(isHovering || forcePlay) && isPlaying ? "opacity-100" : "opacity-0"}`}
         >
           {videoSrc.endsWith(".mp4") && (
             <source src={videoSrc.replace(".mp4", ".webm")} type="video/webm" />

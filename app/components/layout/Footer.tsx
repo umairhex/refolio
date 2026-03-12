@@ -9,11 +9,7 @@ import { ArrowUpRight } from "lucide-react";
 import Container from "@/app/components/ui/Container";
 import { useClickSound } from "@/hooks/use-click-sound";
 
-const Footer = ({
-  disableBodyTheme = false,
-}: {
-  disableBodyTheme?: boolean;
-}) => {
+const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) => {
   const footerRef = useRef<HTMLElement>(null);
   const playClick = useClickSound();
 
@@ -39,7 +35,7 @@ const Footer = ({
   return (
     <footer
       ref={footerRef}
-      className="relative w-full bg-foreground text-background pt-40 pb-12 px-6 md:px-12 lg:px-24 overflow-hidden"
+      className="bg-foreground text-background relative w-full overflow-hidden px-6 pt-40 pb-12 md:px-12 lg:px-24"
     >
       <Container className="flex flex-col gap-32">
         <div className="flex flex-col items-start gap-8">
@@ -49,21 +45,20 @@ const Footer = ({
           <a
             href={`mailto:${CONTACT_EMAIL}`}
             onClick={() => playClick()}
-            className="footer-title group relative inline-block group"
+            className="footer-title group group relative inline-block"
           >
-            <h2 className="text-[14vw] md:text-[10vw] font-medium leading-[0.8] tracking-tighter uppercase transition-colors duration-500">
-              LET&apos;S <span className="italic font-arsenica">WORK</span>{" "}
-              <br /> TOGETHER
+            <h2 className="text-[14vw] leading-[0.8] font-medium tracking-tighter uppercase transition-colors duration-500 md:text-[10vw]">
+              LET&apos;S <span className="font-arsenica italic">WORK</span> <br /> TOGETHER
             </h2>
-            <div className="absolute top-0 -right-20 md:-right-32 opacity-0 group-hover:opacity-100 group-hover:translate-x-4 transition-all duration-500">
-              <ArrowUpRight className="w-20 h-20 md:w-32 md:h-32 stroke-1" />
+            <div className="absolute top-0 -right-20 opacity-0 transition-all duration-500 group-hover:translate-x-4 group-hover:opacity-100 md:-right-32">
+              <ArrowUpRight className="h-20 w-20 stroke-1 md:h-32 md:w-32" />
             </div>
           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-8 border-t border-background/10 pt-16">
+        <div className="border-background/10 grid grid-cols-1 gap-16 border-t pt-16 md:grid-cols-4 md:gap-8">
           <div className="flex flex-col gap-6">
-            <span className="text-[10px] font-bold tracking-widest opacity-40 uppercase">
+            <span className="text-[10px] font-bold tracking-widest uppercase opacity-40">
               SOCIALS
             </span>
             <div className="flex flex-col gap-3">
@@ -73,7 +68,7 @@ const Footer = ({
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-medium hover:opacity-100 transition-opacity opacity-60 capitalize"
+                  className="text-sm font-medium capitalize opacity-60 transition-opacity hover:opacity-100"
                   onClick={() => playClick()}
                 >
                   {key}
@@ -83,7 +78,7 @@ const Footer = ({
           </div>
 
           <div className="flex flex-col gap-6">
-            <span className="text-[10px] font-bold tracking-widest opacity-40 uppercase">
+            <span className="text-[10px] font-bold tracking-widest uppercase opacity-40">
               SITEMAP
             </span>
             <div className="flex flex-col gap-3">
@@ -91,7 +86,7 @@ const Footer = ({
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium opacity-60 hover:opacity-100 transition-opacity"
+                  className="text-sm font-medium opacity-60 transition-opacity hover:opacity-100"
                   onClick={() => playClick()}
                 >
                   {link.name}
@@ -101,24 +96,20 @@ const Footer = ({
           </div>
 
           <div className="flex flex-col gap-6 md:col-span-2 md:items-end">
-            <span className="text-[10px] font-bold tracking-widest opacity-40 uppercase">
+            <span className="text-[10px] font-bold tracking-widest uppercase opacity-40">
               LOCAL TIME
             </span>
-            <p className="text-3xl md:text-5xl font-medium tracking-tighter">
-              Islamabad, PK
-            </p>
+            <p className="text-3xl font-medium tracking-tighter md:text-5xl">Islamabad, PK</p>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 border-t border-background/5 pt-12 text-[10px] font-bold tracking-widest opacity-30">
-          <span>
-            © {new Date().getFullYear()} M UMAIR KHAN. ALL RIGHTS RESERVED.
-          </span>
+        <div className="border-background/5 flex flex-col items-center justify-between gap-6 border-t pt-12 text-[10px] font-bold tracking-widest opacity-30 md:flex-row">
+          <span>© {new Date().getFullYear()} M UMAIR KHAN. ALL RIGHTS RESERVED.</span>
           <span>DESIGNED & DEVELOPED WITH PASSION</span>
         </div>
       </Container>
 
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-linear-to-l from-background/5 to-transparent pointer-events-none" />
+      <div className="from-background/5 pointer-events-none absolute top-0 right-0 h-full w-1/2 bg-linear-to-l to-transparent" />
     </footer>
   );
 };

@@ -29,7 +29,7 @@ export default function FullScreenMenu({
     <div ref={container}>
       <div
         ref={menuRef}
-        className="fixed inset-0 z-100 flex-col justify-center bg-background text-foreground px-6 md:px-16 lg:px-24"
+        className="bg-background text-foreground fixed inset-0 z-100 flex-col justify-center px-6 md:px-16 lg:px-24"
         style={{ display: "none" }}
       >
         <button
@@ -37,30 +37,27 @@ export default function FullScreenMenu({
             onClose();
             playClick();
           }}
-          className="absolute top-6 right-6 md:top-10 md:right-10 flex items-center gap-3 text-[10px] md:text-[11px] font-bold tracking-[0.15em] uppercase group cursor-pointer focus:outline-none"
+          className="group absolute top-6 right-6 flex cursor-pointer items-center gap-3 text-[10px] font-bold tracking-[0.15em] uppercase focus:outline-none md:top-10 md:right-10 md:text-[11px]"
           tabIndex={isOpen ? 0 : -1}
           aria-label="Close Menu"
         >
           <span>CLOSE</span>
-          <div className="w-[18px] h-[18px] rounded-full border-[1.5px] border-foreground/40 group-hover:border-foreground transition-colors flex items-center justify-center">
-            <div className="w-[3px] h-[3px] bg-foreground rounded-full animate-pulse" />
+          <div className="border-foreground/40 group-hover:border-foreground flex h-[18px] w-[18px] items-center justify-center rounded-full border-[1.5px] transition-colors">
+            <div className="bg-foreground h-[3px] w-[3px] animate-pulse rounded-full" />
           </div>
         </button>
 
-        <div className="flex flex-col mt-16 md:mt-0">
+        <div className="mt-16 flex flex-col md:mt-0">
           {NAV_LINKS.map((link, i) => {
             const isActive = pathname === link.href;
             return (
-              <div
-                key={i}
-                className="border-b border-foreground/5 last:border-0 group"
-              >
+              <div key={i} className="border-foreground/5 group border-b last:border-0">
                 <div
-                  className="overflow-hidden w-full"
+                  className="w-full overflow-hidden"
                   style={{ padding: "20px 0", margin: "-20px 0" }}
                 >
                   <div
-                    className="menu-link transform origin-top-left w-full"
+                    className="menu-link w-full origin-top-left transform"
                     style={{ perspective: "1000px" }}
                   >
                     <Link
@@ -71,8 +68,7 @@ export default function FullScreenMenu({
                       }}
                       tabIndex={isOpen ? 0 : -1}
                       onMouseEnter={(e) => {
-                        const text =
-                          e.currentTarget.querySelector(".menu-text");
+                        const text = e.currentTarget.querySelector(".menu-text");
                         const bar = e.currentTarget.querySelector(".menu-bar");
                         gsap.killTweensOf([text, bar]);
                         gsap.to(text, {
@@ -91,8 +87,7 @@ export default function FullScreenMenu({
                         });
                       }}
                       onMouseLeave={(e) => {
-                        const text =
-                          e.currentTarget.querySelector(".menu-text");
+                        const text = e.currentTarget.querySelector(".menu-text");
                         const bar = e.currentTarget.querySelector(".menu-bar");
                         gsap.killTweensOf([text, bar]);
                         gsap.to(text, {
@@ -110,7 +105,7 @@ export default function FullScreenMenu({
                           ease: "power4.out",
                         });
                       }}
-                      className="font-arsenica-display relative block w-full text-[14vw] md:text-[10vw] lg:text-[90px] font-medium leading-none tracking-tighter uppercase cursor-pointer py-3 md:py-5 focus:outline-none"
+                      className="font-arsenica-display relative block w-full cursor-pointer py-3 text-[14vw] leading-none font-medium tracking-tighter uppercase focus:outline-none md:py-5 md:text-[10vw] lg:text-[90px]"
                       style={{
                         transformStyle: "preserve-3d",
                         opacity: isActive ? 1 : 0.4,
@@ -118,19 +113,19 @@ export default function FullScreenMenu({
                       }}
                     >
                       <div
-                        className="menu-bar absolute top-0 left-0 w-full h-full bg-foreground pointer-events-none z-0"
+                        className="menu-bar bg-foreground pointer-events-none absolute top-0 left-0 z-0 h-full w-full"
                         style={{
                           transform: "scaleX(0) scaleY(0.05)",
                           transformOrigin: "left center",
                         }}
                       />
                       <span
-                        className="menu-text transform-gpu origin-left relative z-10 pl-2 lg:pl-4 pb-2 flex items-center gap-6"
+                        className="menu-text relative z-10 flex origin-left transform-gpu items-center gap-6 pb-2 pl-2 lg:pl-4"
                         style={{ transformStyle: "preserve-3d" }}
                       >
                         {link.name}
                         {isActive && (
-                          <span className="text-[10px] tracking-[0.4em] italic font-bold opacity-30 mt-4 md:mt-8">
+                          <span className="mt-4 text-[10px] font-bold tracking-[0.4em] italic opacity-30 md:mt-8">
                             (CURRENT)
                           </span>
                         )}
@@ -143,7 +138,7 @@ export default function FullScreenMenu({
           })}
         </div>
 
-        <div className="absolute bottom-6 md:bottom-10 left-6 right-6 md:left-16 lg:left-24 md:right-16 lg:right-24 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-[10px] md:text-[11px] tracking-[0.15em] uppercase text-foreground/50 border-t border-foreground/10 pt-6">
+        <div className="text-foreground/50 border-foreground/10 absolute right-6 bottom-6 left-6 flex flex-col items-start justify-between gap-4 border-t pt-6 text-[10px] tracking-[0.15em] uppercase md:right-16 md:bottom-10 md:left-16 md:flex-row md:items-center md:text-[11px] lg:right-24 lg:left-24">
           <span>{`© ${new Date().getFullYear()} M UMAIR KHAN`}</span>
           <div className="flex gap-6">
             {SOCIAL_PROFILES.map((p) => (
@@ -152,7 +147,7 @@ export default function FullScreenMenu({
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-foreground transition-colors cursor-pointer capitalize"
+                className="hover:text-foreground cursor-pointer capitalize transition-colors"
                 onClick={() => playClick()}
                 tabIndex={isOpen ? 0 : -1}
               >

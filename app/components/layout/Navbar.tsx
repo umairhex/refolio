@@ -12,11 +12,7 @@ import NavbarClock from "./NavbarClock";
 import FullScreenMenu from "./FullScreenMenu";
 import { gsap, useGSAP } from "@/lib/gsap";
 
-import {
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 export default function Navbar() {
   const { setTheme, resolvedTheme } = useTheme();
@@ -70,29 +66,29 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
+        className={`fixed top-0 left-0 z-50 w-full transition-all duration-500 ease-in-out ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         } ${
           isScrolled && !isMenuOpen
-            ? "bg-background/80 md:bg-transparent backdrop-blur-xl md:backdrop-blur-0"
-            : "bg-linear-to-b from-background/40 to-transparent pointer-events-none"
+            ? "bg-background/80 md:backdrop-blur-0 backdrop-blur-xl md:bg-transparent"
+            : "from-background/40 pointer-events-none bg-linear-to-b to-transparent"
         }`}
       >
         <div className="pointer-events-none" />
         <nav
           ref={navRef}
-          className={`mx-auto transition-all duration-700 ease-expo-out flex items-center justify-between px-6 md:px-10 py-3 md:py-4 border border-foreground/5 text-foreground overflow-hidden pointer-events-auto ${
+          className={`ease-expo-out border-foreground/5 text-foreground pointer-events-auto mx-auto flex items-center justify-between overflow-hidden border px-6 py-3 transition-all duration-700 md:px-10 md:py-4 ${
             isScrolled
-              ? "mt-[calc(1rem+1vh)] w-[95%] md:w-[92%] xl:w-[85%] 2xl:w-[75%] bg-background/80 backdrop-blur-2xl rounded-full md:rounded-[24px] shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-foreground/10 py-3 px-8"
-              : "mt-0 w-full bg-transparent border-transparent py-[clamp(1.5rem,4vh,3rem)]"
+              ? "bg-background/80 border-foreground/10 mt-[calc(1rem+1vh)] w-[95%] rounded-full border px-8 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.1)] backdrop-blur-2xl md:w-[92%] md:rounded-[24px] xl:w-[85%] 2xl:w-[75%]"
+              : "mt-0 w-full border-transparent bg-transparent py-[clamp(1.5rem,4vh,3rem)]"
           }`}
         >
           <motion.div
-            className="absolute bottom-0 left-0 right-0 h-px bg-foreground/20 z-60"
+            className="bg-foreground/20 absolute right-0 bottom-0 left-0 z-60 h-px"
             style={{ scaleX, transformOrigin: "0%" }}
           />
 
-          <div className="flex-1 flex justify-start nav-item">
+          <div className="nav-item flex flex-1 justify-start">
             <Link
               href="/"
               onClick={() => playClick()}
@@ -100,7 +96,7 @@ export default function Navbar() {
               aria-label="Go to home"
             >
               <span
-                className="font-arsenica-display text-2xl md:text-4xl font-medium cursor-pointer block transform-gpu nav-logo"
+                className="font-arsenica-display nav-logo block transform-gpu cursor-pointer text-2xl font-medium md:text-4xl"
                 onMouseEnter={(e) => {
                   gsap.to(e.currentTarget, {
                     rotateY: 20,
@@ -132,9 +128,9 @@ export default function Navbar() {
 
           <NavbarClock isScrolled={isScrolled} />
 
-          <div className="flex-1 flex justify-end items-center gap-4 md:gap-6 nav-item">
-            <div className="hidden lg:flex items-center gap-6">
-              <div className="items-center gap-2 text-[10px] font-bold tracking-widest text-foreground/40 hidden xl:flex">
+          <div className="nav-item flex flex-1 items-center justify-end gap-4 md:gap-6">
+            <div className="hidden items-center gap-6 lg:flex">
+              <div className="text-foreground/40 hidden items-center gap-2 text-[10px] font-bold tracking-widest xl:flex">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <button
@@ -166,9 +162,9 @@ export default function Navbar() {
                 </Tooltip>
               </div>
 
-              <div className="h-4 w-px bg-foreground/10 hidden xl:block" />
+              <div className="bg-foreground/10 hidden h-4 w-px xl:block" />
 
-              <div className="items-center gap-4 hidden xl:flex">
+              <div className="hidden items-center gap-4 xl:flex">
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <a
@@ -176,7 +172,7 @@ export default function Navbar() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => playClick()}
-                      className="opacity-40 hover:opacity-100 transition-opacity focus:outline-none"
+                      className="opacity-40 transition-opacity hover:opacity-100 focus:outline-none"
                     >
                       <Github size={15} />
                     </a>
@@ -188,7 +184,7 @@ export default function Navbar() {
                     <Link
                       href="/contact"
                       onClick={() => playClick()}
-                      className="opacity-40 hover:opacity-100 transition-opacity focus:outline-none"
+                      className="opacity-40 transition-opacity hover:opacity-100 focus:outline-none"
                     >
                       <Mail size={15} />
                     </Link>
@@ -201,7 +197,7 @@ export default function Navbar() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 px-4 py-1.5 bg-foreground text-background text-[10px] font-bold tracking-widest uppercase rounded-full hover:shadow-lg transition-shadow"
+                  className="bg-foreground text-background flex items-center gap-2 rounded-full px-4 py-1.5 text-[10px] font-bold tracking-widest uppercase transition-shadow hover:shadow-lg"
                 >
                   <span className="hidden sm:inline">Hire Me</span>
                   <MousePointer2 size={10} />
@@ -214,13 +210,13 @@ export default function Navbar() {
                 setIsMenuOpen(true);
                 playClick();
               }}
-              className={`flex items-center gap-3 text-[10px] font-bold tracking-[0.2em] uppercase group transform transition-all duration-500 focus:outline-none ${isScrolled ? "scale-105" : ""}`}
+              className={`group flex transform items-center gap-3 text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-500 focus:outline-none ${isScrolled ? "scale-105" : ""}`}
             >
               <span className="hidden md:inline">Menu</span>
-              <div className="relative w-8 h-8 rounded-full border border-foreground/10 flex items-center justify-center group-hover:bg-foreground group-hover:text-background transition-all duration-500 overflow-hidden">
-                <div className="flex flex-col gap-1 items-center">
-                  <div className="w-3 h-px bg-current" />
-                  <div className="w-3 h-px bg-current opacity-60" />
+              <div className="border-foreground/10 group-hover:bg-foreground group-hover:text-background relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border transition-all duration-500">
+                <div className="flex flex-col items-center gap-1">
+                  <div className="h-px w-3 bg-current" />
+                  <div className="h-px w-3 bg-current opacity-60" />
                 </div>
               </div>
             </button>
@@ -228,10 +224,7 @@ export default function Navbar() {
         </nav>
       </header>
 
-      <FullScreenMenu
-        isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
-      />
+      <FullScreenMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </>
   );
 }

@@ -27,9 +27,9 @@ export function getPostBySlug(slug: string): BlogPost {
   const realSlug = slug.replace(/\.mdx$/, "");
   const fullPath = path.join(contentDir, `${realSlug}.mdx`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
-  
+
   const { data, content } = matter(fileContents);
-  
+
   return {
     slug: realSlug,
     title: data.title,

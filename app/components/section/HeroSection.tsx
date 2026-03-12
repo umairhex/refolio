@@ -90,26 +90,25 @@ const HeroSection = () => {
   return (
     <section
       ref={container}
-      className="relative w-full h-screen min-h-[800px] flex items-center justify-center bg-background overflow-hidden px-6 md:px-12 lg:px-24 pt-[calc(2rem+5vh)] noise"
+      className="bg-background noise relative flex h-screen min-h-[800px] w-full items-center justify-center overflow-hidden px-6 pt-[calc(2rem+5vh)] md:px-12 lg:px-24"
     >
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
-        <h2 className="hero-bg-text text-[25vw] font-black tracking-tighter opacity-0 text-stroke whitespace-nowrap">
+      <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center select-none">
+        <h2 className="hero-bg-text text-stroke text-[25vw] font-black tracking-tighter whitespace-nowrap opacity-0">
           M UMAIR KHAN
         </h2>
       </div>
 
       <div
         ref={heroGrid}
-        className="relative z-10 w-full max-w-[1600px] hidden md:grid grid-cols-12 gap-8 items-center perspective-1000"
+        className="perspective-1000 relative z-10 hidden w-full max-w-[1600px] grid-cols-12 items-center gap-8 md:grid"
       >
         <div className="col-span-3 flex flex-col gap-12">
           <div className="hero-tag flex flex-col gap-4">
             <span className="text-[10px] font-bold tracking-[0.4em] uppercase opacity-40">
               SPECIALIZATION
             </span>
-            <p className="text-sm font-medium leading-relaxed max-w-[200px]">
-              Full-Stack Engineer specialized in AI-powered systems and rapid
-              feature delivery.
+            <p className="max-w-[200px] text-sm leading-relaxed font-medium">
+              Full-Stack Engineer specialized in AI-powered systems and rapid feature delivery.
             </p>
           </div>
 
@@ -117,55 +116,53 @@ const HeroSection = () => {
             <span className="text-[10px] font-bold tracking-[0.4em] uppercase opacity-40">
               LOCATION
             </span>
-            <p className="font-arsenica text-sm font-medium italic">
-              Islamabad — Pakistan
-            </p>
+            <p className="font-arsenica text-sm font-medium italic">Islamabad — Pakistan</p>
           </div>
         </div>
 
-        <div className="md:col-span-6 flex flex-col items-center justify-center relative">
-          <div className="hero-image-box relative w-full aspect-3.5/5 max-w-[500px] overflow-hidden shadow-2xl grayscale transition-all duration-700 hover:grayscale-0">
+        <div className="relative flex flex-col items-center justify-center md:col-span-6">
+          <div className="hero-image-box relative aspect-3.5/5 w-full max-w-[500px] overflow-hidden shadow-2xl grayscale transition-all duration-700 hover:grayscale-0">
             <Image
               src="/assets/images/umair.webp"
               alt="Umair"
               fill
-              className="object-cover scale-110"
+              className="scale-110 object-cover"
               priority
             />
 
             <div className="absolute bottom-6 left-6 flex items-center gap-4">
-              <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <div className="h-2 w-2 animate-pulse rounded-full bg-white" />
               <span className="text-[10px] font-bold tracking-widest text-white uppercase">
                 Active Now
               </span>
             </div>
           </div>
 
-          <div className="absolute top-[65%] -left-20 z-20 pointer-events-none mix-blend-difference">
-            <div className="overflow-hidden flex justify-start">
-              <h1 className="hero-title-word text-[9vw] font-black leading-none tracking-tighter text-foreground">
+          <div className="pointer-events-none absolute top-[65%] -left-20 z-20 mix-blend-difference">
+            <div className="flex justify-start overflow-hidden">
+              <h1 className="hero-title-word text-foreground text-[9vw] leading-none font-black tracking-tighter">
                 FULL
               </h1>
             </div>
           </div>
         </div>
 
-        <div className="md:col-span-3 flex flex-col md:items-end justify-between h-full py-12">
-          <div className="overflow-hidden mb-auto mix-blend-difference flex justify-end">
-            <h1 className="hero-title-word text-[9vw] font-black leading-none tracking-tighter text-foreground">
+        <div className="flex h-full flex-col justify-between py-12 md:col-span-3 md:items-end">
+          <div className="mb-auto flex justify-end overflow-hidden mix-blend-difference">
+            <h1 className="hero-title-word text-foreground text-[9vw] leading-none font-black tracking-tighter">
               STACK
             </h1>
           </div>
 
-          <div className="flex flex-col md:items-end gap-12">
+          <div className="flex flex-col gap-12 md:items-end">
             <div className="overflow-hidden mix-blend-difference">
-              <h2 className="hero-title-word font-arsenica text-[6vw] font-medium leading-none tracking-tighter italic text-foreground">
+              <h2 className="hero-title-word font-arsenica text-foreground text-[6vw] leading-none font-medium tracking-tighter italic">
                 Engineer
               </h2>
             </div>
 
             <div
-              className="hero-tag flex flex-col items-end gap-6 group cursor-pointer"
+              className="hero-tag group flex cursor-pointer flex-col items-end gap-6"
               onClick={() => {
                 playClick();
                 const experienceSection = document.getElementById("about");
@@ -175,14 +172,14 @@ const HeroSection = () => {
               }}
             >
               <div className="flex items-center gap-4">
-                <span className="text-[11px] font-bold tracking-[0.2em] uppercase group-hover:opacity-100 opacity-40 transition-opacity duration-500">
+                <span className="text-[11px] font-bold tracking-[0.2em] uppercase opacity-40 transition-opacity duration-500 group-hover:opacity-100">
                   Scroll to explore
                 </span>
-                <div className="relative w-12 h-12 rounded-full border border-foreground flex items-center justify-center overflow-hidden transition-colors duration-500 group-hover:border-transparent">
-                  <div className="absolute inset-0 bg-foreground translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-power4.out" />
+                <div className="border-foreground relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border transition-colors duration-500 group-hover:border-transparent">
+                  <div className="bg-foreground ease-power4.out absolute inset-0 translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
                   <ArrowDownRight
                     size={18}
-                    className="relative z-10 transition-all duration-500 group-hover:text-background "
+                    className="group-hover:text-background relative z-10 transition-all duration-500"
                   />
                 </div>
               </div>
@@ -193,10 +190,10 @@ const HeroSection = () => {
 
       <MobileHero />
 
-      <div className="absolute top-0 left-0 w-full h-px bg-foreground/5" />
-      <div className="absolute bottom-0 left-0 w-full h-px bg-foreground/5" />
-      <div className="absolute top-0 left-0 w-px h-full bg-foreground/5 ml-12 hidden md:block" />
-      <div className="absolute top-0 right-0 w-px h-full bg-foreground/5 mr-12 hidden md:block" />
+      <div className="bg-foreground/5 absolute top-0 left-0 h-px w-full" />
+      <div className="bg-foreground/5 absolute bottom-0 left-0 h-px w-full" />
+      <div className="bg-foreground/5 absolute top-0 left-0 ml-12 hidden h-full w-px md:block" />
+      <div className="bg-foreground/5 absolute top-0 right-0 mr-12 hidden h-full w-px md:block" />
     </section>
   );
 };

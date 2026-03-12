@@ -68,32 +68,26 @@ const WorkSection = ({ limit = 4 }: WorkSectionProps) => {
   );
 
   return (
-    <PageSection
-      ref={containerRef}
-      id="work"
-      className="relative w-full bg-background pt-32 pb-64"
-    >
+    <PageSection ref={containerRef} id="work" className="bg-background relative w-full pt-32 pb-64">
       <Container className="flex flex-col gap-24 md:gap-40">
-        <div className="flex flex-col md:flex-row md:justify-between items-start md:items-end border-b border-foreground/10 pb-6 md:pb-8 gap-4 md:gap-0">
-          <h2 className="text-4xl md:text-6xl font-medium tracking-tighter max-w-[80vw]">
+        <div className="border-foreground/10 flex flex-col items-start gap-4 border-b pb-6 md:flex-row md:items-end md:justify-between md:gap-0 md:pb-8">
+          <h2 className="max-w-[80vw] text-4xl font-medium tracking-tighter md:text-6xl">
             SELECTED PROJECTS
           </h2>
-          <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] opacity-40 uppercase pb-2">
+          <span className="pb-2 text-[10px] font-bold tracking-[0.2em] uppercase opacity-40 md:text-[11px]">
             ({limit.toString().padStart(2, "0")}) — WORK
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-40">
+        <div className="grid grid-cols-1 gap-x-20 gap-y-40 md:grid-cols-2">
           {PROJECTS.slice(0, limit).map((project, index) => (
             <Link
               href={`/work/${project.slug}`}
               key={project.id}
               onClick={() => playClick()}
-              className={`project-item group flex flex-col ${
-                index % 2 !== 0 ? "md:mt-40" : ""
-              }`}
+              className={`project-item group flex flex-col ${index % 2 !== 0 ? "md:mt-40" : ""}`}
             >
-              <div className="project-image-wrapper relative w-full aspect-4/5 overflow-hidden bg-muted mb-8 group-hover:shadow-2xl transition-shadow duration-500">
+              <div className="project-image-wrapper bg-muted relative mb-8 aspect-4/5 w-full overflow-hidden transition-shadow duration-500 group-hover:shadow-2xl">
                 <AnimatedProjectImage
                   src={project.image}
                   alt={project.title}
@@ -101,29 +95,27 @@ const WorkSection = ({ limit = 4 }: WorkSectionProps) => {
                 />
 
                 <div className="absolute bottom-6 left-6 z-10">
-                  <span className="px-4 py-2 bg-background/80 backdrop-blur-md rounded-full text-[10px] font-bold tracking-widest uppercase border border-foreground/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span className="bg-background/80 border-foreground/5 rounded-full border px-4 py-2 text-[10px] font-bold tracking-widest uppercase opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100">
                     {project.category}
                   </span>
                 </div>
               </div>
 
               <div className="project-info flex flex-col gap-4">
-                <div className="flex justify-between items-start">
-                  <h3 className="font-arsenica text-3xl md:text-5xl font-medium tracking-tight hero-text italic">
+                <div className="flex items-start justify-between">
+                  <h3 className="font-arsenica hero-text text-3xl font-medium tracking-tight italic md:text-5xl">
                     {project.title}
                   </h3>
-                  <span className="text-sm font-bold opacity-40 pt-2">
-                    {project.year}
-                  </span>
+                  <span className="pt-2 text-sm font-bold opacity-40">{project.year}</span>
                 </div>
 
-                <p className="text-foreground/60 max-w-sm leading-relaxed text-sm md:text-base">
+                <p className="text-foreground/60 max-w-sm text-sm leading-relaxed md:text-base">
                   {project.description}
                 </p>
 
-                <div className="flex items-center gap-4 mt-4 overflow-hidden group/link">
-                  <div className="w-8 h-px bg-foreground/20 group-hover/link:w-16 transition-all duration-500" />
-                  <span className="text-[10px] font-bold tracking-[0.2em] uppercase cursor-pointer">
+                <div className="group/link mt-4 flex items-center gap-4 overflow-hidden">
+                  <div className="bg-foreground/20 h-px w-8 transition-all duration-500 group-hover/link:w-16" />
+                  <span className="cursor-pointer text-[10px] font-bold tracking-[0.2em] uppercase">
                     View Project
                   </span>
                 </div>
@@ -132,18 +124,18 @@ const WorkSection = ({ limit = 4 }: WorkSectionProps) => {
           ))}
         </div>
 
-        <div className="flex justify-center mt-0 md:mt-12">
+        <div className="mt-0 flex justify-center md:mt-12">
           <Link
             href="/work"
             onClick={() => playClick()}
-            className="group relative flex items-center gap-8 px-12 py-6 rounded-full border border-foreground/30 hover:border-foreground text-foreground bg-foreground/3 backdrop-blur-sm transition-all duration-500 overflow-hidden"
+            className="group border-foreground/30 hover:border-foreground text-foreground bg-foreground/3 relative flex items-center gap-8 overflow-hidden rounded-full border px-12 py-6 backdrop-blur-sm transition-all duration-500"
           >
-            <span className="relative z-10 text-[11px] font-bold tracking-[0.3em] uppercase group-hover:text-background transition-colors duration-500">
+            <span className="group-hover:text-background relative z-10 text-[11px] font-bold tracking-[0.3em] uppercase transition-colors duration-500">
               VIEW ALL PROJECTS
             </span>
-            <div className="relative z-10 w-2 h-2 rounded-full bg-foreground group-hover:scale-[3] transition-transform duration-500 group-hover:bg-background" />
+            <div className="bg-foreground group-hover:bg-background relative z-10 h-2 w-2 rounded-full transition-transform duration-500 group-hover:scale-[3]" />
 
-            <div className="absolute inset-0 bg-foreground translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-power4.out" />
+            <div className="bg-foreground ease-power4.out absolute inset-0 translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
           </Link>
         </div>
       </Container>

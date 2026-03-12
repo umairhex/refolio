@@ -43,21 +43,21 @@ const BlogList = ({ posts }: { posts: BlogPost[] }) => {
   );
 
   return (
-    <main ref={containerRef} className="min-h-screen bg-background">
+    <main ref={containerRef} className="bg-background min-h-screen">
       <Navbar />
 
       <PageSection className="pt-40 pb-20">
-        <Container className="flex flex-col gap-6 border-b border-foreground/10 pb-20">
+        <Container className="border-foreground/10 flex flex-col gap-6 border-b pb-20">
           <div className="overflow-hidden">
-            <h1 className="font-arsenica blog-header-text text-[15vw] md:text-[8vw] font-medium leading-[0.8] tracking-tighter uppercase italic">
+            <h1 className="font-arsenica blog-header-text text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase italic md:text-[8vw]">
               Digital
             </h1>
           </div>
-          <div className="overflow-hidden flex justify-between items-end">
-            <h1 className="blog-header-text text-[15vw] md:text-[8vw] font-medium leading-[0.8] tracking-tighter uppercase">
+          <div className="flex items-end justify-between overflow-hidden">
+            <h1 className="blog-header-text text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase md:text-[8vw]">
               Journal
             </h1>
-            <span className="blog-header-text text-[11px] font-bold tracking-[0.3em] uppercase opacity-40 pb-4 hidden md:block">
+            <span className="blog-header-text hidden pb-4 text-[11px] font-bold tracking-[0.3em] uppercase opacity-40 md:block">
               ({posts.length.toString().padStart(2, "0")}) — ENTRIES
             </span>
           </div>
@@ -70,21 +70,21 @@ const BlogList = ({ posts }: { posts: BlogPost[] }) => {
             <Link
               key={post.slug}
               href={`/blogs/${post.slug}`}
-              className="blog-row group relative flex flex-col md:flex-row md:items-center justify-between py-12 md:py-16 border-b border-foreground/5 transition-colors duration-500 hover:border-foreground px-4"
+              className="blog-row group border-foreground/5 hover:border-foreground relative flex flex-col justify-between border-b px-4 py-12 transition-colors duration-500 md:flex-row md:items-center md:py-16"
             >
-              <div className="flex items-start md:items-center gap-6 md:gap-16 z-10 w-full md:w-3/5">
-                <span className="text-[10px] md:text-sm font-bold opacity-30 group-hover:opacity-100 transition-opacity mt-1 md:mt-0">
+              <div className="z-10 flex w-full items-start gap-6 md:w-3/5 md:items-center md:gap-16">
+                <span className="mt-1 text-[10px] font-bold opacity-30 transition-opacity group-hover:opacity-100 md:mt-0 md:text-sm">
                   {(posts.length - i).toString().padStart(2, "0")}
                 </span>
                 <div className="flex flex-col gap-3">
-                  <h2 className="font-arsenica text-3xl md:text-5xl font-medium tracking-tight uppercase block transition-all duration-500 group-hover:-skew-x-12 group-hover:-rotate-1 group-hover:translate-x-2 origin-left pr-4">
+                  <h2 className="font-arsenica block origin-left pr-4 text-3xl font-medium tracking-tight uppercase transition-all duration-500 group-hover:translate-x-2 group-hover:-rotate-1 group-hover:-skew-x-12 md:text-5xl">
                     {post.title}
                   </h2>
-                  <p className="text-sm md:text-base opacity-50 font-medium max-w-lg mt-2 hidden md:block">
+                  <p className="mt-2 hidden max-w-lg text-sm font-medium opacity-50 md:block md:text-base">
                     {post.summary}
                   </p>
 
-                  <div className="flex items-center gap-6 mt-4 opacity-0 group-hover:opacity-80 transition-opacity duration-500 translate-y-2 group-hover:translate-y-0 transform">
+                  <div className="mt-4 flex translate-y-2 transform items-center gap-6 opacity-0 transition-opacity duration-500 group-hover:translate-y-0 group-hover:opacity-80">
                     <span className="text-[10px] font-bold tracking-widest uppercase opacity-60">
                       {post.date}
                     </span>
@@ -95,16 +95,16 @@ const BlogList = ({ posts }: { posts: BlogPost[] }) => {
                 </div>
               </div>
 
-              <div className="fixed pointer-events-none opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 top-1/2 right-20 -translate-y-1/2 w-80 h-48 z-0 transition-transform duration-700 ease-power4.out hidden lg:block overflow-hidden shadow-2xl bg-muted rounded-md">
+              <div className="ease-power4.out bg-muted pointer-events-none fixed top-1/2 right-20 z-0 hidden h-48 w-80 -translate-y-1/2 scale-50 overflow-hidden rounded-md opacity-0 shadow-2xl transition-transform duration-700 group-hover:scale-100 group-hover:opacity-100 lg:block">
                 <Image
                   src={post.image}
                   alt={post.title}
                   fill
-                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 bg-background text-transparent"
+                  className="bg-background object-cover text-transparent grayscale transition-all duration-700 group-hover:grayscale-0"
                 />
               </div>
 
-              <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/2 transition-colors duration-500 -z-10" />
+              <div className="bg-foreground/0 group-hover:bg-foreground/2 absolute inset-0 -z-10 transition-colors duration-500" />
             </Link>
           ))}
         </Container>

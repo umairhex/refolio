@@ -17,15 +17,15 @@ const SocialLinkCard = ({ profile, onClick }: SocialLinkCardProps) => {
       target="_blank"
       rel="noopener noreferrer"
       onClick={onClick}
-      className="group flex flex-col gap-2 py-4 border-b border-foreground/5 hover:border-foreground transition-colors duration-500"
+      className="group border-foreground/5 hover:border-foreground flex flex-col gap-2 border-b py-4 transition-colors duration-500"
     >
-      <span className="text-xs opacity-40 uppercase font-bold tracking-widest flex items-center gap-2">
+      <span className="flex items-center gap-2 text-xs font-bold tracking-widest uppercase opacity-40">
         <Icon size={16} />
         {profile.key}
       </span>
       <div className="flex items-center justify-between">
         <span className="text-lg font-medium">{profile.handle}</span>
-        <ArrowRight className="w-4 h-4 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+        <ArrowRight className="h-4 w-4 -translate-x-4 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
       </div>
     </a>
   );

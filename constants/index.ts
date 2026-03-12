@@ -323,12 +323,7 @@ export const SKILLS: SkillCategory[] = [
   },
   {
     category: "SYSTEMS & CLOUD",
-    items: [
-      "Node.js / Python",
-      "Nginx / GraphQL",
-      "Docker / K8s",
-      "AWS / Terraform",
-    ],
+    items: ["Node.js / Python", "Nginx / GraphQL", "Docker / K8s", "AWS / Terraform"],
   },
   {
     category: "AUTOMATION & AI",
@@ -336,12 +331,7 @@ export const SKILLS: SkillCategory[] = [
   },
   {
     category: "SQA & QUALITY",
-    items: [
-      "Playwright / Cypress",
-      "Jest / Vitest",
-      "Load Testing",
-      "Security Audits",
-    ],
+    items: ["Playwright / Cypress", "Jest / Vitest", "Load Testing", "Security Audits"],
   },
 ];
 
