@@ -41,7 +41,8 @@ const MobileHero = () => {
             SPECIALIZATION
           </span>
           <p className="text-sm font-medium leading-relaxed max-w-[280px]">
-            Full-Stack Engineer specialized in AI-powered systems and rapid feature delivery.
+            Full-Stack Engineer specialized in AI-powered systems and rapid
+            feature delivery.
           </p>
         </div>
 
@@ -50,7 +51,7 @@ const MobileHero = () => {
             LOCATION
           </span>
           <p className="font-arsenica text-sm font-medium italic">
-            Rawalpindi — Pakistan
+            Islamabad — Pakistan
           </p>
         </div>
       </div>

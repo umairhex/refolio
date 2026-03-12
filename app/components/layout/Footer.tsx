@@ -9,7 +9,11 @@ import { ArrowUpRight } from "lucide-react";
 import Container from "@/app/components/ui/Container";
 import { useClickSound } from "@/hooks/use-click-sound";
 
-const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) => {
+const Footer = ({
+  disableBodyTheme = false,
+}: {
+  disableBodyTheme?: boolean;
+}) => {
   const footerRef = useRef<HTMLElement>(null);
   const playClick = useClickSound();
 
@@ -48,12 +52,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
             className="footer-title group relative inline-block group"
           >
             <h2 className="text-[14vw] md:text-[10vw] font-medium leading-[0.8] tracking-tighter uppercase transition-colors duration-500">
-              LET&apos;S{" "}
-              <span
-                className="italic font-arsenica"
-              >
-                WORK
-              </span>{" "}
+              LET&apos;S <span className="italic font-arsenica">WORK</span>{" "}
               <br /> TOGETHER
             </h2>
             <div className="absolute top-0 -right-20 md:-right-32 opacity-0 group-hover:opacity-100 group-hover:translate-x-4 transition-all duration-500">
@@ -106,7 +105,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
               LOCAL TIME
             </span>
             <p className="text-3xl md:text-5xl font-medium tracking-tighter">
-              Rawalpindi, PK
+              Islamabad, PK
             </p>
           </div>
         </div>

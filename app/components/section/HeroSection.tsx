@@ -108,7 +108,8 @@ const HeroSection = () => {
               SPECIALIZATION
             </span>
             <p className="text-sm font-medium leading-relaxed max-w-[200px]">
-              Full-Stack Engineer specialized in AI-powered systems and rapid feature delivery.
+              Full-Stack Engineer specialized in AI-powered systems and rapid
+              feature delivery.
             </p>
           </div>
 
@@ -117,7 +118,7 @@ const HeroSection = () => {
               LOCATION
             </span>
             <p className="font-arsenica text-sm font-medium italic">
-              Rawalpindi — Pakistan
+              Islamabad — Pakistan
             </p>
           </div>
         </div>

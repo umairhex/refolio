@@ -20,17 +20,34 @@ const ProjectRow = ({ project }: { project: (typeof PROJECTS)[0] }) => {
     () => {
       if (!rowRef.current || !imageRef.current) return;
 
+      const xTo = gsap.quickTo(imageRef.current, "x", {
+        duration: 0.4,
+        ease: "power3",
+      });
+      const yTo = gsap.quickTo(imageRef.current, "y", {
+        duration: 0.4,
+        ease: "power3",
+      });
+
       const moveImage = (e: MouseEvent) => {
-        gsap.to(imageRef.current, {
+        xTo(e.clientX);
+        yTo(e.clientY);
+      };
+
+      const handleMouseEnter = (e: MouseEvent) => {
+        gsap.set(imageRef.current, {
           x: e.clientX,
           y: e.clientY,
-          duration: 0.1,
-          ease: "none",
         });
       };
 
       rowRef.current.addEventListener("mousemove", moveImage);
-      return () => rowRef.current?.removeEventListener("mousemove", moveImage);
+      rowRef.current.addEventListener("mouseenter", handleMouseEnter);
+
+      return () => {
+        rowRef.current?.removeEventListener("mousemove", moveImage);
+        rowRef.current?.removeEventListener("mouseenter", handleMouseEnter);
+      };
     },
     { scope: rowRef },
   );
@@ -108,6 +125,7 @@ const WorkPage = () => {
           duration: 0.8,
           stagger: 0.05,
           ease: "power3.out",
+          clearProps: "transform",
         },
         "-=0.6",
       );
