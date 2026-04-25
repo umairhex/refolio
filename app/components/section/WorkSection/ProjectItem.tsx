@@ -1,7 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import { SoundLink } from "@/app/components/ui/SoundLink";
-import AnimatedProjectImage from "@/app/components/ui/AnimatedProjectImage";
 import { Project } from "@/types";
 
 interface ProjectItemProps {
@@ -16,15 +16,18 @@ export const ProjectItem = ({ project, index }: ProjectItemProps) => {
       key={project.id}
       className={`project-item group flex flex-col ${index % 2 !== 0 ? "md:mt-40" : ""}`}
     >
-      <div className="project-image-wrapper bg-muted relative mb-8 aspect-4/5 w-full overflow-hidden transition-shadow duration-500 group-hover:shadow-2xl">
-        <AnimatedProjectImage
+      <div className="project-image-wrapper bg-muted relative mb-8 aspect-4/5 w-full overflow-hidden">
+        <Image
           src={project.image}
           alt={project.title}
-          videoSrc={project.video}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover"
+          priority
         />
 
         <div className="absolute bottom-6 left-6 z-10">
-          <span className="bg-background/80 border-foreground/5 rounded-full border px-4 py-2 text-[10px] font-bold tracking-widest uppercase opacity-0 backdrop-blur-md transition-opacity duration-300 group-hover:opacity-100">
+          <span className="bg-background/80 border-foreground/5 rounded-full border px-4 py-2 text-[10px] font-bold tracking-widest uppercase opacity-100 backdrop-blur-md">
             {project.category}
           </span>
         </div>

@@ -72,7 +72,7 @@ export default function FullScreenMenu({
       <div
         ref={menuRef}
         className="bg-background text-foreground fixed inset-0 z-100 flex-col justify-center px-6 md:px-16 lg:px-24"
-        style={{ display: "none" }}
+        aria-hidden={!isOpen}
       >
         <SoundButton
           onClick={onClose}

@@ -14,7 +14,7 @@ export default function Preloader() {
   const wordRef = useRef<HTMLSpanElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const words = ["ENGINEERING", "AESTHETICS", "PRECISION", "BRUTALISM"];
+  const words = ["FULLSTACK", "CLOUD", "AUTOMATION", "AI","DESIGN"];
 
   const { setIsLoaded } = useLoading();
 

@@ -77,7 +77,7 @@ const WorkSection = ({ limit = COMPONENT_CONFIG.work.featuredProjectsLimit }: Wo
           </span>
         </div>
 
-        <div className="grid grid-cols-1 gap-x-20 gap-y-40 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-x-20 gap-y-10 md:gap-y-40 md:grid-cols-2">
           {PROJECTS.slice(0, limit).map((project, index) => (
             <ProjectItem key={project.id} project={project} index={index} />
           ))}

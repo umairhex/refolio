@@ -17,7 +17,7 @@ const MobileHero = () => {
           />
         </div>
 
-        <div className="z-20 -mt-10 flex w-full flex-col items-center text-center mix-blend-difference sm:-mt-12">
+        <div className="z-20 flex w-full flex-col items-center text-center mix-blend-difference sm:-mt-12">
           <div className="overflow-hidden">
             <h1 className="hero-title-word text-foreground text-[20vw] leading-none font-black tracking-tighter drop-shadow-2xl sm:text-[18vw]">
               {HERO_CONTENT.title.line1}
