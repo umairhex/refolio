@@ -1,35 +1,60 @@
 "use client";
 
 import { useRef } from "react";
-import { useGSAP } from "@/lib/gsap";
+import { useGSAP, gsap } from "@/lib/gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SKILLS, SERVICES } from "@/constants";
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
 import { ServiceItem } from "./ExpertiseSection/ServiceItem";
 import { SkillCategory } from "./ExpertiseSection/SkillCategory";
-import { animateFromViewport } from "@/lib/animations";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ExpertiseSection = () => {
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
-      animateFromViewport(".service-item", {
-        y: 60,
-        opacity: 0,
-        stagger: 0.15,
-        duration: 1.2,
-        ease: "power4.out",
-        trigger: ".services-grid",
-      });
-
-      animateFromViewport(".skill-category", {
-        y: 40,
+      // 1. Header Entrance
+      gsap.from(".expertise-header", {
+        y: 30,
         opacity: 0,
         stagger: 0.1,
         duration: 1,
         ease: "power3.out",
-        trigger: ".skills-grid",
+        scrollTrigger: {
+          trigger: ".expertise-header",
+          start: "top 90%",
+        },
+      });
+
+      // 2. Batched Services Entrance (Smooth Simultaneous Fade)
+      ScrollTrigger.batch(".service-item", {
+        once: true,
+        onEnter: (elements) => {
+          gsap.to(elements, {
+            opacity: 1,
+            duration: 1.5,
+            ease: "power2.out",
+            overwrite: true,
+          });
+        },
+        start: "top 85%",
+      });
+
+      // 3. Batched Skills Entrance (Smooth Simultaneous Fade)
+      ScrollTrigger.batch(".skill-category", {
+        once: true,
+        onEnter: (elements) => {
+          gsap.to(elements, {
+            opacity: 1,
+            duration: 1.5,
+            ease: "power2.out",
+            overwrite: true,
+          });
+        },
+        start: "top 90%",
       });
     },
     { scope: containerRef },
@@ -41,12 +66,10 @@ const ExpertiseSection = () => {
       className="bg-background border-foreground/5 relative w-full border-t py-32 md:py-64"
     >
       <Container className="flex flex-col gap-40">
-        <div className="flex max-w-2xl flex-col gap-8">
-          <span className="label-accent tracking-[0.3em]">
-            OUR EXPERTISE
-          </span>
-          <h2 className="text-4xl leading-[0.9] font-medium tracking-tighter md:text-7xl">
-            I HELP BRANDS SCALE <br /> THROUGH{" "}
+        <div className="flex max-w-4xl flex-col gap-8">
+          <span className="expertise-header label-accent tracking-[0.3em] will-change-transform">OUR EXPERTISE</span>
+          <h2 className="expertise-header text-4xl leading-[0.9] font-medium tracking-tighter uppercase md:text-7xl will-change-transform">
+            I HELP BRANDS <br /> SCALE THROUGH <br />
             <span className="font-arsenica italic">DIGITAL PRECISION</span>
           </h2>
         </div>
@@ -59,10 +82,10 @@ const ExpertiseSection = () => {
 
         <div className="skills-grid border-foreground/5 mt-20 flex flex-col justify-between gap-20 border-t pt-32 md:flex-row">
           <div className="flex max-w-xs flex-col gap-6">
-            <h4 className="font-arsenica text-3xl font-medium tracking-tighter italic">
+            <h4 className="expertise-header font-arsenica text-3xl font-medium tracking-tighter italic will-change-transform">
               Tech Stack
             </h4>
-            <p className="text-xs leading-loose font-bold tracking-widest uppercase opacity-50">
+            <p className="expertise-header text-xs leading-loose font-light tracking-widest uppercase opacity-50 will-change-transform">
               Armed with the latest industry-standard tools to build, design, and optimize digital
               products from the ground up.
             </p>

@@ -29,14 +29,8 @@ export const SoundButton = forwardRef<HTMLButtonElement, React.ButtonHTMLAttribu
 );
 SoundButton.displayName = "SoundButton";
 
-interface SoundLinkProps extends LinkProps {
+interface SoundLinkProps extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href">, LinkProps {
   children: React.ReactNode;
-  className?: string;
-  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-  style?: React.CSSProperties;
-  tabIndex?: number;
-  onMouseEnter?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-  onMouseLeave?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
 export const SoundLink = forwardRef<HTMLAnchorElement, SoundLinkProps>(

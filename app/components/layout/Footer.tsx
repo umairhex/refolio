@@ -58,9 +58,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
 
         <div className="border-background/10 grid grid-cols-1 gap-16 border-t pt-16 md:grid-cols-4 md:gap-8">
           <div className="flex flex-col gap-6">
-            <span className="label-accent tracking-widest">
-              SOCIALS
-            </span>
+            <span className="label-accent tracking-widest">SOCIALS</span>
             <div className="flex flex-col gap-3">
               {Object.entries(SOCIAL_LINKS).map(([key, href]) => (
                 <SoundAnchor
@@ -77,9 +75,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
           </div>
 
           <div className="flex flex-col gap-6">
-            <span className="label-accent tracking-widest">
-              SITEMAP
-            </span>
+            <span className="label-accent tracking-widest">SITEMAP</span>
             <div className="flex flex-col gap-3">
               {FOOTER_LINKS.map((link) => (
                 <SoundLink
@@ -94,15 +90,15 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
           </div>
 
           <div className="flex flex-col gap-6 md:col-span-2 md:items-end">
-            <span className="label-accent tracking-widest">
-              LOCAL TIME
-            </span>
+            <span className="label-accent tracking-widest">LOCAL TIME</span>
             <p className="text-3xl font-medium tracking-tighter md:text-5xl">Islamabad, PK</p>
           </div>
         </div>
 
         <div className="border-background/5 flex flex-col items-center justify-between gap-6 border-t pt-12 text-[10px] font-bold tracking-widest opacity-30 md:flex-row">
-          <span>© {mounted ? new Date().getFullYear() : "2025"} M UMAIR KHAN. ALL RIGHTS RESERVED.</span>
+          <span>
+            © {mounted ? new Date().getFullYear() : "2025"} M UMAIR KHAN. ALL RIGHTS RESERVED.
+          </span>
           <span>DESIGNED & DEVELOPED WITH PASSION</span>
         </div>
       </Container>

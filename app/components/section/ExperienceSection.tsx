@@ -13,28 +13,40 @@ const ExperienceSection = () => {
 
   useGSAP(
     () => {
-      const rows = toArray<HTMLElement>(".experience-row");
+      // Staggered entrance for all rows
+      animateFromViewport(".experience-row", {
+        y: 60,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 1.2,
+        ease: "power4.out",
+        trigger: ".experience-list",
+      });
 
-      rows.forEach((row) => {
-        animateFromViewport(row, {
-          y: 40,
-          opacity: 0,
-          duration: 1,
-          ease: "power3.out",
+      // Animate all lines including the last one
+      const lines = toArray<HTMLElement>(".row-line");
+      lines.forEach((line) => {
+        animateFrom(line, {
+          scaleX: 0,
+          duration: 1.8,
+          ease: "expo.inOut",
+          scrollTrigger: {
+            trigger: line,
+            start: "top 98%",
+          },
         });
+      });
 
-        const line = row.querySelector(".row-line");
-        if (line) {
-          animateFrom(line as HTMLElement, {
-            scaleX: 0,
-            duration: 1.5,
-            ease: "power4.inOut",
-            scrollTrigger: {
-              trigger: row,
-              start: "top 95%",
-            },
-          });
-        }
+      // Heading reveal
+      animateFrom(".experience-title", {
+        y: 40,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".experience-title",
+          start: "top 90%",
+        },
       });
     },
     { scope: containerRef }
@@ -51,7 +63,7 @@ const ExperienceSection = () => {
             <span className="label-accent tracking-[0.4em]">
               RESUME — 05
             </span>
-            <h2 className="font-arsenica text-4xl font-medium tracking-tighter italic md:text-8xl">
+            <h2 className="experience-title font-arsenica text-4xl font-medium tracking-tighter italic md:text-8xl">
               JOURNEY
             </h2>
           </div>
@@ -61,11 +73,11 @@ const ExperienceSection = () => {
           </p>
         </div>
 
-        <div className="flex flex-col">
+        <div className="experience-list flex flex-col">
           {EXPERIENCE.map((item, index) => (
             <ExperienceRow key={index} item={item} />
           ))}
-          <div className="row-line bg-background/10 h-px w-full" />
+          <div className="row-line bg-background/10 h-px w-full origin-left" />
         </div>
       </Container>
 

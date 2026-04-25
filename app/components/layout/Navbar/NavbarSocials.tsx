@@ -1,49 +1,72 @@
 "use client";
 
-import { Mail, Github } from "lucide-react";
+import { Mail, Github, LucideIcon } from "lucide-react";
 import { SOCIAL_LINKS, CONTACT_EMAIL } from "@/constants";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { SoundAnchor } from "@/app/components/ui/Sound";
-import { motion } from "framer-motion";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/lib/gsap";
+
+const SocialItem = ({ href, icon: Icon, label, isEmail }: { href: string; icon: LucideIcon; label: string; isEmail?: boolean }) => {
+  const bgRef = (el: HTMLDivElement | null) => {
+    if (!el) return;
+    el.style.opacity = "0";
+    el.style.transform = "scale(0.9)";
+  };
+
+  const { contextSafe } = useGSAP();
+
+  const onEnter = contextSafe((e: React.MouseEvent) => {
+    const bg = e.currentTarget.querySelector(".social-bg");
+    gsap.to(bg, {
+      opacity: 1,
+      scale: 1.1,
+      duration: 0.4,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
+  });
+
+  const onLeave = contextSafe((e: React.MouseEvent) => {
+    const bg = e.currentTarget.querySelector(".social-bg");
+    gsap.to(bg, {
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.4,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
+  });
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <SoundAnchor
+          href={isEmail ? `mailto:${href}` : href}
+          target={isEmail ? undefined : "_blank"}
+          rel={isEmail ? undefined : "noopener noreferrer"}
+          aria-label={label}
+          onMouseEnter={onEnter}
+          onMouseLeave={onLeave}
+          className="text-foreground/40 hover:text-foreground relative flex h-10 w-10 items-center justify-center rounded-full transition-colors focus:outline-none"
+        >
+          <Icon size={18} />
+          <div
+            ref={bgRef}
+            className="social-bg bg-foreground/5 absolute inset-0 -z-10 rounded-full"
+          />
+        </SoundAnchor>
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
+  );
+};
 
 export const NavbarSocials = () => {
   return (
     <div className="hidden items-center gap-3 xl:flex">
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <SoundAnchor
-            href={SOCIAL_LINKS.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visit GitHub Profile"
-            className="text-foreground/40 hover:text-foreground relative flex h-10 w-10 items-center justify-center rounded-full transition-colors focus:outline-none"
-          >
-            <Github size={18} />
-            <motion.div
-              className="bg-foreground/5 absolute inset-0 -z-10 rounded-full opacity-0"
-              whileHover={{ opacity: 1, scale: 1.1 }}
-            />
-          </SoundAnchor>
-        </TooltipTrigger>
-        <TooltipContent>GitHub Profile</TooltipContent>
-      </Tooltip>
-
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <SoundAnchor
-            href={`mailto:${CONTACT_EMAIL}`}
-            aria-label="Send an Email"
-            className="text-foreground/40 hover:text-foreground relative flex h-10 w-10 items-center justify-center rounded-full transition-colors focus:outline-none"
-          >
-            <Mail size={18} />
-            <motion.div
-              className="bg-foreground/5 absolute inset-0 -z-10 rounded-full opacity-0"
-              whileHover={{ opacity: 1, scale: 1.1 }}
-            />
-          </SoundAnchor>
-        </TooltipTrigger>
-        <TooltipContent>Send an Email</TooltipContent>
-      </Tooltip>
+      <SocialItem href={SOCIAL_LINKS.github} icon={Github} label="GitHub Profile" />
+      <SocialItem href={CONTACT_EMAIL} icon={Mail} label="Send an Email" isEmail />
     </div>
   );
 };

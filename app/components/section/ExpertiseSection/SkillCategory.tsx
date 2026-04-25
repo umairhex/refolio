@@ -1,24 +1,47 @@
 "use client";
 
+import { useRef } from "react";
 import { SkillCategory as SkillCategoryType } from "@/types";
+import { useGSAP, gsap } from "@/lib/gsap";
 
 interface SkillCategoryProps {
   skillCategory: SkillCategoryType;
 }
 
 export const SkillCategory = ({ skillCategory }: SkillCategoryProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { contextSafe } = useGSAP({ scope: containerRef });
+
+  const onItemEnter = contextSafe((e: React.MouseEvent<HTMLLIElement>) => {
+    const line = e.currentTarget.querySelector(".skill-line");
+    const textNode = e.currentTarget;
+
+    gsap.to(line, { width: 16, backgroundColor: "rgba(255,255,255,1)", duration: 0.4, ease: "power2.out" });
+    gsap.to(textNode, { x: 5, opacity: 1, duration: 0.4, ease: "power2.out" });
+  });
+
+  const onItemLeave = contextSafe((e: React.MouseEvent<HTMLLIElement>) => {
+    const line = e.currentTarget.querySelector(".skill-line");
+    const textNode = e.currentTarget;
+
+    gsap.to(line, { width: 0, backgroundColor: "rgba(255,255,255,0.3)", duration: 0.4, ease: "power2.out" });
+    gsap.to(textNode, { x: 0, opacity: 0.6, duration: 0.4, ease: "power2.out" });
+  });
+
   return (
-    <div className="skill-category flex flex-col gap-6">
-      <span className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-30">
+    <div ref={containerRef} className="skill-category group opacity-0 will-change-transform flex flex-col gap-8">
+      <span className="text-[10px] tracking-[0.4em] uppercase opacity-20">
         {skillCategory.category}
       </span>
-      <ul className="flex flex-col gap-3">
+      <ul className="flex flex-col gap-4">
         {skillCategory.items.map((skill: string) => (
           <li
             key={skill}
-            className="group flex cursor-default items-center gap-3 text-sm font-medium opacity-70 transition-opacity hover:opacity-100"
+            onMouseEnter={onItemEnter}
+            onMouseLeave={onItemLeave}
+            className="flex cursor-default items-center gap-3 text-sm opacity-60 will-change-transform"
           >
-            <div className="bg-foreground h-1 w-1 scale-0 rounded-full transition-transform group-hover:scale-100" />
+            <div className="skill-line h-px w-0 bg-foreground/30" />
             {skill}
           </li>
         ))}

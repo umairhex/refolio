@@ -2,13 +2,37 @@
 
 import { MousePointer2 } from "lucide-react";
 import { SoundLink } from "@/app/components/ui/Sound";
-import { motion } from "framer-motion";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/lib/gsap";
+import { useRef } from "react";
 
 export const HireMeButton = () => {
+  const buttonRef = useRef<HTMLDivElement>(null);
+  const { contextSafe } = useGSAP({ scope: buttonRef });
+
+  const onEnter = contextSafe((e: React.MouseEvent) => {
+    gsap.to(e.currentTarget, { scale: 1.05, duration: 0.3, ease: "power2.out", overwrite: "auto" });
+  });
+
+  const onLeave = contextSafe((e: React.MouseEvent) => {
+    gsap.to(e.currentTarget, { scale: 1, duration: 0.3, ease: "power2.out", overwrite: "auto" });
+  });
+
+  const onTapStart = contextSafe((e: React.MouseEvent) => {
+    gsap.to(e.currentTarget, { scale: 0.95, duration: 0.1, ease: "power2.out" });
+  });
+
+  const onTapEnd = contextSafe((e: React.MouseEvent) => {
+    gsap.to(e.currentTarget, { scale: 1.05, duration: 0.2, ease: "power2.out" });
+  });
+
   return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+    <div
+      ref={buttonRef}
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+      onMouseDown={onTapStart}
+      onMouseUp={onTapEnd}
     >
       <SoundLink
         href="/contact"
@@ -18,8 +42,7 @@ export const HireMeButton = () => {
         <span className="hidden sm:inline">Hire Me</span>
         <MousePointer2 size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
       </SoundLink>
-
-    </motion.div>
+    </div>
   );
 };
 
