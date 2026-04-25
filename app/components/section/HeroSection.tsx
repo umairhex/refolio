@@ -34,16 +34,26 @@ const HeroSection = () => {
       // 1. Entrance Animation
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
-      tl.from(".hero-bg-text", {
+      tl.fromTo(".hero-bg-text", 
+      {
         opacity: 0,
         scale: 0.9,
+      },
+      {
+        opacity: 0.05,
+        scale: 1,
         duration: 2,
         ease: "power2.out",
       })
-        .from(
+        .fromTo(
           ".hero-title-word",
           {
             yPercent: 100,
+            opacity: 0,
+          },
+          {
+            yPercent: 0,
+            opacity: 1,
             duration: 1.2,
             stagger: 0.1,
           },
@@ -63,11 +73,15 @@ const HeroSection = () => {
           },
           "-=1"
         )
-        .from(
+        .fromTo(
           ".hero-tag",
           {
             opacity: 0,
             x: -20,
+          },
+          {
+            opacity: 1,
+            x: 0,
             duration: 1,
             stagger: 0.1,
           },
@@ -214,14 +228,14 @@ const HeroSection = () => {
         className="perspective-1000 relative z-10 hidden w-full max-w-400 grid-cols-12 items-center gap-8 will-change-transform md:grid"
       >
         <div className="col-span-3 flex flex-col gap-12">
-          <div className="hero-tag flex flex-col gap-4 will-change-transform">
+          <div className="hero-tag flex flex-col gap-4 opacity-0 will-change-transform">
             <span className="label-accent tracking-[0.4em]">SPECIALIZATION</span>
             <p className="max-w-50 text-sm leading-relaxed font-medium">
               {HERO_CONTENT.specialization}
             </p>
           </div>
 
-          <div className="hero-tag flex flex-col gap-4 will-change-transform">
+          <div className="hero-tag flex flex-col gap-4 opacity-0 will-change-transform">
             <span className="label-accent tracking-[0.4em]">LOCATION</span>
             <p className="font-arsenica text-sm font-medium italic">{HERO_CONTENT.location}</p>
           </div>
@@ -245,7 +259,7 @@ const HeroSection = () => {
 
           <div className="pointer-events-none absolute top-[65%] -left-20 z-20 mix-blend-difference">
             <div className="flex justify-start overflow-hidden">
-              <h1 className="hero-title-word text-foreground text-[9vw] leading-none font-black tracking-tighter will-change-transform">
+              <h1 className="hero-title-word text-foreground text-[9vw] leading-none font-black tracking-tighter opacity-0 will-change-transform">
                 {HERO_CONTENT.title.line1}
               </h1>
             </div>
@@ -254,14 +268,14 @@ const HeroSection = () => {
 
         <div className="flex h-full flex-col justify-between py-12 md:col-span-3 md:items-end">
           <div className="mb-auto flex justify-end overflow-hidden mix-blend-difference">
-            <h1 className="hero-title-word text-foreground text-[9vw] leading-none font-black tracking-tighter will-change-transform">
+            <h1 className="hero-title-word text-foreground text-[9vw] leading-none font-black tracking-tighter opacity-0 will-change-transform">
               {HERO_CONTENT.title.line2}
             </h1>
           </div>
 
           <div className="flex flex-col gap-12 md:items-end">
             <div className="overflow-hidden mix-blend-difference">
-              <h2 className="hero-title-word font-arsenica text-foreground text-[6vw] leading-none font-medium tracking-tighter italic will-change-transform">
+              <h2 className="hero-title-word font-arsenica text-foreground text-[6vw] leading-none font-medium tracking-tighter italic opacity-0 will-change-transform">
                 {HERO_CONTENT.title.line3}
               </h2>
             </div>
@@ -269,7 +283,7 @@ const HeroSection = () => {
             <SoundButton
               ref={scrollButton}
               id="hero-scroll-btn"
-              className="hero-tag group flex cursor-pointer flex-col items-end gap-6 will-change-transform focus:outline-none"
+              className="hero-tag group flex cursor-pointer flex-col items-end gap-6 opacity-0 focus:outline-none"
               onClick={scrollToAbout}
             >
               <div className="flex items-center gap-4">

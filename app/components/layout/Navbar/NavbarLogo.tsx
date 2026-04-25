@@ -34,7 +34,7 @@ export const NavbarLogo = () => {
   });
 
   return (
-    <div className="nav-item flex flex-1 justify-start">
+    <div className="nav-item absolute inset-x-0 flex justify-center lg:relative lg:inset-auto lg:flex-1 lg:justify-start">
       <SoundLink
         href="/"
         className="group flex items-center gap-3 focus:outline-none"

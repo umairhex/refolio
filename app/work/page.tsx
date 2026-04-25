@@ -22,15 +22,15 @@ export default function WorkPage() {
         <PageSection className="pt-40 pb-20">
           <Container className="border-foreground/10 flex flex-col gap-6 border-b pb-20">
             <div className="overflow-hidden">
-              <h1 className="font-arsenica work-header-text text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase italic md:text-[8vw]">
+              <h1 className="font-arsenica work-header-text opacity-0 will-change-transform text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase italic md:text-[8vw]">
                 Selected
               </h1>
             </div>
             <div className="flex items-end justify-between overflow-hidden">
-              <h1 className="work-header-text text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase md:text-[8vw]">
+              <h1 className="work-header-text opacity-0 will-change-transform text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase md:text-[8vw]">
                 Archive
               </h1>
-              <span className="work-header-text hidden pb-4 text-[11px] font-bold tracking-[0.3em] uppercase opacity-40 md:block">
+              <span className="work-header-text opacity-0 will-change-transform hidden pb-4 text-[11px] font-bold tracking-[0.3em] uppercase md:block">
                 ({PROJECTS.length.toString().padStart(2, "0")}) — TOTAL
               </span>
             </div>

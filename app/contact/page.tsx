@@ -19,16 +19,16 @@ export default function ContactPage() {
       <main className="bg-background min-h-screen">
         <Navbar />
 
-        <PageSection className="pt-40 pb-64">
+        <PageSection className="pt-32 pb-32">
           <Container>
-            <div className="border-foreground/10 flex flex-col gap-8 overflow-hidden border-b pb-20">
+            <div className="border-foreground/10 flex flex-col gap-6 overflow-hidden border-b pb-12">
               <div className="overflow-hidden">
-                <h1 className="font-arsenica contact-reveal text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase italic md:text-[10vw]">
+                <h1 className="font-arsenica contact-reveal text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase italic opacity-0 will-change-transform md:text-[10vw]">
                   Let&apos;s
                 </h1>
               </div>
               <div className="overflow-hidden">
-                <h1 className="contact-reveal text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase md:text-[10vw]">
+                <h1 className="contact-reveal text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase opacity-0 will-change-transform md:text-[10vw]">
                   Connect
                 </h1>
               </div>

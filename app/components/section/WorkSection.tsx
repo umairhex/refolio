@@ -23,12 +23,17 @@ const WorkSection = ({ limit = COMPONENT_CONFIG.work.featuredProjectsLimit }: Wo
   const xToRef = useRef<((v: number) => void) | null>(null);
   const yToRef = useRef<((v: number) => void) | null>(null);
 
-  const { contextSafe } = useGSAP(
+  useGSAP(
     () => {
       // 1. Header Animation
-      gsap.from(".work-header-content", {
+      gsap.fromTo(".work-header-content", 
+      {
         y: 30,
         opacity: 0,
+      },
+      {
+        y: 0,
+        opacity: 1,
         stagger: 0.1,
         duration: 1,
         ease: "power3.out",
@@ -109,10 +114,10 @@ const WorkSection = ({ limit = COMPONENT_CONFIG.work.featuredProjectsLimit }: Wo
     <PageSection ref={containerRef} id="work" className="bg-background relative w-full pt-12 pb-64">
       <Container className="flex flex-col gap-16 md:gap-32">
         <div className="border-foreground/10 flex flex-col items-start gap-4 border-b pb-6 md:flex-row md:items-end md:justify-between md:gap-0 md:pb-8">
-          <h2 className="work-header-content max-w-[80vw] text-4xl font-medium tracking-tighter will-change-transform md:text-6xl">
+          <h2 className="work-header-content opacity-0 max-w-[80vw] text-4xl font-medium tracking-tighter will-change-transform md:text-6xl">
             SELECTED PROJECTS
           </h2>
-          <span className="work-header-content pb-2 text-[10px] font-bold tracking-[0.2em] uppercase opacity-40 will-change-transform md:text-[11px]">
+          <span className="work-header-content opacity-0 pb-2 text-[10px] font-bold tracking-[0.2em] uppercase will-change-transform md:text-[11px]">
             ({limit.toString().padStart(2, "0")}) — WORK
           </span>
         </div>
@@ -128,7 +133,7 @@ const WorkSection = ({ limit = COMPONENT_CONFIG.work.featuredProjectsLimit }: Wo
             ref={viewAllBtn}
             id="work-view-all-btn"
             href="/work"
-            className="group border-foreground/30 hover:border-foreground text-foreground bg-foreground/3 relative flex items-center gap-8 overflow-hidden rounded-full border px-12 py-6 backdrop-blur-sm transition-all duration-500 will-change-transform"
+            className="group border-foreground/30 hover:border-foreground text-foreground bg-foreground/3 relative flex items-center gap-8 overflow-hidden rounded-full border px-12 py-6 backdrop-blur-sm transition-colors duration-500 will-change-transform"
           >
             <span className="group-hover:text-background relative z-10 text-[11px] font-bold tracking-[0.3em] uppercase transition-colors duration-500">
               VIEW ALL PROJECTS

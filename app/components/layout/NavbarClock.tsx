@@ -37,8 +37,8 @@ const NavbarClock = ({ isScrolled }: { isScrolled: boolean }) => {
 
   return (
     <div
-      className={`nav-item ease-expo-out absolute left-1/2 flex -translate-x-1/2 items-center justify-center transition-all duration-700 ${
-        isScrolled ? "scale-90 opacity-40 xl:flex" : "lg:flex"
+      className={`nav-item ease-expo-out absolute left-1/2 hidden -translate-x-1/2 items-center justify-center transition-all duration-700 lg:flex ${
+        isScrolled ? "scale-90 opacity-40 xl:flex" : ""
       }`}
     >
       <div className="flex items-center gap-3 text-[9px] font-bold tracking-[0.2em] uppercase">

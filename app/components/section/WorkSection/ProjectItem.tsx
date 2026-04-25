@@ -74,7 +74,7 @@ export const ProjectItem = ({ project, index }: ProjectItemProps) => {
       aria-label={`View project: ${project.title}`}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
-      className={`project-item group flex flex-col active:scale-[0.98] will-change-transform ${
+      className={`project-item group flex flex-col active:scale-[0.98] opacity-0 will-change-transform ${
         index % 2 !== 0 ? "md:mt-24" : ""
       }`}
     >

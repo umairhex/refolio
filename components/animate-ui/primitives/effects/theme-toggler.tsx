@@ -68,6 +68,10 @@ function ThemeToggler({
   });
 
   React.useEffect(() => {
+    setCurrent({ effective: theme, resolved: resolvedTheme });
+  }, [theme, resolvedTheme]);
+
+  React.useEffect(() => {
     if (
       preview &&
       theme === preview.effective &&

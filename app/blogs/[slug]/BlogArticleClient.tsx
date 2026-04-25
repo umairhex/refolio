@@ -20,39 +20,41 @@ export default function BlogArticleClient({
 
   useGSAP(
     () => {
-      const tl = gsap.timeline();
+      gsap.fromTo(
+        ".article-title-word",
+        { y: 100, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          stagger: 0.05,
+          ease: "power4.out",
+          delay: 0.2,
+        }
+      );
 
-      gsap.set(".article-title-word", { y: 100, opacity: 0 });
-      gsap.set(".article-header-meta", { opacity: 0, y: 20 });
-      gsap.set(".article-hero-image", { clipPath: "inset(100% 0 0 0)" });
+      gsap.fromTo(
+        ".article-header-meta",
+        { y: 20, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          delay: 0.6,
+        }
+      );
 
-      tl.to(".article-title-word", {
-        y: 0,
-        opacity: 1,
-        duration: 1.2,
-        stagger: 0.05,
-        ease: "power4.out",
-        delay: 0.2,
-      })
-        .to(
-          ".article-header-meta",
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "power3.out",
-          },
-          "-=0.6",
-        )
-        .to(
-          ".article-hero-image",
-          {
-            clipPath: "inset(0% 0 0 0)",
-            duration: 1.5,
-            ease: "expo.inOut",
-          },
-          "-=1",
-        );
+      gsap.fromTo(
+        ".article-hero-image",
+        { clipPath: "inset(100% 0 0 0)" },
+        {
+          clipPath: "inset(0% 0 0 0)",
+          duration: 1.5,
+          ease: "expo.inOut",
+          delay: 0.4,
+        }
+      );
     },
     { scope: containerRef },
   );
@@ -63,7 +65,7 @@ export default function BlogArticleClient({
 
       <PageSection className="pt-40 pb-20">
         <Container className="border-foreground/10 flex flex-col gap-16 border-b pb-20">
-          <div className="article-header-meta flex flex-col justify-between gap-12 md:flex-row md:items-end">
+          <div className="article-header-meta opacity-0 will-change-transform flex flex-col justify-between gap-12 md:flex-row md:items-end">
             <div className="flex flex-col gap-4">
               <span className="label-accent tracking-[0.3em]">
                 DATE
@@ -93,7 +95,7 @@ export default function BlogArticleClient({
             <h1 className="font-arsenica max-w-5xl text-[10vw] leading-[0.8] font-medium tracking-tighter uppercase italic md:text-[6vw] lg:text-[7vw]">
               {post.title.split(" ").map((word: string, i: number) => (
                 <span key={i} className="inline-block overflow-hidden pb-4">
-                  <span className="article-title-word inline-block pr-[2vw]">{word}</span>
+                  <span className="article-title-word opacity-0 will-change-transform inline-block pr-[2vw]">{word}</span>
                 </span>
               ))}
             </h1>

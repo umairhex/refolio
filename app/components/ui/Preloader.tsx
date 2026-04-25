@@ -155,7 +155,7 @@ export default function Preloader() {
       </div>
 
       <div className="bg-foreground/10 absolute bottom-0 left-0 h-px w-full">
-        <div ref={progressBarRef} className="bg-foreground h-full will-change-transform" />
+        <div ref={progressBarRef} className="bg-foreground h-full will-change-transform" style={{ transform: "scaleX(0)", transformOrigin: "left center" }} />
       </div>
 
       <div className="absolute right-10 bottom-10 hidden overflow-hidden md:block">

@@ -9,66 +9,83 @@ import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
 import { SoundAnchor } from "@/app/components/ui/Sound";
 import type { Project } from "@/types";
-import { createTimeline, animateTo, animateFromViewport } from "@/lib/animations";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "@/lib/gsap";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function ProjectCaseStudyClient({ project }: { project: Project }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const tl = createTimeline();
-
-      animateTo(".case-title-word", { y: 100, opacity: 0 });
-      animateTo(".case-subheading", { opacity: 0, y: 20 });
-      animateTo(".case-header-meta", { opacity: 0, y: 20 });
-      animateTo(".case-hero-image", { clipPath: "inset(100% 0 0 0)" });
-
-      tl.to(".case-title-word", {
-        y: 0,
-        opacity: 1,
-        duration: 1.2,
-        stagger: 0.05,
-        ease: "power4.out",
-        delay: 0.2,
-      })
-        .to(
-          ".case-subheading",
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "power3.out",
-          },
-          "-=0.8",
-        )
-        .to(
-          ".case-header-meta",
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "power3.out",
-          },
-          "-=0.8",
-        )
-        .to(
-          ".case-hero-image",
-          {
-            clipPath: "inset(0% 0 0 0)",
-            duration: 1.5,
-            ease: "expo.inOut",
-          },
-          "-=1",
-        );
-
-      gsap.utils.toArray<HTMLElement>(".case-detail-block").forEach((block) => {
-        animateFromViewport(block, {
-          y: 60,
-          opacity: 0,
+      // 1. Header Elements
+      gsap.fromTo(
+        ".case-title-word",
+        { y: 100, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
           duration: 1.2,
+          stagger: 0.05,
+          ease: "power4.out",
+          delay: 0.2,
+        }
+      );
+
+      gsap.fromTo(
+        ".case-subheading",
+        { y: 20, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
           ease: "power3.out",
-        });
+          delay: 0.6,
+        }
+      );
+
+      gsap.fromTo(
+        ".case-header-meta",
+        { y: 20, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          delay: 0.6,
+        }
+      );
+
+      gsap.fromTo(
+        ".case-hero-image",
+        { clipPath: "inset(100% 0 0 0)" },
+        {
+          clipPath: "inset(0% 0 0 0)",
+          duration: 1.5,
+          ease: "expo.inOut",
+          delay: 0.4,
+        }
+      );
+
+      // 2. Batched Details
+      ScrollTrigger.batch(".case-detail-block", {
+        once: true,
+        onEnter: (elements) => {
+          gsap.fromTo(
+            elements,
+            { y: 60, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 1.2,
+              stagger: 0.1,
+              ease: "power3.out",
+              overwrite: true,
+            }
+          );
+        },
+        start: "top 85%",
       });
     },
     { scope: containerRef },
@@ -80,7 +97,7 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
 
       <PageSection className="pt-40 pb-20">
         <Container className="border-foreground/10 flex flex-col gap-12 border-b pb-20">
-          <div className="case-header-meta flex flex-col justify-between gap-12 md:flex-row md:items-end">
+          <div className="case-header-meta opacity-0 will-change-transform flex flex-col justify-between gap-12 md:flex-row md:items-end">
             <div className="flex flex-col gap-4">
               <span className="label-accent tracking-[0.3em]">CLIENT</span>
               <span className="text-sm font-bold tracking-widest uppercase opacity-80">
@@ -107,13 +124,13 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
               <h1 className="font-arsenica max-w-6xl text-[10vw] leading-[0.8] font-medium tracking-tighter uppercase italic md:text-[8vw] lg:text-[9vw]">
                 {project.title.split(" ").map((word: string, i: number) => (
                   <span key={i} className="inline-block overflow-hidden pb-4">
-                    <span className="case-title-word inline-block pr-[2vw]">{word}</span>
+                    <span className="case-title-word opacity-0 will-change-transform inline-block pr-[2vw]">{word}</span>
                   </span>
                 ))}
               </h1>
             </div>
             {project.subheading && (
-              <p className="case-subheading max-w-2xl text-2xl leading-tight font-medium tracking-tight opacity-60 md:text-3xl">
+              <p className="case-subheading opacity-0 will-change-transform max-w-2xl text-2xl leading-tight font-medium tracking-tight md:text-3xl">
                 {project.subheading}
               </p>
             )}
@@ -211,7 +228,7 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
               {project.details && (
                 <div className="flex flex-col gap-24 pt-12">
                   {project.details.map((detail: { title: string; content: string }, i: number) => (
-                    <div key={i} className="case-detail-block flex flex-col gap-6">
+                    <div key={i} className="case-detail-block opacity-0 will-change-transform flex flex-col gap-6">
                       <div className="flex items-start gap-4 md:gap-8">
                         <span className="shrink-0 pt-2 font-sans text-sm font-bold tracking-widest opacity-20 md:text-base">
                           {(i + 1).toString().padStart(2, "0")}—

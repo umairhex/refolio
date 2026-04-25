@@ -51,5 +51,5 @@ export interface SocialProfile {
 
   handle: string;
 
-  icon: React.ComponentType<{ size?: number }>;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
 }

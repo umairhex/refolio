@@ -58,7 +58,12 @@ function ThemeTogglerButton({
   ...props
 }: ThemeTogglerButtonProps) {
   const { theme, resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
   const playClick = useClickSound();
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <ThemeTogglerPrimitive
@@ -79,7 +84,7 @@ function ThemeTogglerButton({
           }}
           {...props}
         >
-          {getIcon(effective, resolved, modes)}
+          {mounted ? getIcon(effective, resolved, modes) : <Sun className="opacity-0" />}
         </button>
       )}
     </ThemeTogglerPrimitive>

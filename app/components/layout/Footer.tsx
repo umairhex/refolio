@@ -1,13 +1,15 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { useGSAP } from "@/lib/gsap";
+import { useGSAP, gsap } from "@/lib/gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useThemeScroll } from "@/hooks/use-theme-scroll";
 import { CONTACT_EMAIL, SOCIAL_LINKS, FOOTER_LINKS } from "@/constants";
 import { ArrowUpRight } from "lucide-react";
 import Container from "@/app/components/ui/Container";
 import { SoundAnchor, SoundLink } from "@/app/components/ui/Sound";
-import { animateFromViewport } from "@/lib/animations";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) => {
   const footerRef = useRef<HTMLElement>(null);
@@ -22,13 +24,25 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
 
   useGSAP(
     () => {
-      animateFromViewport(".footer-title", {
-        yPercent: 50,
-        opacity: 0,
-        rotateX: -30,
-        duration: 1.5,
-        ease: "power4.out",
-      });
+      gsap.fromTo(
+        ".footer-title",
+        {
+          yPercent: 50,
+          opacity: 0,
+          rotateX: -30,
+        },
+        {
+          yPercent: 0,
+          opacity: 1,
+          rotateX: 0,
+          duration: 1.5,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: ".footer-title",
+            start: "top 90%",
+          },
+        },
+      );
     },
     { scope: footerRef },
   );
@@ -45,7 +59,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
           </span>
           <SoundAnchor
             href={`mailto:${CONTACT_EMAIL}`}
-            className="footer-title group relative inline-block focus:outline-none"
+            className="footer-title group relative inline-block opacity-0 will-change-transform focus:outline-none"
           >
             <h2 className="text-[14vw] leading-[0.8] font-medium tracking-tighter uppercase transition-colors duration-500 md:text-[10vw]">
               LET&apos;S <span className="font-arsenica italic">WORK</span> <br /> TOGETHER

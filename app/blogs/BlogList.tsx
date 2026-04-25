@@ -16,15 +16,15 @@ const BlogList = ({ posts }: { posts: BlogPost[] }) => {
         <PageSection className="pt-40 pb-20">
           <Container className="border-foreground/10 flex flex-col gap-6 border-b pb-20">
             <div className="overflow-hidden">
-              <h1 className="font-arsenica blog-header-text text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase italic md:text-[8vw]">
+              <h1 className="font-arsenica blog-header-text opacity-0 will-change-transform text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase italic md:text-[8vw]">
                 Digital
               </h1>
             </div>
             <div className="flex items-end justify-between overflow-hidden">
-              <h1 className="blog-header-text text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase md:text-[8vw]">
+              <h1 className="blog-header-text opacity-0 will-change-transform text-[15vw] leading-[0.8] font-medium tracking-tighter uppercase md:text-[8vw]">
                 Journal
               </h1>
-              <span className="blog-header-text hidden pb-4 text-[11px] font-bold tracking-[0.3em] uppercase opacity-40 md:block">
+              <span className="blog-header-text opacity-0 will-change-transform hidden pb-4 text-[11px] font-bold tracking-[0.3em] uppercase md:block">
                 ({posts.length.toString().padStart(2, "0")}) — ENTRIES
               </span>
             </div>
@@ -37,7 +37,7 @@ const BlogList = ({ posts }: { posts: BlogPost[] }) => {
               <SoundLink
                 key={post.slug}
                 href={`/blogs/${post.slug}`}
-                className="blog-row group border-foreground/5 hover:border-foreground relative flex flex-col justify-between border-b px-4 py-12 transition-colors duration-500 md:flex-row md:items-center md:py-16"
+                className="blog-row group border-foreground/5 hover:border-foreground relative flex flex-col justify-between border-b px-4 py-12 transition-colors duration-500 md:flex-row md:items-center md:py-16 opacity-0 will-change-transform"
               >
                 <div className="z-10 flex w-full items-start gap-6 md:w-3/5 md:items-center md:gap-16">
                   <span className="mt-1 text-[10px] font-bold opacity-30 transition-opacity group-hover:opacity-100 md:mt-0 md:text-sm">
