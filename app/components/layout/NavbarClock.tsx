@@ -22,7 +22,7 @@ const NavbarClock = ({ isScrolled }: { isScrolled: boolean }) => {
 
       if (hours >= 5 && hours < 12) setGreeting("Good Morning");
       else if (hours >= 12 && hours < 17) setGreeting("Good Afternoon");
-      else if (hours >= 17 && hours < 21) setGreeting("Good Evening");
+      else if (hours >= 17 && hours < 22) setGreeting("Good Evening");
       else setGreeting("Good Night");
 
       const formatter = new Intl.DateTimeFormat("en-US", {
@@ -45,11 +45,10 @@ const NavbarClock = ({ isScrolled }: { isScrolled: boolean }) => {
 
   return (
     <div
-      className={`nav-item absolute left-1/2 flex -translate-x-1/2 items-center justify-center transition-all duration-700 ease-expo-out ${
+      className={`nav-item ease-expo-out absolute left-1/2 flex -translate-x-1/2 items-center justify-center transition-all duration-700 ${
         isScrolled ? "scale-90 opacity-40 xl:flex" : "lg:flex"
       }`}
     >
-
       <div className="flex items-center gap-3 text-[9px] font-bold tracking-[0.2em] uppercase">
         <AnimatePresence mode="wait">
           {!isScrolled && (
@@ -60,10 +59,17 @@ const NavbarClock = ({ isScrolled }: { isScrolled: boolean }) => {
               exit={{ opacity: 0, y: -5 }}
               className="flex items-center gap-3"
             >
-              <span className="text-foreground/40 hidden xl:inline">{greeting}</span>
-              <span className="bg-foreground/20 hidden h-1 w-1 rounded-full xl:inline" />
-              <span className="text-foreground/40">Karachi, PK</span>
-              <span className="bg-foreground/20 h-1 w-1 rounded-full" />
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 text-green-500 dark:text-emerald-500">
+                  <div className="h-1 w-1 animate-pulse rounded-full bg-current" />
+                  <span className="text-[8px] font-black">AVAILABLE</span>
+                </div>
+                <span className="bg-foreground/20 h-1 w-1 rounded-full" />
+                <span className="text-foreground/40 hidden xl:inline">{greeting}</span>
+                <span className="bg-foreground/20 hidden h-1 w-1 rounded-full xl:inline" />
+                <span className="text-foreground/40">Karachi, PK</span>
+                <span className="bg-foreground/20 h-1 w-1 rounded-full" />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -74,4 +80,3 @@ const NavbarClock = ({ isScrolled }: { isScrolled: boolean }) => {
 };
 
 export default NavbarClock;
-

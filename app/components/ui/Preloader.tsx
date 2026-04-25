@@ -6,15 +6,15 @@ import { useLoadingActions } from "@/hooks/use-loading-store";
 import { createTimeline, animateTo } from "@/lib/animations";
 
 export default function Preloader() {
+  const words = ["FULLSTACK", "CLOUD", "AUTOMATION"];
+
   const [percentage, setPercentage] = useState(0);
   const [isHidden, setIsHidden] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
+  const [currentWord, setCurrentWord] = useState(words[0]);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const wordRef = useRef<HTMLSpanElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-
-  const words = ["FULLSTACK", "CLOUD", "AUTOMATION"];
 
   const { setIsLoaded } = useLoadingActions();
 
@@ -29,12 +29,14 @@ export default function Preloader() {
         setIsHidden(false);
         setIsVisible(true);
       });
+    } else {
+      setIsLoaded(true);
     }
 
     return () => {
       document.body.style.overflow = "";
     };
-  }, []);
+  }, [setIsLoaded]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!contentRef.current) return;
@@ -75,47 +77,21 @@ export default function Preloader() {
         },
       });
 
-      if (prefersReducedMotion) {
-        const obj = { val: 0 };
-        tl.to(obj, {
-          val: 100,
-          duration: 1,
-          onUpdate: () => {
-            setPercentage(Math.floor(obj.val));
-          },
-        });
-        return;
-      }
-
       const count = { value: 0 };
       tl.to(count, {
         value: 100,
-        duration: 2.5,
+        duration: prefersReducedMotion ? 1.5 : 3,
         ease: "power2.inOut",
-        onUpdate: () => setPercentage(Math.floor(count.value)),
+        onUpdate: () => {
+          const val = Math.floor(count.value);
+          setPercentage(val);
+
+          const wordIndex = Math.min(Math.floor((val / 101) * words.length), words.length - 1);
+          setCurrentWord(words[wordIndex]);
+        },
       });
 
-      words.forEach((word, i) => {
-        const startTime = (i * 2.1) / words.length;
-        tl.to(
-          wordRef.current,
-          {
-            opacity: 0,
-            y: -10,
-            duration: 0.15,
-            onComplete: () => {
-              if (wordRef.current) wordRef.current.innerText = word;
-            },
-          },
-          startTime,
-        ).to(wordRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.15,
-        });
-      });
-
-      tl.to({}, { duration: 0.4 });
+      tl.to({}, { duration: 0.2 });
     },
     { scope: containerRef, dependencies: [isVisible] },
   );
@@ -131,7 +107,7 @@ export default function Preloader() {
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label="Loading Portfolio"
-      className="bg-background text-foreground fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden select-none"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-[#0a0a0a] text-[#f5f5f7] select-none"
     >
       <div ref={contentRef} className="relative flex flex-col items-center will-change-transform">
         <div className="flex items-center gap-4 overflow-hidden">
@@ -142,11 +118,10 @@ export default function Preloader() {
 
         <div className="mt-8 h-6 overflow-hidden">
           <span
-            ref={wordRef}
             aria-live="polite"
             className="block text-[10px] font-bold tracking-[0.3em] uppercase opacity-50 md:text-xs"
           >
-            {words[0]}
+            {currentWord}
           </span>
         </div>
       </div>

@@ -365,8 +365,8 @@ export const SOCIAL_PROFILES: SocialProfile[] = [
   },
   {
     key: "linkedin",
-    href: "https://www.linkedin.com/in/umairniazi",
-    handle: "@umairniazi",
+    href: "https://www.linkedin.com/in/umairhex",
+    handle: "@umairhex",
     icon: Linkedin,
   },
   {
@@ -408,7 +408,8 @@ export const HERO_CONTENT = {
     line2: "STACK",
     line3: "Engineer",
   },
-  specialization: "Full-Stack Engineer specialized in AI-powered systems and rapid feature delivery.",
+  specialization:
+    "Full-Stack Engineer specialized in AI-powered systems and rapid feature delivery.",
   location: "Islamabad — Pakistan",
 };
 
