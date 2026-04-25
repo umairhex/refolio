@@ -18,8 +18,8 @@ export const SoundLink = forwardRef<HTMLAnchorElement, SoundLinkProps>(
   ({ children, onClick, ...props }, ref) => {
     const playClick = useClickSound();
 
-    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-      playClick();
+    const handleClick = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+      await playClick();
       if (onClick) {
         onClick(e);
       }

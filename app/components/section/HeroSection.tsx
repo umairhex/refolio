@@ -194,11 +194,8 @@ const HeroSection = () => {
 
       <MobileHero />
 
-      <div className="bg-foreground/5 absolute top-0 left-0 h-px w-full" />
-      <div className="bg-foreground/5 absolute bottom-0 left-0 h-px w-full" />
-      <div className="bg-foreground/5 absolute top-0 left-0 ml-12 hidden h-full w-px md:block" />
-      <div className="bg-foreground/5 absolute top-0 right-0 mr-12 hidden h-full w-px md:block" />
     </section>
+
   );
 };
 

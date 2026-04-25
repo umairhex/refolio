@@ -5,34 +5,48 @@ import { SOCIAL_LINKS } from "@/constants";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { SoundLink } from "@/app/components/ui/SoundLink";
 import { SoundAnchor } from "@/app/components/ui/SoundAnchor";
+import { motion } from "framer-motion";
 
 export const NavbarSocials = () => {
   return (
-    <div className="hidden items-center gap-4 xl:flex">
+    <div className="hidden items-center gap-3 xl:flex">
       <Tooltip>
         <TooltipTrigger asChild>
           <SoundAnchor
             href={SOCIAL_LINKS.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="opacity-40 transition-opacity hover:opacity-100 focus:outline-none"
+            aria-label="Visit GitHub Profile"
+            className="text-foreground/40 hover:text-foreground relative flex h-10 w-10 items-center justify-center rounded-full transition-colors focus:outline-none"
           >
-            <Github size={15} />
+            <Github size={18} />
+            <motion.div
+              className="bg-foreground/5 absolute inset-0 -z-10 rounded-full opacity-0"
+              whileHover={{ opacity: 1, scale: 1.1 }}
+            />
           </SoundAnchor>
         </TooltipTrigger>
         <TooltipContent>GitHub Profile</TooltipContent>
       </Tooltip>
+
       <Tooltip>
         <TooltipTrigger asChild>
           <SoundLink
             href="/contact"
-            className="opacity-40 transition-opacity hover:opacity-100 focus:outline-none"
+            aria-label="Send an Email"
+            className="text-foreground/40 hover:text-foreground relative flex h-10 w-10 items-center justify-center rounded-full transition-colors focus:outline-none"
           >
-            <Mail size={15} />
+            <Mail size={18} />
+            <motion.div
+              className="bg-foreground/5 absolute inset-0 -z-10 rounded-full opacity-0"
+              whileHover={{ opacity: 1, scale: 1.1 }}
+            />
           </SoundLink>
         </TooltipTrigger>
         <TooltipContent>Send an Email</TooltipContent>
       </Tooltip>
     </div>
+
   );
 };
+

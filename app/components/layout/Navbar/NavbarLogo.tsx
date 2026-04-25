@@ -6,7 +6,11 @@ import { SoundLink } from "@/app/components/ui/SoundLink";
 export const NavbarLogo = () => {
   return (
     <div className="nav-item flex flex-1 justify-start">
-      <SoundLink href="/" className="group flex items-center gap-3 focus:outline-none" aria-label="Go to home">
+      <SoundLink
+        href="/"
+        className="group flex items-center gap-3 focus:outline-none"
+        aria-label="Go to home"
+      >
         <span
           className="font-arsenica-display nav-logo block transform-gpu cursor-pointer text-2xl font-medium md:text-4xl"
           onMouseEnter={(e) => {
