@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 const NavbarClock = ({ isScrolled }: { isScrolled: boolean }) => {
   const [time, setTime] = useState("");
-  const [greeting, setGreeting] = useState("");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -18,12 +16,6 @@ const NavbarClock = ({ isScrolled }: { isScrolled: boolean }) => {
 
     const updateTime = () => {
       const now = new Date();
-      const hours = now.getHours();
-
-      if (hours >= 5 && hours < 12) setGreeting("Good Morning");
-      else if (hours >= 12 && hours < 17) setGreeting("Good Afternoon");
-      else if (hours >= 17 && hours < 22) setGreeting("Good Evening");
-      else setGreeting("Good Night");
 
       const formatter = new Intl.DateTimeFormat("en-US", {
         timeZone: "Asia/Karachi",
@@ -50,30 +42,12 @@ const NavbarClock = ({ isScrolled }: { isScrolled: boolean }) => {
       }`}
     >
       <div className="flex items-center gap-3 text-[9px] font-bold tracking-[0.2em] uppercase">
-        <AnimatePresence mode="wait">
-          {!isScrolled && (
-            <motion.div
-              key="full-clock"
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -5 }}
-              className="flex items-center gap-3"
-            >
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1.5 text-green-500 dark:text-emerald-500">
-                  <div className="h-1 w-1 animate-pulse rounded-full bg-current" />
-                  <span className="text-[8px] font-black">AVAILABLE</span>
-                </div>
-                <span className="bg-foreground/20 h-1 w-1 rounded-full" />
-                <span className="text-foreground/40 hidden xl:inline">{greeting}</span>
-                <span className="bg-foreground/20 hidden h-1 w-1 rounded-full xl:inline" />
-                <span className="text-foreground/40">Karachi, PK</span>
-                <span className="bg-foreground/20 h-1 w-1 rounded-full" />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <span className="tabular-nums">{time || "00:00:00 AM"}</span>
+        <div className="flex items-center gap-1.5 text-emerald-500">
+          <div className="h-1 w-1 animate-pulse rounded-full bg-current" />
+          <span className="text-[8px] font-black">AVAILABLE</span>
+        </div>
+        <span className="bg-foreground/20 h-1 w-1 rounded-full opacity-40" />
+        <span className="tabular-nums opacity-40">{time || "00:00:00 AM"}</span>
       </div>
     </div>
   );

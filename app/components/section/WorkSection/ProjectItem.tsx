@@ -14,9 +14,12 @@ export const ProjectItem = ({ project, index }: ProjectItemProps) => {
     <SoundLink
       href={`/work/${project.slug}`}
       key={project.id}
-      className={`project-item group flex flex-col ${index % 2 !== 0 ? "md:mt-40" : ""}`}
+      aria-label={`View project: ${project.title}`}
+      className={`project-item group flex flex-col transition-transform duration-500 active:scale-[0.98] ${
+        index % 2 !== 0 ? "md:mt-24" : ""
+      }`}
     >
-      <div className="project-image-wrapper bg-muted relative mb-8 aspect-4/5 w-full overflow-hidden">
+      <div className="project-image-wrapper bg-muted relative mb-10 aspect-4/5 w-full overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.05)] transition-all duration-700 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)]">
         <Image
           src={project.image}
           alt={project.title}
@@ -26,28 +29,42 @@ export const ProjectItem = ({ project, index }: ProjectItemProps) => {
           priority={index < 2}
         />
 
-        <div className="absolute bottom-6 left-6 z-10">
-          <span className="bg-background/80 border-foreground/5 rounded-full border px-4 py-2 text-[10px] font-bold tracking-widest uppercase opacity-100 backdrop-blur-md">
+        <div className="absolute top-8 right-8 z-10">
+          <span className="text-[10px] font-bold tracking-[0.4em] opacity-20 transition-opacity duration-500 group-hover:opacity-100">
+            {(index + 1).toString().padStart(2, "0")}
+          </span>
+        </div>
+
+        <div className="absolute bottom-8 left-8 z-10">
+          <span className="border-foreground/10 bg-background/60 text-foreground group-hover:border-foreground/40 group-hover:bg-background/90 rounded-full border px-5 py-2.5 text-[9px] font-black tracking-[0.2em] uppercase backdrop-blur-2xl transition-all duration-500">
             {project.category}
           </span>
         </div>
       </div>
 
-      <div className="project-info flex flex-col gap-4">
+      <div className="project-info flex flex-col gap-6">
         <div className="flex items-start justify-between">
-          <h3 className="font-arsenica hero-text text-3xl font-medium tracking-tight italic md:text-5xl">
-            {project.title}
-          </h3>
-          <span className="pt-2 text-sm font-bold opacity-40">{project.year}</span>
+          <div className="flex flex-col gap-2">
+            <h3 className="font-arsenica text-foreground relative text-3xl font-medium tracking-tight italic transition-colors duration-500 md:text-5xl">
+              {project.title}
+              <span className="bg-foreground ease-expo-out absolute -bottom-1 left-0 h-px w-0 transition-all duration-700 group-hover:w-full" />
+            </h3>
+          </div>
+          <div className="flex flex-col items-end gap-1 pt-3">
+            <span className="text-[10px] font-black tracking-[0.4em] tabular-nums opacity-20 transition-opacity duration-500 group-hover:opacity-100">
+              {project.year}
+            </span>
+            <div className="bg-foreground h-1 w-1 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-40" />
+          </div>
         </div>
 
-        <p className="text-foreground/60 max-w-sm text-sm leading-relaxed md:text-base">
+        <p className="text-foreground/50 group-hover:text-foreground/90 max-w-sm text-sm leading-[1.8] tracking-wide transition-all duration-500 md:text-base">
           {project.description}
         </p>
 
-        <div className="group/link mt-4 flex items-center gap-4 overflow-hidden">
-          <div className="bg-foreground/20 h-px w-8 transition-all duration-500 group-hover/link:w-16" />
-          <span className="cursor-pointer text-[10px] font-bold tracking-[0.2em] uppercase">
+        <div className="group/link mt-2 flex items-center gap-5 overflow-hidden">
+          <div className="bg-foreground/20 group-hover:bg-foreground h-px w-10 transition-all duration-700 group-hover/link:w-20" />
+          <span className="text-foreground/40 group-hover:text-foreground text-[10px] font-black tracking-[0.3em] uppercase transition-all duration-500 group-hover:tracking-[0.4em]">
             View Project
           </span>
         </div>

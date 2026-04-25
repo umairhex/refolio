@@ -12,16 +12,16 @@ import { SoundButton } from "@/app/components/ui/Sound";
 const HeroSection = () => {
   const container = useRef<HTMLDivElement>(null);
   const heroGrid = useRef<HTMLDivElement>(null);
+  const scrollButton = useRef<HTMLButtonElement>(null);
+  const heroImage = useRef<HTMLImageElement>(null);
+  const bgText = useRef<HTMLHeadingElement>(null);
 
   useGSAP(
     () => {
       const tl = createTimeline({ defaults: { ease: "power4.out" } });
 
       animateTo(".hero-title-word", { yPercent: 100 });
-      animateTo(".hero-image-box", {
-        clipPath: "inset(0 100% 0 0)",
-        opacity: 0,
-      });
+      animateTo(".hero-image-box", { clipPath: "inset(0 100% 0 0)", opacity: 0 });
       animateTo(".hero-tag", { opacity: 0, x: -20 });
       animateTo(".hero-bg-text", { opacity: 0, scale: 0.9 });
 
@@ -31,40 +31,45 @@ const HeroSection = () => {
         duration: 2,
         ease: "power2.out",
       })
-        .to(
-          ".hero-title-word",
-          {
-            yPercent: 0,
-            duration: 1.2,
-            stagger: 0.1,
-          },
-          "-=1.5",
-        )
+        .to(".hero-title-word", { yPercent: 0, duration: 1.2, stagger: 0.1 }, "-=1.5")
         .to(
           ".hero-image-box",
-          {
-            clipPath: "inset(0 0% 0 0)",
-            opacity: 1,
-            duration: 2,
-            ease: "expo.inOut",
-          },
+          { clipPath: "inset(0 0% 0 0)", opacity: 1, duration: 2, ease: "expo.inOut" },
           "-=1",
         )
-        .to(
-          ".hero-tag",
-          {
-            opacity: 1,
-            x: 0,
-            duration: 1,
-            stagger: 0.1,
-          },
-          "-=1",
-        );
+        .to(".hero-tag", { opacity: 1, x: 0, duration: 1, stagger: 0.1 }, "-=1");
+
+      animateTo(".hero-tag", {
+        y: -10,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        stagger: 0.2,
+      });
 
       const handleMouseMove = (e: MouseEvent) => {
         const { clientX, clientY } = e;
         const xPos = (clientX / window.innerWidth - 0.5) * 40;
         const yPos = (clientY / window.innerHeight - 0.5) * 40;
+
+        if (scrollButton.current) {
+          const rect = scrollButton.current.getBoundingClientRect();
+          const btnX = rect.left + rect.width / 2;
+          const btnY = rect.top + rect.height / 2;
+          const dist = Math.hypot(clientX - btnX, clientY - btnY);
+
+          if (dist < 150) {
+            animateTo(scrollButton.current, {
+              x: (clientX - btnX) * 0.4,
+              y: (clientY - btnY) * 0.4,
+              duration: 0.6,
+              ease: "power2.out",
+            });
+          } else {
+            animateTo(scrollButton.current, { x: 0, y: 0, duration: 0.6, ease: "power2.out" });
+          }
+        }
 
         animateTo(heroGrid.current, {
           rotateY: xPos / 2,
@@ -79,6 +84,15 @@ const HeroSection = () => {
           duration: 1.5,
           ease: "power2.out",
         });
+
+        if (heroImage.current) {
+          animateTo(heroImage.current, {
+            x: -xPos * 0.5,
+            y: -yPos * 0.5,
+            duration: 1.5,
+            ease: "power2.out",
+          });
+        }
       };
 
       window.addEventListener("mousemove", handleMouseMove);
@@ -100,7 +114,10 @@ const HeroSection = () => {
       className="bg-background noise relative flex h-screen min-h-200 w-full items-center justify-center overflow-hidden px-6 pt-[calc(2rem+5vh)] md:px-12 lg:px-24"
     >
       <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center select-none">
-        <h2 className="hero-bg-text text-stroke text-[25vw] font-black tracking-tighter whitespace-nowrap opacity-0">
+        <h2
+          ref={bgText}
+          className="hero-bg-text text-stroke text-[25vw] font-black tracking-tighter whitespace-nowrap opacity-0 transition-colors duration-1000"
+        >
           M UMAIR KHAN
         </h2>
       </div>
@@ -124,21 +141,15 @@ const HeroSection = () => {
         </div>
 
         <div className="relative flex flex-col items-center justify-center md:col-span-6">
-          <div className="hero-image-box relative aspect-3.5/5 w-full max-w-125 overflow-hidden shadow-2xl grayscale transition-all duration-700 hover:grayscale-0">
+          <div className="hero-image-box group relative aspect-3.5/5 w-full max-w-125 overflow-hidden shadow-2xl grayscale transition-all duration-700 hover:grayscale-0">
             <Image
+              ref={heroImage}
               src="/assets/images/umair.webp"
               alt="Umair"
               fill
-              className="scale-110 object-cover"
+              className="scale-125 object-cover transition-transform duration-1000 group-hover:scale-110"
               priority
             />
-
-            <div className="absolute bottom-6 left-6 flex items-center gap-4">
-              <div className="h-2 w-2 animate-pulse rounded-full bg-white" />
-              <span className="text-[10px] font-bold tracking-widest text-white uppercase">
-                Active Now
-              </span>
-            </div>
           </div>
 
           <div className="pointer-events-none absolute top-[65%] -left-20 z-20 mix-blend-difference">
@@ -165,6 +176,7 @@ const HeroSection = () => {
             </div>
 
             <SoundButton
+              ref={scrollButton}
               className="hero-tag group flex cursor-pointer flex-col items-end gap-6 focus:outline-none"
               onClick={scrollToAbout}
             >
