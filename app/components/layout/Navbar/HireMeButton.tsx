@@ -2,8 +2,7 @@
 
 import { MousePointer2 } from "lucide-react";
 import { SoundLink } from "@/app/components/ui/Sound";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAP, gsap } from "@/lib/gsap";
 import { useRef } from "react";
 
 export const HireMeButton = () => {

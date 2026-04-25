@@ -1,8 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAP, gsap } from "@/lib/gsap";
 import { SoundButton } from "@/app/components/ui/Sound";
 
 interface NavbarMenuButtonProps {
@@ -17,13 +16,13 @@ export const NavbarMenuButton = ({ onClick, isScrolled, "aria-expanded": ariaExp
 
   useGSAP(() => {
     gsap.to(bar1Ref.current, {
-      width: isScrolled ? 12 : 16,
+      scaleX: isScrolled ? 0.75 : 1,
       duration: 0.5,
       ease: "expo.out",
       overwrite: "auto",
     });
     gsap.to(bar2Ref.current, {
-      width: isScrolled ? 16 : 12,
+      scaleX: isScrolled ? 1 : 0.75,
       duration: 0.5,
       ease: "expo.out",
       overwrite: "auto",
@@ -45,11 +44,11 @@ export const NavbarMenuButton = ({ onClick, isScrolled, "aria-expanded": ariaExp
         <div className="flex flex-col items-center gap-1.5 transition-transform duration-500 group-hover:scale-110">
           <div 
             ref={bar1Ref}
-            className="bg-foreground group-hover:bg-background h-[1.5px]"
+            className="bg-foreground group-hover:bg-background h-[1.5px] w-4 origin-right"
           />
           <div 
             ref={bar2Ref}
-            className="bg-foreground group-hover:bg-background h-[1.5px] opacity-60 group-hover:opacity-100" 
+            className="bg-foreground group-hover:bg-background h-[1.5px] w-4 origin-right opacity-60 group-hover:opacity-100" 
           />
         </div>
       </div>

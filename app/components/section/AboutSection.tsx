@@ -2,12 +2,9 @@
 
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useThemeScroll } from "@/hooks/use-theme-scroll";
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const AboutSection = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -17,16 +14,17 @@ const AboutSection = () => {
 
   useGSAP(
     () => {
+      const q = gsap.utils.selector(containerRef);
       gsap.fromTo(
-        ".about-line",
+        q(".about-line"),
         {
           y: 100,
-          opacity: 0,
+          autoAlpha: 0,
           rotationZ: 2,
         },
         {
           y: 0,
-          opacity: 1,
+          autoAlpha: 1,
           rotationZ: 0,
           duration: 1.5,
           stagger: 0.1,
@@ -35,7 +33,7 @@ const AboutSection = () => {
             trigger: textRef.current,
             start: "top 80%",
           },
-        }
+        },
       );
     },
     { scope: containerRef },
@@ -50,17 +48,17 @@ const AboutSection = () => {
       <Container className="w-full">
         <div className="flex flex-col gap-12" ref={textRef}>
           <div className="overflow-hidden">
-            <h2 className="about-line opacity-0 will-change-transform font-arsenica text-5xl leading-[0.9] font-medium tracking-tighter italic md:text-7xl lg:text-8xl">
+            <h2 className="about-line font-arsenica text-5xl leading-[0.9] font-medium tracking-tighter italic opacity-0 will-change-transform md:text-7xl lg:text-8xl">
               CRAFTING DIGITAL
             </h2>
           </div>
           <div className="overflow-hidden">
-            <h2 className="about-line opacity-0 will-change-transform text-5xl leading-[0.9] font-medium tracking-tighter md:text-7xl lg:text-8xl">
+            <h2 className="about-line text-5xl leading-[0.9] font-medium tracking-tighter opacity-0 will-change-transform md:text-7xl lg:text-8xl">
               EXPERIENCES WITH
             </h2>
           </div>
           <div className="overflow-hidden">
-            <h2 className="about-line opacity-0 will-change-transform font-arsenica text-5xl leading-[0.9] font-medium tracking-tighter italic md:text-7xl lg:text-8xl">
+            <h2 className="about-line font-arsenica text-5xl leading-[0.9] font-medium tracking-tighter italic opacity-0 will-change-transform md:text-7xl lg:text-8xl">
               PRECISION & ARTISTRY
             </h2>
           </div>

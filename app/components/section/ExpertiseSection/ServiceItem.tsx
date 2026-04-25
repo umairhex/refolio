@@ -27,11 +27,11 @@ export const ServiceItem = ({ service }: ServiceItemProps) => {
       ease: "power3.out",
     });
 
-    gsap.to(title, { x: 5, duration: 0.5, ease: "power2.out" });
-    gsap.to(desc, { opacity: 0.8, duration: 0.5, ease: "power2.out" });
-    gsap.to(id, { opacity: 1, duration: 0.5, ease: "power2.out" });
-    gsap.to(indicator, { width: 32, backgroundColor: "rgba(255,255,255,0.4)", duration: 0.6, ease: "expo.out" });
-    gsap.to(bottomLine, { x: "0%", duration: 0.7, ease: "expo.out" });
+    gsap.to(title, { x: 5, duration: 0.5, ease: "power2.out", overwrite: "auto" });
+    gsap.to(desc, { autoAlpha: 0.8, duration: 0.5, ease: "power2.out", overwrite: "auto" });
+    gsap.to(id, { autoAlpha: 1, duration: 0.5, ease: "power2.out", overwrite: "auto" });
+    gsap.to(indicator, { scaleX: 2, backgroundColor: "rgba(255,255,255,0.4)", duration: 0.6, ease: "expo.out", overwrite: "auto" });
+    gsap.to(bottomLine, { x: "0%", duration: 0.7, ease: "expo.out", overwrite: "auto" });
   });
 
   const onLeave = contextSafe((e: React.MouseEvent<HTMLDivElement>) => {
@@ -47,13 +47,14 @@ export const ServiceItem = ({ service }: ServiceItemProps) => {
       borderColor: "rgba(255,255,255,0.05)",
       duration: 0.6,
       ease: "power3.out",
+      overwrite: "auto",
     });
 
-    gsap.to(title, { x: 0, duration: 0.5, ease: "power2.out" });
-    gsap.to(desc, { opacity: 0.5, duration: 0.5, ease: "power2.out" });
-    gsap.to(id, { opacity: 0.2, duration: 0.5, ease: "power2.out" });
-    gsap.to(indicator, { width: 16, backgroundColor: "rgba(255,255,255,0.1)", duration: 0.6, ease: "expo.out" });
-    gsap.to(bottomLine, { x: "-100%", duration: 0.5, ease: "power3.in" });
+    gsap.to(title, { x: 0, duration: 0.5, ease: "power2.out", overwrite: "auto" });
+    gsap.to(desc, { autoAlpha: 0.5, duration: 0.5, ease: "power2.out", overwrite: "auto" });
+    gsap.to(id, { autoAlpha: 0.2, duration: 0.5, ease: "power2.out", overwrite: "auto" });
+    gsap.to(indicator, { scaleX: 1, backgroundColor: "rgba(255,255,255,0.1)", duration: 0.6, ease: "expo.out", overwrite: "auto" });
+    gsap.to(bottomLine, { x: "-100%", duration: 0.5, ease: "power3.in", overwrite: "auto" });
   });
 
   return (
@@ -67,7 +68,7 @@ export const ServiceItem = ({ service }: ServiceItemProps) => {
         <span className="service-id text-[12px] font-bold tracking-widest opacity-20">
           {service.id}
         </span>
-        <div className="service-indicator h-px w-4 bg-foreground/10" />
+        <div className="service-indicator h-px w-4 origin-right bg-foreground/10" />
       </div>
 
       <div className="flex flex-col gap-4">

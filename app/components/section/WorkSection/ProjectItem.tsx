@@ -3,8 +3,7 @@
 import Image from "next/image";
 import { SoundLink } from "@/app/components/ui/Sound";
 import { Project } from "@/types";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAP, gsap } from "@/lib/gsap";
 import { useRef } from "react";
 
 interface ProjectItemProps {

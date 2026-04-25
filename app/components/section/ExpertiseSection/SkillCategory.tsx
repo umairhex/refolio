@@ -16,16 +16,16 @@ export const SkillCategory = ({ skillCategory }: SkillCategoryProps) => {
     const line = e.currentTarget.querySelector(".skill-line");
     const textNode = e.currentTarget;
 
-    gsap.to(line, { width: 16, backgroundColor: "rgba(255,255,255,1)", duration: 0.4, ease: "power2.out" });
-    gsap.to(textNode, { x: 5, opacity: 1, duration: 0.4, ease: "power2.out" });
+    gsap.to(line, { scaleX: 2, backgroundColor: "rgba(255,255,255,1)", duration: 0.4, ease: "power2.out", overwrite: "auto" });
+    gsap.to(textNode, { x: 5, autoAlpha: 1, duration: 0.4, ease: "power2.out", overwrite: "auto" });
   });
 
   const onItemLeave = contextSafe((e: React.MouseEvent<HTMLLIElement>) => {
     const line = e.currentTarget.querySelector(".skill-line");
     const textNode = e.currentTarget;
 
-    gsap.to(line, { width: 0, backgroundColor: "rgba(255,255,255,0.3)", duration: 0.4, ease: "power2.out" });
-    gsap.to(textNode, { x: 0, opacity: 0.6, duration: 0.4, ease: "power2.out" });
+    gsap.to(line, { scaleX: 1, backgroundColor: "rgba(255,255,255,0.3)", duration: 0.4, ease: "power2.out", overwrite: "auto" });
+    gsap.to(textNode, { x: 0, autoAlpha: 0.6, duration: 0.4, ease: "power2.out", overwrite: "auto" });
   });
 
   return (
@@ -41,7 +41,7 @@ export const SkillCategory = ({ skillCategory }: SkillCategoryProps) => {
             onMouseLeave={onItemLeave}
             className="flex cursor-default items-center gap-3 text-sm opacity-60 will-change-transform"
           >
-            <div className="skill-line h-px w-0 bg-foreground/30" />
+            <div className="skill-line h-px w-2 origin-left bg-foreground/30" />
             {skill}
           </li>
         ))}

@@ -1,7 +1,6 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAP, gsap } from "@/lib/gsap";
 import { SoundLink } from "@/app/components/ui/Sound";
 import { Logo } from "@/app/components/ui/Logo";
 import { useRef } from "react";

@@ -10,7 +10,7 @@ import { ProjectItem } from "./WorkSection/ProjectItem";
 import { gsap } from "@/lib/gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 interface WorkSectionProps {
   limit?: number;
@@ -25,35 +25,37 @@ const WorkSection = ({ limit = COMPONENT_CONFIG.work.featuredProjectsLimit }: Wo
 
   useGSAP(
     () => {
+      const q = gsap.utils.selector(containerRef);
+
       // 1. Header Animation
-      gsap.fromTo(".work-header-content", 
+      gsap.fromTo(q(".work-header-content"), 
       {
         y: 30,
-        opacity: 0,
+        autoAlpha: 0,
       },
       {
         y: 0,
-        opacity: 1,
+        autoAlpha: 1,
         stagger: 0.1,
         duration: 1,
         ease: "power3.out",
         scrollTrigger: {
-          trigger: ".work-header-content",
+          trigger: q(".work-header-content"),
           start: "top 90%",
         },
       });
 
       // 2. Batched Project Items Entrance
-      gsap.set(".project-image-wrapper", { clipPath: "inset(100% 0 0 0)" });
+      gsap.set(q(".project-image-wrapper"), { clipPath: "inset(100% 0 0 0)" });
 
-      ScrollTrigger.batch(".project-item", {
+      ScrollTrigger.batch(q(".project-item"), {
         onEnter: (elements) => {
           gsap.fromTo(
             elements,
-            { y: 60, opacity: 0 },
+            { y: 60, autoAlpha: 0 },
             {
               y: 0,
-              opacity: 1,
+              autoAlpha: 1,
               duration: 1.2,
               stagger: 0.15,
               ease: "power3.out",
@@ -85,7 +87,7 @@ const WorkSection = ({ limit = COMPONENT_CONFIG.work.featuredProjectsLimit }: Wo
       yToRef.current = yToRefLocal;
 
       const handleMouseMove = (e: MouseEvent) => {
-        const btn = document.getElementById("work-view-all-btn");
+        const btn = viewAllBtn.current;
         if (!btn || !xToRefLocal || !yToRefLocal) return;
         
         const rect = btn.getBoundingClientRect();

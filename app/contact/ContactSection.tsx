@@ -13,8 +13,10 @@ export default function ContactSection() {
 
   const { contextSafe } = useGSAP(
     () => {
-      const magneticElements = containerRef.current?.querySelectorAll(".magnetic-target");
-      if (!magneticElements || window.innerWidth < 1024) return;
+      const q = gsap.utils.selector(containerRef);
+      const magneticElements = gsap.utils.toArray<HTMLElement>(q(".magnetic-target"));
+      
+      if (magneticElements.length === 0 || window.innerWidth < 1024) return;
 
       magneticElements.forEach((el) => {
         const xTo = gsap.quickTo(el, "x", { duration: 0.6, ease: "power3" });
@@ -36,11 +38,19 @@ export default function ContactSection() {
           }
         };
 
-        el.addEventListener("mousemove", onMouseMove as EventListener);
-        el.addEventListener("mouseleave", () => {
+        const onMouseLeave = () => {
           xTo(0);
           yTo(0);
-        });
+        };
+
+        el.addEventListener("mousemove", onMouseMove);
+        el.addEventListener("mouseleave", onMouseLeave);
+        
+        // Return cleanup for this specific element's listeners
+        return () => {
+          el.removeEventListener("mousemove", onMouseMove);
+          el.removeEventListener("mouseleave", onMouseLeave);
+        };
       });
     },
     { scope: containerRef },
@@ -54,6 +64,7 @@ export default function ContactSection() {
       stagger: 0.02,
       duration: 0.4,
       ease: "power2.out",
+      overwrite: "auto",
     });
   });
 
@@ -64,13 +75,14 @@ export default function ContactSection() {
       stagger: 0.01,
       duration: 0.4,
       ease: "power2.inOut",
+      overwrite: "auto",
     });
   });
 
   return (
-    <div ref={containerRef} className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-24">
-      <div className="flex flex-col gap-12 md:gap-16">
-        <div className="contact-reveal flex flex-col gap-8">
+    <div ref={containerRef} className="mt-24 grid grid-cols-1 gap-20 lg:grid-cols-2 lg:gap-32">
+      <div className="flex flex-col gap-16 md:gap-24">
+        <div className="contact-reveal flex flex-col gap-10">
           <span className="label-accent text-[10px] font-light tracking-[0.5em] uppercase opacity-40">
             DIRECT EMAIL
           </span>
@@ -78,9 +90,9 @@ export default function ContactSection() {
             href={`mailto:${CONTACT_EMAIL}`}
             onMouseEnter={onEmailEnter}
             onMouseLeave={onEmailLeave}
-            className="magnetic-target group flex items-center gap-6 text-xl tracking-tight break-all transition-all duration-300 will-change-transform sm:text-2xl md:gap-8 md:text-3xl lg:text-4xl"
+            className="magnetic-target group flex items-center gap-6 text-xl tracking-tight break-all transition-all duration-300 sm:text-2xl md:gap-8 md:text-3xl lg:text-4xl will-change-transform"
           >
-            <div className="bg-foreground/5 border-foreground/10 group-hover:bg-foreground group-hover:text-background shrink-0 rounded-full border p-4 transition-all duration-500 md:p-5">
+            <div className="bg-foreground/5 border-foreground/10 group-hover:bg-foreground group-hover:text-background shrink-0 rounded-full border p-5 transition-all duration-500 md:p-6">
               <Mail
                 size={22}
                 className="transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12"
@@ -101,7 +113,7 @@ export default function ContactSection() {
           </SoundAnchor>
         </div>
 
-        <div className="contact-reveal flex flex-col gap-8">
+        <div className="contact-reveal flex flex-col gap-10">
           <span className="label-accent text-[10px] font-light tracking-[0.5em] uppercase opacity-40">
             SOCIALS
           </span>
@@ -113,7 +125,7 @@ export default function ContactSection() {
         </div>
       </div>
 
-      <div className="contact-reveal group bg-foreground/3 border-foreground/5 relative flex h-full min-h-[380px] flex-col justify-between overflow-hidden border p-8 md:p-12 lg:p-16">
+      <div className="contact-reveal group bg-foreground/3 border-foreground/5 relative flex h-full min-h-[400px] flex-col justify-between overflow-hidden border p-10 md:p-16 lg:p-20">
         <div className="relative z-10 flex flex-col gap-8">
           <h3 className="text-4xl leading-[0.9] font-medium tracking-tighter uppercase md:text-5xl lg:text-6xl">
             READY TO BRING <br /> YOUR IDEAS <br />{" "}

@@ -12,77 +12,80 @@ import type { Project } from "@/types";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { gsap } from "@/lib/gsap";
 
-gsap.registerPlugin(ScrollTrigger);
+
+
 
 export default function ProjectCaseStudyClient({ project }: { project: Project }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
+      const q = gsap.utils.selector(containerRef);
+
       // 1. Header Elements
       gsap.fromTo(
-        ".case-title-word",
-        { y: 100, opacity: 0 },
+        q(".case-title-word"),
+        { y: 100, autoAlpha: 0 },
         {
           y: 0,
-          opacity: 1,
+          autoAlpha: 1,
           duration: 1.2,
           stagger: 0.05,
           ease: "power4.out",
           delay: 0.2,
-        }
+        },
       );
 
       gsap.fromTo(
-        ".case-subheading",
-        { y: 20, opacity: 0 },
+        q(".case-subheading"),
+        { y: 20, autoAlpha: 0 },
         {
           y: 0,
-          opacity: 1,
+          autoAlpha: 1,
           duration: 1,
           ease: "power3.out",
           delay: 0.6,
-        }
+        },
       );
 
       gsap.fromTo(
-        ".case-header-meta",
-        { y: 20, opacity: 0 },
+        q(".case-header-meta"),
+        { y: 20, autoAlpha: 0 },
         {
           y: 0,
-          opacity: 1,
+          autoAlpha: 1,
           duration: 1,
           ease: "power3.out",
           delay: 0.6,
-        }
+        },
       );
 
       gsap.fromTo(
-        ".case-hero-image",
+        q(".case-hero-image"),
         { clipPath: "inset(100% 0 0 0)" },
         {
           clipPath: "inset(0% 0 0 0)",
           duration: 1.5,
           ease: "expo.inOut",
           delay: 0.4,
-        }
+        },
       );
 
       // 2. Batched Details
-      ScrollTrigger.batch(".case-detail-block", {
+      ScrollTrigger.batch(q(".case-detail-block"), {
         once: true,
         onEnter: (elements) => {
           gsap.fromTo(
             elements,
-            { y: 60, opacity: 0 },
+            { y: 60, autoAlpha: 0 },
             {
               y: 0,
-              opacity: 1,
+              autoAlpha: 1,
               duration: 1.2,
               stagger: 0.1,
               ease: "power3.out",
               overwrite: true,
-            }
+            },
           );
         },
         start: "top 85%",

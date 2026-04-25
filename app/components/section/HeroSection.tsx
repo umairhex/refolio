@@ -5,12 +5,9 @@ import Image from "next/image";
 import { useGSAP } from "@/lib/gsap";
 import { ArrowDownRight } from "lucide-react";
 import { gsap } from "@/lib/gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import MobileHero from "./MobileHero";
 import { HERO_CONTENT } from "@/constants";
 import { SoundButton } from "@/app/components/ui/Sound";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection = () => {
   const container = useRef<HTMLDivElement>(null);
@@ -19,77 +16,74 @@ const HeroSection = () => {
   const heroImage = useRef<HTMLImageElement>(null);
   const bgText = useRef<HTMLHeadingElement>(null);
 
-  // High-performance quickTo refs
-  const xToGrid = useRef<((v: number) => void) | null>(null);
-  const yToGrid = useRef<((v: number) => void) | null>(null);
-  const xToBg = useRef<((v: number) => void) | null>(null);
-  const yToBg = useRef<((v: number) => void) | null>(null);
-  const xToImg = useRef<((v: number) => void) | null>(null);
-  const yToImg = useRef<((v: number) => void) | null>(null);
-  const xToBtn = useRef<((v: number) => void) | null>(null);
-  const yToBtn = useRef<((v: number) => void) | null>(null);
+
 
   const { contextSafe } = useGSAP(
     () => {
-      // 1. Entrance Animation
+      const q = gsap.utils.selector(container);
+      const mm = gsap.matchMedia();
+
+      // 1. Entrance Animation (Global)
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
-      tl.fromTo(".hero-bg-text", 
-      {
-        opacity: 0,
-        scale: 0.9,
-      },
-      {
-        opacity: 0.05,
-        scale: 1,
-        duration: 2,
-        ease: "power2.out",
-      })
+      tl.fromTo(
+        q(".hero-bg-text"),
+        {
+          autoAlpha: 0,
+          scale: 0.9,
+        },
+        {
+          autoAlpha: 0.05,
+          scale: 1,
+          duration: 1.5,
+          ease: "power2.out",
+        },
+      )
         .fromTo(
-          ".hero-title-word",
+          q(".hero-title-word"),
           {
             yPercent: 100,
-            opacity: 0,
+            autoAlpha: 0,
           },
           {
             yPercent: 0,
-            opacity: 1,
-            duration: 1.2,
-            stagger: 0.1,
+            autoAlpha: 1,
+            duration: 0.8,
+            stagger: 0.05,
           },
-          "-=1.5"
+          "-=1.2",
         )
         .fromTo(
-          ".hero-image-box",
+          q(".hero-image-box"),
           {
             clipPath: "inset(0 100% 0 0)",
-            opacity: 0,
+            autoAlpha: 0,
           },
           {
             clipPath: "inset(0 0% 0 0)",
-            opacity: 1,
-            duration: 2,
+            autoAlpha: 1,
+            duration: 1.4,
             ease: "expo.inOut",
           },
-          "-=1"
+          "-=0.8",
         )
         .fromTo(
-          ".hero-tag",
+          q(".hero-tag"),
           {
-            opacity: 0,
+            autoAlpha: 0,
             x: -20,
           },
           {
-            opacity: 1,
+            autoAlpha: 1,
             x: 0,
-            duration: 1,
-            stagger: 0.1,
+            duration: 0.7,
+            stagger: 0.05,
           },
-          "-=1"
+          "-=0.7",
         );
 
-      // 2. Floating Animation for Tags
-      gsap.to(".hero-tag", {
+      // 2. Floating Animation for Tags (Global)
+      gsap.to(q(".hero-tag"), {
         y: -10,
         duration: 2,
         repeat: -1,
@@ -98,71 +92,55 @@ const HeroSection = () => {
         stagger: 0.2,
       });
 
-      // 3. Initialize high-performance quickTo functions
-      const xToGridLocal = gsap.quickTo(heroGrid.current, "rotateY", { duration: 1.2, ease: "power2.out" });
-      const yToGridLocal = gsap.quickTo(heroGrid.current, "rotateX", { duration: 1.2, ease: "power2.out" });
-      const xToBgLocal = gsap.quickTo(".hero-bg-text", "x", { duration: 1.5, ease: "power2.out" });
-      const yToBgLocal = gsap.quickTo(".hero-bg-text", "y", { duration: 1.5, ease: "power2.out" });
-      const xToImgLocal = gsap.quickTo(heroImage.current, "x", { duration: 1.5, ease: "power2.out" });
-      const yToImgLocal = gsap.quickTo(heroImage.current, "y", { duration: 1.5, ease: "power2.out" });
-      const xToBtnLocal = gsap.quickTo(scrollButton.current, "x", { duration: 0.6, ease: "power2.out" });
-      const yToBtnLocal = gsap.quickTo(scrollButton.current, "y", { duration: 0.6, ease: "power2.out" });
+      // 3. Desktop Parallax (using matchMedia)
+      mm.add("(min-width: 1024px)", () => {
+        // Initialize high-performance quickTo functions
+        const xToGridLocal = gsap.quickTo(heroGrid.current, "rotateY", { duration: 0.8, ease: "power2.out" });
+        const yToGridLocal = gsap.quickTo(heroGrid.current, "rotateX", { duration: 0.8, ease: "power2.out" });
+        const xToBgLocal = gsap.quickTo(q(".hero-bg-text"), "x", { duration: 1.0, ease: "power2.out" });
+        const yToBgLocal = gsap.quickTo(q(".hero-bg-text"), "y", { duration: 1.0, ease: "power2.out" });
+        const xToImgLocal = gsap.quickTo(heroImage.current, "x", { duration: 1.0, ease: "power2.out" });
+        const yToImgLocal = gsap.quickTo(heroImage.current, "y", { duration: 1.0, ease: "power2.out" });
+        const xToBtnLocal = gsap.quickTo(scrollButton.current, "x", { duration: 0.4, ease: "power2.out" });
+        const yToBtnLocal = gsap.quickTo(scrollButton.current, "y", { duration: 0.4, ease: "power2.out" });
 
-      // Sync refs for external use if needed
-      xToGrid.current = xToGridLocal;
-      yToGrid.current = yToGridLocal;
-      xToBg.current = xToBgLocal;
-      yToBg.current = yToBgLocal;
-      xToImg.current = xToImgLocal;
-      yToImg.current = yToImgLocal;
-      xToBtn.current = xToBtnLocal;
-      yToBtn.current = yToBtnLocal;
+        const handleMouseMove = (e: MouseEvent) => {
+          const { clientX, clientY } = e;
+          const mapX = gsap.utils.mapRange(0, window.innerWidth, -20, 20);
+          const mapY = gsap.utils.mapRange(0, window.innerHeight, -20, 20);
 
-      const handleMouseMove = (e: MouseEvent) => {
-        const { clientX, clientY } = e;
-        
-        const mapX = gsap.utils.mapRange(0, window.innerWidth, -20, 20);
-        const mapY = gsap.utils.mapRange(0, window.innerHeight, -20, 20);
-        
-        const xPos = mapX(clientX);
-        const yPos = mapY(clientY);
+          const xPos = mapX(clientX);
+          const yPos = mapY(clientY);
 
-        xToGridLocal(xPos / 2);
-        yToGridLocal(-yPos / 2);
-        xToBgLocal(xPos);
-        yToBgLocal(yPos);
-        xToImgLocal(-xPos * 0.5);
-        yToImgLocal(-yPos * 0.5);
+          xToGridLocal(xPos / 2);
+          yToGridLocal(-yPos / 2);
+          xToBgLocal(xPos);
+          yToBgLocal(yPos);
+          xToImgLocal(-xPos);
+          yToImgLocal(-yPos);
 
-        const btn = document.getElementById("hero-scroll-btn");
-        if (btn) {
-          const rect = btn.getBoundingClientRect();
-          const btnX = rect.left + rect.width / 2;
-          const btnY = rect.top + rect.height / 2;
-          const dist = Math.hypot(clientX - btnX, clientY - btnY);
+          if (scrollButton.current) {
+            const rect = scrollButton.current.getBoundingClientRect();
+            const btnCenterX = rect.left + rect.width / 2;
+            const btnCenterY = rect.top + rect.height / 2;
+            const distBtnX = clientX - btnCenterX;
+            const distBtnY = clientY - btnCenterY;
 
-          if (dist < 150) {
-            xToBtnLocal((clientX - btnX) * 0.4);
-            yToBtnLocal((clientY - btnY) * 0.4);
-          } else {
-            xToBtnLocal(0);
-            yToBtnLocal(0);
+            if (Math.hypot(distBtnX, distBtnY) < 150) {
+              xToBtnLocal(distBtnX * 0.4);
+              yToBtnLocal(distBtnY * 0.4);
+            } else {
+              xToBtnLocal(0);
+              yToBtnLocal(0);
+            }
           }
-        }
-      };
+        };
 
-      // 4. Scroll Parallax
-      gsap.to(".hero-bg-text", {
-        yPercent: 50,
-        ease: "none",
-        scrollTrigger: {
-          trigger: container.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
+        window.addEventListener("mousemove", handleMouseMove);
+        return () => window.removeEventListener("mousemove", handleMouseMove);
       });
 
+      // 4. Scroll-based parallax (Global)
       gsap.to(heroGrid.current, {
         yPercent: -20,
         ease: "none",
@@ -173,13 +151,8 @@ const HeroSection = () => {
           scrub: true,
         },
       });
-
-      window.addEventListener("mousemove", handleMouseMove);
-      return () => {
-        window.removeEventListener("mousemove", handleMouseMove);
-      };
     },
-    { scope: container }
+    { scope: container },
   );
 
   const onImageEnter = contextSafe((e: React.MouseEvent) => {
@@ -242,7 +215,7 @@ const HeroSection = () => {
         </div>
 
         <div className="relative flex flex-col items-center justify-center md:col-span-6">
-          <div 
+          <div
             onMouseEnter={onImageEnter}
             onMouseLeave={onImageLeave}
             className="hero-image-box group relative aspect-3.5/5 w-full max-w-125 overflow-hidden shadow-2xl grayscale transition-all duration-700 hover:grayscale-0"

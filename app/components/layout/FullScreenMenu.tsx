@@ -1,11 +1,12 @@
 "use client";
 
 import { createPortal } from "react-dom";
-import { motion, Variants } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { NAV_LINKS, SOCIAL_PROFILES } from "@/constants";
 import { useScrollLock } from "@/hooks/use-scroll-lock";
 import { SoundButton, SoundLink, SoundAnchor } from "@/app/components/ui/Sound";
+import { useGSAP, gsap } from "@/lib/gsap";
+import { useRef, useEffect } from "react";
 
 export default function FullScreenMenu({
   isOpen,
@@ -16,62 +17,98 @@ export default function FullScreenMenu({
 }) {
   const pathname = usePathname();
   useScrollLock(isOpen);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const tl = useRef<gsap.core.Timeline | null>(null);
 
-  const menuVariants: Variants = {
-    closed: { y: "-100%" },
-    open: {
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.76, 0, 0.24, 1] as [number, number, number, number],
-      },
+  const { contextSafe } = useGSAP(
+    () => {
+      if (!menuRef.current) return;
+      const q = gsap.utils.selector(menuRef);
+
+      // 1. Initial State
+      gsap.set(menuRef.current, { yPercent: -100, autoAlpha: 0 });
+      gsap.set(q(".menu-link-wrapper"), { y: 100, autoAlpha: 0, rotateX: 45 });
+      gsap.set(q(".menu-footer"), { autoAlpha: 0, y: 20 });
+
+      // 2. Create Timeline
+      tl.current = gsap.timeline({ paused: true })
+        .to(menuRef.current, {
+          yPercent: 0,
+          autoAlpha: 1,
+          duration: 0.8,
+          ease: "power4.inOut",
+        })
+        .to(
+          q(".menu-link-wrapper"),
+          {
+            y: 0,
+            autoAlpha: 1,
+            rotateX: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power3.out",
+          },
+          "-=0.4"
+        )
+        .to(
+          q(".menu-footer"),
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+          },
+          "-=0.4"
+        );
     },
-    exit: {
-      y: "-100%",
-      transition: {
-        duration: 0.8,
-        ease: [0.76, 0, 0.24, 1] as [number, number, number, number],
-      },
-    },
-  };
+    { scope: menuRef }
+  );
 
-  const linkVariants: Variants = {
-    closed: { y: 100, opacity: 0, rotateX: 45 },
-    open: (i: number) => ({
-      y: 0,
-      opacity: 1,
-      rotateX: 0,
-      transition: {
-        delay: 0.4 + i * 0.1,
-        duration: 0.8,
-        ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number],
-      },
-    }),
-  };
+  useEffect(() => {
+    if (isOpen) {
+      tl.current?.play();
+    } else {
+      tl.current?.reverse();
+    }
+  }, [isOpen]);
 
-  const hoverVariants = {
-    initial: { scaleX: 0, scaleY: 0.05 },
-    hover: { scaleX: 1, scaleY: 1 },
-  };
+  const onLinkEnter = contextSafe((e: React.MouseEvent) => {
+    const bg = e.currentTarget.querySelector(".link-hover-bg");
+    const text = e.currentTarget.querySelector(".link-text");
+    
+    gsap.to(bg, { scaleX: 1, scaleY: 1, duration: 0.5, ease: "expo.out" });
+    gsap.to(text, { 
+      rotateY: -8, 
+      rotateX: 5, 
+      x: 20, 
+      color: "var(--background)", 
+      duration: 0.5, 
+      ease: "expo.out" 
+    });
+  });
 
-  const textVariants = {
-    initial: { rotateY: 0, rotateX: 0, x: 0, color: "var(--foreground)" },
-    hover: {
-      rotateY: -8,
-      rotateX: 5,
-      x: 20,
-      color: "var(--background)",
-    },
-  };
+  const onLinkLeave = contextSafe((e: React.MouseEvent) => {
+    const bg = e.currentTarget.querySelector(".link-hover-bg");
+    const text = e.currentTarget.querySelector(".link-text");
+    
+    gsap.to(bg, { scaleX: 0, scaleY: 0.05, duration: 0.5, ease: "expo.out" });
+    gsap.to(text, { 
+      rotateY: 0, 
+      rotateX: 0, 
+      x: 0, 
+      color: "var(--foreground)", 
+      duration: 0.5, 
+      ease: "expo.out" 
+    });
+  });
+
+  if (typeof document === "undefined") return null;
 
   return createPortal(
-    <motion.div
-      variants={menuVariants}
-      initial="closed"
-      animate="open"
-      exit="exit"
-      data-testid="full-screen-menu"
-      className="bg-background text-foreground fixed inset-0 z-100 flex flex-col justify-center px-6 md:px-16 lg:px-24"
+    <div
+      ref={menuRef}
+      className="bg-background text-foreground fixed inset-0 z-100 flex flex-col justify-center px-6 md:px-16 lg:px-24 will-change-transform"
+      style={{ visibility: "hidden" }} // Start hidden to prevent flash
     >
       <SoundButton
         onClick={onClose}
@@ -89,60 +126,42 @@ export default function FullScreenMenu({
           const isActive = pathname === link.href;
           return (
             <div key={i} className="border-foreground/5 group border-b last:border-0">
-              <div
-                className="w-full overflow-hidden"
-                style={{ padding: "20px 0", margin: "-20px 0" }}
-              >
-                <motion.div
-                  custom={i}
-                  variants={linkVariants}
-                  className="w-full origin-top-left transform"
-                  style={{ perspective: "1000px" }}
+              <div className="menu-link-wrapper w-full overflow-hidden" style={{ padding: "20px 0", margin: "-20px 0" }}>
+                <SoundLink
+                  href={link.href}
+                  onClick={onClose}
+                  onMouseEnter={onLinkEnter}
+                  onMouseLeave={onLinkLeave}
+                  className="font-arsenica-display relative block w-full cursor-pointer py-3 text-[14vw] leading-none font-medium tracking-tighter uppercase focus:outline-none md:py-5 md:text-[10vw] lg:text-[90px]"
+                  style={{
+                    transformStyle: "preserve-3d",
+                    opacity: isActive ? 1 : 0.4,
+                  }}
                 >
-                  <SoundLink
-                    href={link.href}
-                    onClick={onClose}
-                    className="font-arsenica-display relative block w-full cursor-pointer py-3 text-[14vw] leading-none font-medium tracking-tighter uppercase focus:outline-none md:py-5 md:text-[10vw] lg:text-[90px]"
-                    style={{
-                      transformStyle: "preserve-3d",
-                      opacity: isActive ? 1 : 0.4,
-                      transition: "opacity 0.3s ease",
-                    }}
-                  >
-                    <motion.div
-                      initial="initial"
-                      whileHover="hover"
-                      className="relative w-full h-full"
+                  <div className="relative w-full h-full">
+                    <div 
+                      className="link-hover-bg bg-foreground pointer-events-none absolute inset-0 z-0 origin-left scale-x-0 scale-y-[0.05]" 
+                    />
+                    <span
+                      className="link-text relative z-10 flex origin-left transform-gpu items-center gap-6 pb-2 pl-2 lg:pl-4 transition-colors duration-300"
+                      style={{ transformStyle: "preserve-3d" }}
                     >
-                      <motion.div
-                        variants={hoverVariants}
-                        className="bg-foreground pointer-events-none absolute inset-0 z-0"
-                        transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
-                        style={{ originX: 0 }}
-                      />
-                      <motion.span
-                        variants={textVariants}
-                        className="relative z-10 flex origin-left transform-gpu items-center gap-6 pb-2 pl-2 lg:pl-4"
-                        transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        {link.name}
-                        {isActive && (
-                          <span className="mt-4 text-[10px] font-bold tracking-[0.4em] italic opacity-30 md:mt-8">
-                            (CURRENT)
-                          </span>
-                        )}
-                      </motion.span>
-                    </motion.div>
-                  </SoundLink>
-                </motion.div>
+                      {link.name}
+                      {isActive && (
+                        <span className="mt-4 text-[10px] font-bold tracking-[0.4em] italic opacity-30 md:mt-8 lowercase">
+                          (current)
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                </SoundLink>
               </div>
             </div>
           );
         })}
       </div>
 
-      <div className="text-foreground/50 border-foreground/10 absolute right-6 bottom-6 left-6 flex flex-col items-start justify-between gap-4 border-t pt-6 text-[10px] tracking-[0.15em] uppercase md:right-16 md:bottom-10 md:left-16 md:flex-row md:items-center md:text-[11px] lg:right-24 lg:left-24">
+      <div className="menu-footer text-foreground/50 border-foreground/10 absolute right-6 bottom-6 left-6 flex flex-col items-start justify-between gap-4 border-t pt-6 text-[10px] tracking-[0.15em] uppercase md:right-16 md:bottom-10 md:left-16 md:flex-row md:items-center md:text-[11px] lg:right-24 lg:left-24">
         <span>{`© ${new Date().getFullYear()} M UMAIR KHAN`}</span>
         <div className="flex gap-6">
           {SOCIAL_PROFILES.map((p) => (
@@ -158,7 +177,7 @@ export default function FullScreenMenu({
           ))}
         </div>
       </div>
-    </motion.div>,
+    </div>,
     document.body,
   );
 }

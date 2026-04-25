@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 import { useGSAP } from "@/lib/gsap";
 import { useNavbarVisibility } from "@/hooks/use-navbar-visibility";
 import { gsap } from "@/lib/gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import NavbarClock from "./NavbarClock";
 import dynamic from "next/dynamic";
@@ -17,8 +16,6 @@ import { HireMeButton } from "./Navbar/HireMeButton";
 import { SoundToggle } from "./Navbar/SoundToggle";
 import { AnimatePresence } from "framer-motion";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -30,29 +27,30 @@ export default function Navbar() {
   // 1. Entrance Animation
   useGSAP(
     () => {
+      const q = gsap.utils.selector(navRef);
       const tl = gsap.timeline();
 
-      gsap.set(navRef.current, { opacity: 0, y: -10 });
-      gsap.set(".nav-item", { opacity: 0, y: -20 });
+      gsap.set(navRef.current, { autoAlpha: 0, y: -10 });
+      gsap.set(q(".nav-item"), { autoAlpha: 0, y: -20 });
 
       tl.to(navRef.current, {
-        opacity: 1,
+        autoAlpha: 1,
         y: 0,
         duration: 1.2,
         ease: "power4.out",
       }).to(
-        ".nav-item",
+        q(".nav-item"),
         {
-          opacity: 1,
+          autoAlpha: 1,
           y: 0,
           duration: 0.8,
           stagger: 0.08,
           ease: "power3.out",
         },
-        "-=0.6"
+        "-=0.6",
       );
     },
-    { scope: navRef }
+    { scope: navRef },
   );
 
   // 2. Visibility Animation (Show/Hide on Scroll)
@@ -95,10 +93,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header
-        ref={headerRef}
-        className="fixed top-0 left-0 z-50 w-full will-change-transform"
-      >
+      <header ref={headerRef} className="fixed top-0 left-0 z-50 w-full will-change-transform">
         {/* Background Layer */}
         <div
           className={`absolute inset-0 transition-opacity duration-500 ${

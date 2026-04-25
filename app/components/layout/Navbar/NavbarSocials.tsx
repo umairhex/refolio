@@ -4,22 +4,22 @@ import { Mail, Github, LucideIcon } from "lucide-react";
 import { SOCIAL_LINKS, CONTACT_EMAIL } from "@/constants";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { SoundAnchor } from "@/app/components/ui/Sound";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAP, gsap } from "@/lib/gsap";
+import { useRef } from "react";
 
 const SocialItem = ({ href, icon: Icon, label, isEmail }: { href: string; icon: LucideIcon; label: string; isEmail?: boolean }) => {
-  const bgRef = (el: HTMLDivElement | null) => {
-    if (!el) return;
-    el.style.opacity = "0";
-    el.style.transform = "scale(0.9)";
-  };
+  const containerRef = useRef<HTMLAnchorElement>(null);
 
-  const { contextSafe } = useGSAP();
+  const { contextSafe } = useGSAP(
+    () => {
+      gsap.set(".social-bg", { autoAlpha: 0, scale: 0.9 });
+    },
+    { scope: containerRef },
+  );
 
-  const onEnter = contextSafe((e: React.MouseEvent) => {
-    const bg = e.currentTarget.querySelector(".social-bg");
-    gsap.to(bg, {
-      opacity: 1,
+  const onEnter = contextSafe(() => {
+    gsap.to(".social-bg", {
+      autoAlpha: 1,
       scale: 1.1,
       duration: 0.4,
       ease: "power2.out",
@@ -27,10 +27,9 @@ const SocialItem = ({ href, icon: Icon, label, isEmail }: { href: string; icon: 
     });
   });
 
-  const onLeave = contextSafe((e: React.MouseEvent) => {
-    const bg = e.currentTarget.querySelector(".social-bg");
-    gsap.to(bg, {
-      opacity: 0,
+  const onLeave = contextSafe(() => {
+    gsap.to(".social-bg", {
+      autoAlpha: 0,
       scale: 0.9,
       duration: 0.4,
       ease: "power2.out",
@@ -42,6 +41,7 @@ const SocialItem = ({ href, icon: Icon, label, isEmail }: { href: string; icon: 
     <Tooltip>
       <TooltipTrigger asChild>
         <SoundAnchor
+          ref={containerRef}
           href={isEmail ? `mailto:${href}` : href}
           target={isEmail ? undefined : "_blank"}
           rel={isEmail ? undefined : "noopener noreferrer"}
@@ -52,7 +52,6 @@ const SocialItem = ({ href, icon: Icon, label, isEmail }: { href: string; icon: 
         >
           <Icon size={18} />
           <div
-            ref={bgRef}
             className="social-bg bg-foreground/5 absolute inset-0 -z-10 rounded-full"
           />
         </SoundAnchor>

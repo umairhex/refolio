@@ -22,13 +22,15 @@ export const ExperienceRow = ({ item }: ExperienceRowProps) => {
       x: 16,
       duration: 0.5,
       ease: "power3.out",
+      overwrite: "auto",
     });
-    gsap.to(flipContainer, { yPercent: -50, duration: 0.5, ease: "expo.out" });
-    gsap.to(desc, { opacity: 0.8, duration: 0.5, ease: "power2.out" });
+    gsap.to(flipContainer, { yPercent: -50, duration: 0.5, ease: "expo.out", overwrite: "auto" });
+    gsap.to(desc, { autoAlpha: 0.8, duration: 0.5, ease: "power2.out", overwrite: "auto" });
     gsap.to(bg, {
-      opacity: 1,
+      autoAlpha: 1,
       duration: 0.5,
       ease: "power2.out",
+      overwrite: "auto",
     });
   });
 
@@ -42,10 +44,11 @@ export const ExperienceRow = ({ item }: ExperienceRowProps) => {
       x: 0,
       duration: 0.5,
       ease: "power3.out",
+      overwrite: "auto",
     });
-    gsap.to(flipContainer, { yPercent: 0, duration: 0.5, ease: "expo.out" });
-    gsap.to(desc, { opacity: 0.5, duration: 0.5, ease: "power2.out" });
-    gsap.to(bg, { opacity: 0, duration: 0.5, ease: "power2.out" });
+    gsap.to(flipContainer, { yPercent: 0, duration: 0.5, ease: "expo.out", overwrite: "auto" });
+    gsap.to(desc, { autoAlpha: 0.5, duration: 0.5, ease: "power2.out", overwrite: "auto" });
+    gsap.to(bg, { autoAlpha: 0, duration: 0.5, ease: "power2.out", overwrite: "auto" });
   });
 
   return (

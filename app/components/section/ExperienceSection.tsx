@@ -8,30 +8,33 @@ import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
 import { ExperienceRow } from "./ExperienceSection/ExperienceRow";
 
-gsap.registerPlugin(ScrollTrigger);
+
+
 
 const ExperienceSection = () => {
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
+      const q = gsap.utils.selector(containerRef);
+
       // 1. Heading reveal (Pure Fade)
-      gsap.to(".experience-title", {
-        opacity: 1,
+      gsap.to(q(".experience-title"), {
+        autoAlpha: 1,
         duration: 1.5,
         ease: "power2.out",
         scrollTrigger: {
-          trigger: ".experience-title",
+          trigger: q(".experience-title"),
           start: "top 90%",
         },
       });
 
       // 2. Batched Rows Entrance (Smooth Fade)
-      ScrollTrigger.batch(".experience-row", {
+      ScrollTrigger.batch(q(".experience-row"), {
         once: true,
         onEnter: (elements) => {
           gsap.to(elements, {
-            opacity: 1,
+            autoAlpha: 1,
             stagger: 0.15,
             duration: 1.5,
             ease: "power2.out",
@@ -42,7 +45,7 @@ const ExperienceSection = () => {
       });
 
       // 3. Animate all separator lines natively
-      const lines = gsap.utils.toArray<HTMLElement>(".row-line");
+      const lines = gsap.utils.toArray<HTMLElement>(q(".row-line"));
       
       // Ensure they start at 0 width natively
       gsap.set(lines, { scaleX: 0 });

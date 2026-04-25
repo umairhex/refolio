@@ -2,14 +2,11 @@
 
 import { useRef, useState, useEffect } from "react";
 import { useGSAP, gsap } from "@/lib/gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useThemeScroll } from "@/hooks/use-theme-scroll";
 import { CONTACT_EMAIL, SOCIAL_LINKS, FOOTER_LINKS } from "@/constants";
 import { ArrowUpRight } from "lucide-react";
 import Container from "@/app/components/ui/Container";
 import { SoundAnchor, SoundLink } from "@/app/components/ui/Sound";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) => {
   const footerRef = useRef<HTMLElement>(null);
@@ -22,23 +19,24 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
 
   useThemeScroll(footerRef, { enabled: !disableBodyTheme });
 
-  useGSAP(
+  const { contextSafe } = useGSAP(
     () => {
+      const q = gsap.utils.selector(footerRef);
       gsap.fromTo(
-        ".footer-title",
+        q(".footer-title"),
         {
           yPercent: 50,
-          opacity: 0,
+          autoAlpha: 0,
           rotateX: -30,
         },
         {
           yPercent: 0,
-          opacity: 1,
+          autoAlpha: 1,
           rotateX: 0,
           duration: 1.5,
           ease: "power4.out",
           scrollTrigger: {
-            trigger: ".footer-title",
+            trigger: q(".footer-title"),
             start: "top 90%",
           },
         },
@@ -46,6 +44,26 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
     },
     { scope: footerRef },
   );
+
+  const onLinkEnter = contextSafe((e: React.MouseEvent) => {
+    gsap.to(e.currentTarget, {
+      autoAlpha: 1,
+      x: 4,
+      duration: 0.4,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
+  });
+
+  const onLinkLeave = contextSafe((e: React.MouseEvent) => {
+    gsap.to(e.currentTarget, {
+      autoAlpha: 0.6,
+      x: 0,
+      duration: 0.4,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
+  });
 
   return (
     <footer
@@ -80,7 +98,9 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-medium capitalize opacity-60 transition-opacity hover:opacity-100 focus:outline-none"
+                  onMouseEnter={onLinkEnter}
+                  onMouseLeave={onLinkLeave}
+                  className="text-sm font-medium capitalize opacity-60 focus:outline-none will-change-transform"
                 >
                   {key}
                 </SoundAnchor>
@@ -95,7 +115,9 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
                 <SoundLink
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium opacity-60 transition-opacity hover:opacity-100 focus:outline-none"
+                  onMouseEnter={onLinkEnter}
+                  onMouseLeave={onLinkLeave}
+                  className="text-sm font-medium opacity-60 focus:outline-none will-change-transform"
                 >
                   {link.name}
                 </SoundLink>

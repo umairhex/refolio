@@ -23,7 +23,7 @@ export const ProjectRow = ({ project, index }: ProjectRowProps) => {
       if (!rowRef.current || !imageRef.current) return;
 
       // Ensure GSAP handles centering and initial state to prevent CSS transform conflicts
-      gsap.set(imageRef.current, { xPercent: -50, yPercent: -50, scale: 0.5, opacity: 0 });
+      gsap.set(imageRef.current, { xPercent: -50, yPercent: -50, scale: 0.5, autoAlpha: 0 });
 
       const xTo = gsap.quickTo(imageRef.current, "x", {
         duration: 0.4,
@@ -58,42 +58,26 @@ export const ProjectRow = ({ project, index }: ProjectRowProps) => {
     { scope: rowRef },
   );
 
-  const onEnter = contextSafe((e: React.MouseEvent<HTMLAnchorElement>) => {
-    const title = e.currentTarget.querySelector(".project-title");
-    const bg = e.currentTarget.querySelector(".row-bg");
-
-    if (title) {
-      gsap.to(title, {
-        x: 24,
-        fontStyle: "italic",
-        duration: 0.5,
-        ease: "power3.out",
-      });
-    }
-    if (bg) {
-      gsap.to(bg, { opacity: 1, duration: 0.5, ease: "power2.out" });
-    }
-    
-    gsap.to(".project-row-image", { scale: 1, opacity: 1, duration: 0.7, ease: "power4.out" });
+  const onEnter = contextSafe(() => {
+    gsap.to(".project-title", {
+      x: 24,
+      fontStyle: "italic",
+      duration: 0.5,
+      ease: "power3.out",
+    });
+    gsap.to(".row-bg", { autoAlpha: 1, duration: 0.5, ease: "power2.out" });
+    gsap.to(".project-row-image", { scale: 1, autoAlpha: 1, duration: 0.7, ease: "power4.out" });
   });
 
-  const onLeave = contextSafe((e: React.MouseEvent<HTMLAnchorElement>) => {
-    const title = e.currentTarget.querySelector(".project-title");
-    const bg = e.currentTarget.querySelector(".row-bg");
-
-    if (title) {
-      gsap.to(title, {
-        x: 0,
-        fontStyle: "normal",
-        duration: 0.5,
-        ease: "power3.out",
-      });
-    }
-    if (bg) {
-      gsap.to(bg, { opacity: 0, duration: 0.5, ease: "power2.out" });
-    }
-    
-    gsap.to(".project-row-image", { scale: 0.5, opacity: 0, duration: 0.7, ease: "power4.out" });
+  const onLeave = contextSafe(() => {
+    gsap.to(".project-title", {
+      x: 0,
+      fontStyle: "normal",
+      duration: 0.5,
+      ease: "power3.out",
+    });
+    gsap.to(".row-bg", { autoAlpha: 0, duration: 0.5, ease: "power2.out" });
+    gsap.to(".project-row-image", { scale: 0.5, autoAlpha: 0, duration: 0.7, ease: "power4.out" });
   });
 
   return (

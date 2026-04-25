@@ -9,19 +9,22 @@ import Container from "@/app/components/ui/Container";
 import { ServiceItem } from "./ExpertiseSection/ServiceItem";
 import { SkillCategory } from "./ExpertiseSection/SkillCategory";
 
-gsap.registerPlugin(ScrollTrigger);
+
+
 
 const ExpertiseSection = () => {
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
+      const q = gsap.utils.selector(containerRef);
+
       // 1. Header Entrance (Batched for independent triggers, Pure Fade)
-      ScrollTrigger.batch(".expertise-header", {
+      ScrollTrigger.batch(q(".expertise-header"), {
         once: true,
         onEnter: (elements) => {
           gsap.to(elements, {
-            opacity: 1,
+            autoAlpha: 1,
             stagger: 0.1,
             duration: 1.5,
             ease: "power2.out",
@@ -32,11 +35,11 @@ const ExpertiseSection = () => {
       });
 
       // 2. Batched Services Entrance (Smooth Simultaneous Fade)
-      ScrollTrigger.batch(".service-item", {
+      ScrollTrigger.batch(q(".service-item"), {
         once: true,
         onEnter: (elements) => {
           gsap.to(elements, {
-            opacity: 1,
+            autoAlpha: 1,
             duration: 1.5,
             ease: "power2.out",
             overwrite: true,
@@ -46,11 +49,11 @@ const ExpertiseSection = () => {
       });
 
       // 3. Batched Skills Entrance (Smooth Simultaneous Fade)
-      ScrollTrigger.batch(".skill-category", {
+      ScrollTrigger.batch(q(".skill-category"), {
         once: true,
         onEnter: (elements) => {
           gsap.to(elements, {
-            opacity: 1,
+            autoAlpha: 1,
             duration: 1.5,
             ease: "power2.out",
             overwrite: true,

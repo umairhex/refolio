@@ -20,40 +20,41 @@ export default function BlogArticleClient({
 
   useGSAP(
     () => {
+      const q = gsap.utils.selector(containerRef);
       gsap.fromTo(
-        ".article-title-word",
-        { y: 100, opacity: 0 },
+        q(".article-title-word"),
+        { y: 100, autoAlpha: 0 },
         {
           y: 0,
-          opacity: 1,
+          autoAlpha: 1,
           duration: 1.2,
           stagger: 0.05,
           ease: "power4.out",
           delay: 0.2,
-        }
+        },
       );
 
       gsap.fromTo(
-        ".article-header-meta",
-        { y: 20, opacity: 0 },
+        q(".article-header-meta"),
+        { y: 20, autoAlpha: 0 },
         {
           y: 0,
-          opacity: 1,
+          autoAlpha: 1,
           duration: 1,
           ease: "power3.out",
           delay: 0.6,
-        }
+        },
       );
 
       gsap.fromTo(
-        ".article-hero-image",
+        q(".article-hero-image"),
         { clipPath: "inset(100% 0 0 0)" },
         {
           clipPath: "inset(0% 0 0 0)",
           duration: 1.5,
           ease: "expo.inOut",
           delay: 0.4,
-        }
+        },
       );
     },
     { scope: containerRef },

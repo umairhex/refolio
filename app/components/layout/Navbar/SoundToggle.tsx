@@ -3,8 +3,7 @@
 import { Volume2, VolumeX } from "lucide-react";
 import { useIsMuted, useSoundActions } from "@/hooks/use-sound-store";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "@/lib/gsap";
+import { useGSAP, gsap } from "@/lib/gsap";
 import { useRef } from "react";
 
 export const SoundToggle = () => {
@@ -20,20 +19,20 @@ export const SoundToggle = () => {
     if (!iconRef.current) return;
     
     gsap.fromTo(iconRef.current, 
-      { opacity: 0, scale: 0.5, rotate: isMuted ? -20 : 20 },
-      { opacity: 1, scale: 1, rotate: 0, duration: 0.3, ease: "back.out(1.7)" }
+      { autoAlpha: 0, scale: 0.5, rotate: isMuted ? -20 : 20 },
+      { autoAlpha: 1, scale: 1, rotate: 0, duration: 0.3, ease: "back.out(1.7)" }
     );
   }, [isMuted]);
 
   // 2. Hover Animation
   const onEnter = contextSafe((e: React.MouseEvent) => {
     const bg = e.currentTarget.querySelector(".sound-bg");
-    gsap.to(bg, { opacity: 1, scale: 1.1, duration: 0.4, ease: "power2.out", overwrite: "auto" });
+    gsap.to(bg, { autoAlpha: 1, scale: 1.1, duration: 0.4, ease: "power2.out", overwrite: "auto" });
   });
 
   const onLeave = contextSafe((e: React.MouseEvent) => {
     const bg = e.currentTarget.querySelector(".sound-bg");
-    gsap.to(bg, { opacity: 0, scale: 0.9, duration: 0.4, ease: "power2.out", overwrite: "auto" });
+    gsap.to(bg, { autoAlpha: 0, scale: 0.9, duration: 0.4, ease: "power2.out", overwrite: "auto" });
   });
 
   return (

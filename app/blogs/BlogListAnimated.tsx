@@ -8,31 +8,32 @@ export default function BlogListAnimated({ children }: { children: React.ReactNo
 
   useGSAP(
     () => {
+      const q = gsap.utils.selector(containerRef);
       gsap.fromTo(
-        ".blog-header-text",
-        { y: 100, opacity: 0 },
+        q(".blog-header-text"),
+        { y: 100, autoAlpha: 0 },
         {
           y: 0,
-          opacity: 1,
+          autoAlpha: 1,
           duration: 1.2,
           stagger: 0.1,
           ease: "power4.out",
           delay: 0.1,
-        }
+        },
       );
 
       gsap.fromTo(
-        ".blog-row",
-        { y: 50, opacity: 0 },
+        q(".blog-row"),
+        { y: 50, autoAlpha: 0 },
         {
           y: 0,
-          opacity: 1,
+          autoAlpha: 1,
           duration: 0.8,
           stagger: 0.05,
           ease: "power3.out",
           delay: 0.4,
           clearProps: "transform",
-        }
+        },
       );
     },
     { scope: containerRef },
