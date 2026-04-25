@@ -1,4 +1,4 @@
-import { Sound } from "./Sound";
+import { SoundAnchor } from "./Sound";
 import { ArrowRight } from "lucide-react";
 import type { SocialProfile } from "@/types";
 
@@ -10,7 +10,7 @@ const SocialLinkCard = ({ profile }: SocialLinkCardProps) => {
   const Icon = profile.icon;
 
   return (
-    <Sound.Anchor
+    <SoundAnchor
       href={profile.href}
       target="_blank"
       rel="noopener noreferrer"
@@ -24,7 +24,7 @@ const SocialLinkCard = ({ profile }: SocialLinkCardProps) => {
         <span className="text-lg font-medium">{profile.handle}</span>
         <ArrowRight className="h-4 w-4 -translate-x-4 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
       </div>
-    </Sound.Anchor>
+    </SoundAnchor>
   );
 };
 

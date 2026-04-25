@@ -1,7 +1,7 @@
 import type { MDXComponents } from "mdx/types";
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { Sound } from "./Sound";
+import { SoundAnchor } from "./Sound";
 
 export const createMDXComponents = (overrides: MDXComponents = {}): MDXComponents => ({
   ...mdxComponents,
@@ -30,14 +30,14 @@ export const mdxComponents: MDXComponents = {
     </p>
   ),
   a: ({ href, children }: { href?: string; children?: ReactNode }) => (
-    <Sound.Anchor
+    <SoundAnchor
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       className="decoration-foreground/30 hover:decoration-foreground font-bold underline transition-colors"
     >
       {children}
-    </Sound.Anchor>
+    </SoundAnchor>
   ),
   blockquote: ({ children }: { children?: ReactNode }) => (
     <blockquote className="border-foreground relative my-24 max-w-212.5 overflow-visible border-l-4 py-4 pl-8 md:pl-12">

@@ -7,7 +7,7 @@ import { ArrowDownRight } from "lucide-react";
 import { animateTo, createTimeline } from "@/lib/animations";
 import MobileHero from "./MobileHero";
 import { HERO_CONTENT } from "@/constants";
-import { Sound } from "@/app/components/ui/Sound";
+import { SoundButton } from "@/app/components/ui/Sound";
 
 const HeroSection = () => {
   const container = useRef<HTMLDivElement>(null);
@@ -164,7 +164,7 @@ const HeroSection = () => {
               </h2>
             </div>
 
-            <Sound.Button
+            <SoundButton
               className="hero-tag group flex cursor-pointer flex-col items-end gap-6 focus:outline-none"
               onClick={scrollToAbout}
             >
@@ -180,7 +180,7 @@ const HeroSection = () => {
                   />
                 </div>
               </div>
-            </Sound.Button>
+            </SoundButton>
           </div>
         </div>
       </div>

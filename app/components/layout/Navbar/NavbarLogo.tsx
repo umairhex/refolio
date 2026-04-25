@@ -1,12 +1,12 @@
 "use client";
 
 import { animateTo } from "@/lib/animations";
-import { Sound } from "@/app/components/ui/Sound";
+import { SoundLink } from "@/app/components/ui/Sound";
 
 export const NavbarLogo = () => {
   return (
     <div className="nav-item flex flex-1 justify-start">
-      <Sound.Link
+      <SoundLink
         href="/"
         className="group flex items-center gap-3 focus:outline-none"
         aria-label="Go to home"
@@ -39,7 +39,7 @@ export const NavbarLogo = () => {
         >
           Umair
         </span>
-      </Sound.Link>
+      </SoundLink>
     </div>
   );
 };

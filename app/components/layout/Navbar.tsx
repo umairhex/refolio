@@ -14,6 +14,7 @@ import { ThemeTogglerButton } from "@/components/animate-ui/components/buttons/t
 import { NavbarSocials } from "./Navbar/NavbarSocials";
 import { NavbarMenuButton } from "./Navbar/NavbarMenuButton";
 import { HireMeButton } from "./Navbar/HireMeButton";
+import { SoundToggle } from "./Navbar/SoundToggle";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -107,6 +108,8 @@ export default function Navbar() {
                 className="h-10 w-10 rounded-full"
                 modes={["light", "dark"]}
               />
+
+              <SoundToggle />
 
               <div className="bg-foreground/10 hidden h-4 w-px xl:block" />
 

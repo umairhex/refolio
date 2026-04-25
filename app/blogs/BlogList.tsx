@@ -1,4 +1,4 @@
-import { Sound } from "../components/ui/Sound";
+import { SoundLink } from "../components/ui/Sound";
 import Image from "next/image";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
@@ -34,7 +34,7 @@ const BlogList = ({ posts }: { posts: BlogPost[] }) => {
         <PageSection className="pb-64">
           <Container className="flex flex-col">
             {posts.map((post: BlogPost, i: number) => (
-              <Sound.Link
+              <SoundLink
                 key={post.slug}
                 href={`/blogs/${post.slug}`}
                 className="blog-row group border-foreground/5 hover:border-foreground relative flex flex-col justify-between border-b px-4 py-12 transition-colors duration-500 md:flex-row md:items-center md:py-16"
@@ -73,7 +73,7 @@ const BlogList = ({ posts }: { posts: BlogPost[] }) => {
                 </div>
 
                 <div className="bg-foreground/0 group-hover:bg-foreground/2 absolute inset-0 -z-10 transition-colors duration-500" />
-              </Sound.Link>
+              </SoundLink>
             ))}
           </Container>
         </PageSection>

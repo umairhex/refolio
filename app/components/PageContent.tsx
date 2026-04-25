@@ -1,9 +1,9 @@
 'use client';
 
-import { useLoading } from "@/app/context/LoadingContext";
+import { useIsLoaded } from "@/hooks/use-loading-store";
 
 export default function PageContent({ children }: { children: React.ReactNode }) {
-  const { state: { isLoaded } } = useLoading();
+  const isLoaded = useIsLoaded();
 
   if (!isLoaded) return null;
 

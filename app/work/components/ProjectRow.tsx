@@ -3,7 +3,7 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@/lib/gsap";
 import { PROJECTS } from "@/constants";
-import { Sound } from "@/app/components/ui/Sound";
+import { SoundLink } from "@/app/components/ui/Sound";
 import AnimatedProjectImage from "@/app/components/ui/AnimatedProjectImage";
 import { gsap } from "@/lib/gsap";
 
@@ -54,7 +54,7 @@ export const ProjectRow = ({ project, index }: ProjectRowProps) => {
   );
 
   return (
-    <Sound.Link
+    <SoundLink
       ref={rowRef}
       href={`/work/${project.slug}`}
       className="project-row group border-foreground/5 hover:border-foreground relative flex flex-col justify-between border-b px-4 py-12 transition-colors duration-500 md:flex-row md:items-center focus:outline-none"
@@ -94,6 +94,6 @@ export const ProjectRow = ({ project, index }: ProjectRowProps) => {
       </div>
 
       <div className="bg-foreground/0 group-hover:bg-foreground/2 absolute inset-0 -z-10 transition-colors duration-500" />
-    </Sound.Link>
+    </SoundLink>
   );
 };

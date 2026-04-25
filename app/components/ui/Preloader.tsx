@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
-import { useLoading } from "@/app/context/LoadingContext";
+import { useLoadingActions } from "@/hooks/use-loading-store";
 import { createTimeline, animateTo } from "@/lib/animations";
 
 export default function Preloader() {
@@ -14,9 +14,9 @@ export default function Preloader() {
   const wordRef = useRef<HTMLSpanElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const words = ["FULLSTACK", "CLOUD", "AUTOMATION", "AI","DESIGN"];
+  const words = ["FULLSTACK", "CLOUD", "AUTOMATION"];
 
-  const { actions: { setIsLoaded } } = useLoading();
+  const { setIsLoaded } = useLoadingActions();
 
   useEffect(() => {
     if (typeof window === "undefined") return;

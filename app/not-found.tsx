@@ -1,4 +1,4 @@
-import { Sound } from "@/app/components/ui/Sound";
+import { SoundLink } from "@/app/components/ui/Sound";
 import { MoveLeft } from "lucide-react";
 
 export default function NotFound() {
@@ -23,13 +23,13 @@ export default function NotFound() {
           has been pruned or never existed.
         </p>
 
-        <Sound.Link
+        <SoundLink
           href="/"
           className="group border-foreground/20 hover:bg-foreground hover:text-background mt-8 flex items-center gap-4 rounded-full border px-8 py-4 text-xs font-bold tracking-[0.3em] uppercase transition-all duration-500"
         >
           <MoveLeft size={16} className="transition-transform group-hover:-translate-x-2" />
           Back to Architecture
-        </Sound.Link>
+        </SoundLink>
       </div>
 
       <div className="border-foreground/10 absolute top-12 left-12 h-12 w-12 border-t border-l" />

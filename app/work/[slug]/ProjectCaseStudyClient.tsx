@@ -7,7 +7,7 @@ import Navbar from "@/app/components/layout/Navbar";
 import Footer from "@/app/components/layout/Footer";
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
-import { Sound } from "@/app/components/ui/Sound";
+import { SoundAnchor } from "@/app/components/ui/Sound";
 import type { Project } from "@/types";
 import { createTimeline, animateTo, animateFromViewport } from "@/lib/animations";
 import { gsap } from "@/lib/gsap";
@@ -164,14 +164,14 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
               {project.link && (
                 <div className="flex flex-col gap-4">
                   <span className="label-accent tracking-widest">LIVE LINK</span>
-                  <Sound.Anchor
+                  <SoundAnchor
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block text-sm font-bold tracking-widest uppercase transition-all hover:line-through"
                   >
                     Visit Project →
-                  </Sound.Anchor>
+                  </SoundAnchor>
                 </div>
               )}
             </div>

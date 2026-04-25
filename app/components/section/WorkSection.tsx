@@ -5,7 +5,7 @@ import { useGSAP } from "@/lib/gsap";
 import { PROJECTS, COMPONENT_CONFIG, ANIMATION_CONFIG } from "@/constants";
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
-import { Sound } from "@/app/components/ui/Sound";
+import { SoundLink } from "@/app/components/ui/Sound";
 import { ProjectItem } from "./WorkSection/ProjectItem";
 import { animateFromViewport, animateTo, animateFromTo, toArray } from "@/lib/animations";
 
@@ -83,7 +83,7 @@ const WorkSection = ({ limit = COMPONENT_CONFIG.work.featuredProjectsLimit }: Wo
         </div>
 
         <div className="mt-0 flex justify-center md:mt-12">
-          <Sound.Link
+          <SoundLink
             href="/work"
             className="group border-foreground/30 hover:border-foreground text-foreground bg-foreground/3 relative flex items-center gap-8 overflow-hidden rounded-full border px-12 py-6 backdrop-blur-sm transition-all duration-500"
           >
@@ -93,7 +93,7 @@ const WorkSection = ({ limit = COMPONENT_CONFIG.work.featuredProjectsLimit }: Wo
             <div className="bg-foreground group-hover:bg-background relative z-10 h-2 w-2 rounded-full transition-transform duration-500 group-hover:scale-[3]" />
 
             <div className="bg-foreground ease-power4.out absolute inset-0 translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
-          </Sound.Link>
+          </SoundLink>
         </div>
       </Container>
     </PageSection>

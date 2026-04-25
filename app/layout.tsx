@@ -7,7 +7,9 @@ import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
 import SmoothScroll from "@/app/components/SmoothScroll";
 import Preloader from "@/app/components/ui/Preloader";
-import { LoadingProvider } from "@/app/context/LoadingContext";
+import { LoadingStoreProvider } from "@/hooks/use-loading-store";
+import { SoundProvider } from "@/hooks/use-sound-store";
+import { AnnouncementProvider } from "@/hooks/use-announcement-store";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -61,14 +63,18 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <LoadingProvider>
-            <Preloader />
-            <TooltipProvider delayDuration={0}>
-              <Suspense fallback={null}>
-                <SmoothScroll>{children}</SmoothScroll>
-              </Suspense>
-            </TooltipProvider>
-          </LoadingProvider>
+          <LoadingStoreProvider>
+            <AnnouncementProvider>
+              <SoundProvider>
+                <Preloader />
+                <TooltipProvider delayDuration={0}>
+                  <Suspense fallback={null}>
+                    <SmoothScroll>{children}</SmoothScroll>
+                  </Suspense>
+                </TooltipProvider>
+              </SoundProvider>
+            </AnnouncementProvider>
+          </LoadingStoreProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -1,15 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { forwardRef } from "react";
 import Link, { LinkProps } from "next/link";
 import { useClickSound } from "@/hooks/use-click-sound";
-
 
 const useSoundHandler = <T extends HTMLElement>(onClick?: (e: React.MouseEvent<T>) => void) => {
   const playClick = useClickSound();
 
-  const handleClick = async (e: React.MouseEvent<T>) => {
-    await playClick();
+  const handleClick = (e: React.MouseEvent<T>) => {
+    playClick(); // Fire and forget
     if (onClick) {
       onClick(e);
     }
@@ -18,14 +17,17 @@ const useSoundHandler = <T extends HTMLElement>(onClick?: (e: React.MouseEvent<T
   return handleClick;
 };
 
-const SoundButton = ({ children, onClick, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const handleClick = useSoundHandler<HTMLButtonElement>(onClick);
-  return (
-    <button onClick={handleClick} {...props}>
-      {children}
-    </button>
-  );
-};
+export const SoundButton = forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
+  ({ children, onClick, ...props }, ref) => {
+    const handleClick = useSoundHandler<HTMLButtonElement>(onClick);
+    return (
+      <button ref={ref} onClick={handleClick} {...props}>
+        {children}
+      </button>
+    );
+  }
+);
+SoundButton.displayName = "SoundButton";
 
 interface SoundLinkProps extends LinkProps {
   children: React.ReactNode;
@@ -35,33 +37,29 @@ interface SoundLinkProps extends LinkProps {
   tabIndex?: number;
   onMouseEnter?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   onMouseLeave?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-  ref?: React.Ref<HTMLAnchorElement>;
 }
 
-const SoundLink = ({ children, onClick, ref, ...props }: SoundLinkProps) => {
-  const handleClick = useSoundHandler<HTMLAnchorElement>(onClick);
-  return (
-    <Link ref={ref} onClick={handleClick} {...props}>
-      {children}
-    </Link>
-  );
-};
+export const SoundLink = forwardRef<HTMLAnchorElement, SoundLinkProps>(
+  ({ children, onClick, ...props }, ref) => {
+    const handleClick = useSoundHandler<HTMLAnchorElement>(onClick);
+    return (
+      <Link ref={ref} onClick={handleClick} {...props}>
+        {children}
+      </Link>
+    );
+  }
+);
+SoundLink.displayName = "SoundLink";
 
-interface SoundAnchorProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  ref?: React.Ref<HTMLAnchorElement>;
-}
+export const SoundAnchor = forwardRef<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement>>(
+  ({ children, onClick, ...props }, ref) => {
+    const handleClick = useSoundHandler<HTMLAnchorElement>(onClick);
+    return (
+      <a ref={ref} onClick={handleClick} {...props}>
+        {children}
+      </a>
+    );
+  }
+);
+SoundAnchor.displayName = "SoundAnchor";
 
-const SoundAnchor = ({ children, onClick, ref, ...props }: SoundAnchorProps) => {
-  const handleClick = useSoundHandler<HTMLAnchorElement>(onClick);
-  return (
-    <a ref={ref} onClick={handleClick} {...props}>
-      {children}
-    </a>
-  );
-};
-
-export const Sound = {
-  Button: SoundButton,
-  Link: SoundLink,
-  Anchor: SoundAnchor,
-};
