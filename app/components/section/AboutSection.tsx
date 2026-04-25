@@ -60,7 +60,7 @@ const AboutSection = () => {
               <div className="bg-foreground/30 h-px w-20" />
             </div>
 
-            <div className="prose prose-invert flex flex-col gap-12 text-sm leading-relaxed font-medium tracking-wide opacity-60 md:text-base">
+            <div className="prose prose-invert flex flex-col gap-12 text-sm leading-relaxed tracking-wide opacity-60 md:text-base">
               <p>
                 With a background in computer science and specialized training from Meta, I bridge
                 the gap between complex AI models and seamless user interfaces. My work focuses on

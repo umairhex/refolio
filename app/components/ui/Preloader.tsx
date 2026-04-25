@@ -1,20 +1,20 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useGSAP } from "@gsap/react";
+import { useGSAP, gsap } from "@/lib/gsap";
 import { useLoadingActions } from "@/hooks/use-loading-store";
-import { createTimeline, animateTo } from "@/lib/animations";
 
 export default function Preloader() {
   const words = ["FULLSTACK", "CLOUD", "AUTOMATION"];
 
-  const [percentage, setPercentage] = useState(0);
   const [isHidden, setIsHidden] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
-  const [currentWord, setCurrentWord] = useState(words[0]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const percentageRef = useRef<HTMLSpanElement>(null);
+  const wordRef = useRef<HTMLSpanElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
   const { setIsLoaded } = useLoadingActions();
 
@@ -38,21 +38,31 @@ export default function Preloader() {
     };
   }, [setIsLoaded]);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!contentRef.current) return;
-    const { clientX, clientY } = e;
-    const { innerWidth, innerHeight } = window;
+  useGSAP(
+    () => {
+      if (!isVisible) return;
 
-    const x = (clientX - innerWidth / 2) / 50;
-    const y = (clientY - innerHeight / 2) / 50;
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    animateTo(contentRef.current, {
-      x,
-      y,
-      duration: 1,
-      ease: "power2.out",
-    });
-  };
+      if (contentRef.current && !prefersReducedMotion) {
+        const xTo = gsap.quickTo(contentRef.current, "x", { duration: 1, ease: "power3.out" });
+        const yTo = gsap.quickTo(contentRef.current, "y", { duration: 1, ease: "power3.out" });
+
+        const mapX = gsap.utils.mapRange(0, window.innerWidth, -30, 30);
+        const mapY = gsap.utils.mapRange(0, window.innerHeight, -30, 30);
+
+        const handleMouseMove = (e: MouseEvent) => {
+          xTo(mapX(e.clientX));
+          yTo(mapY(e.clientY));
+        };
+
+        window.addEventListener("mousemove", handleMouseMove);
+
+        return () => window.removeEventListener("mousemove", handleMouseMove);
+      }
+    },
+    { scope: containerRef, dependencies: [isVisible] },
+  );
 
   useGSAP(
     () => {
@@ -60,11 +70,13 @@ export default function Preloader() {
 
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      const tl = createTimeline({
+      gsap.set(progressBarRef.current, { scaleX: 0, transformOrigin: "left center" });
+
+      const tl = gsap.timeline({
         onComplete: () => {
           sessionStorage.setItem("refolio_preloader_seen", "true");
 
-          animateTo(containerRef.current, {
+          gsap.to(containerRef.current, {
             yPercent: -100,
             duration: prefersReducedMotion ? 0.6 : 1.2,
             ease: "expo.inOut",
@@ -78,16 +90,30 @@ export default function Preloader() {
       });
 
       const count = { value: 0 };
+
       tl.to(count, {
         value: 100,
         duration: prefersReducedMotion ? 1.5 : 3,
         ease: "power2.inOut",
         onUpdate: () => {
           const val = Math.floor(count.value);
-          setPercentage(val);
 
-          const wordIndex = Math.min(Math.floor((val / 101) * words.length), words.length - 1);
-          setCurrentWord(words[wordIndex]);
+          if (percentageRef.current) {
+            percentageRef.current.innerText = `${val}%`;
+          }
+
+          if (wordRef.current) {
+            const wordIndex = Math.min(Math.floor((val / 101) * words.length), words.length - 1);
+            wordRef.current.innerText = words[wordIndex];
+          }
+
+          if (progressBarRef.current) {
+            gsap.set(progressBarRef.current, { scaleX: val / 100 });
+          }
+
+          if (containerRef.current) {
+            containerRef.current.setAttribute("aria-valuenow", String(val));
+          }
         },
       });
 
@@ -101,9 +127,7 @@ export default function Preloader() {
   return (
     <div
       ref={containerRef}
-      onMouseMove={handleMouseMove}
       role="progressbar"
-      aria-valuenow={percentage}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-label="Loading Portfolio"
@@ -111,26 +135,27 @@ export default function Preloader() {
     >
       <div ref={contentRef} className="relative flex flex-col items-center will-change-transform">
         <div className="flex items-center gap-4 overflow-hidden">
-          <span className="text-[20vw] leading-none font-bold tracking-tighter uppercase italic lg:text-[12rem]">
-            {percentage}%
+          <span
+            ref={percentageRef}
+            className="text-[20vw] leading-none font-bold tracking-tighter uppercase italic lg:text-[12rem]"
+          >
+            0%
           </span>
         </div>
 
         <div className="mt-8 h-6 overflow-hidden">
           <span
+            ref={wordRef}
             aria-live="polite"
             className="block text-[10px] font-bold tracking-[0.3em] uppercase opacity-50 md:text-xs"
           >
-            {currentWord}
+            {words[0]}
           </span>
         </div>
       </div>
 
       <div className="bg-foreground/10 absolute bottom-0 left-0 h-px w-full">
-        <div
-          className="bg-foreground h-full transition-all duration-300 ease-out"
-          style={{ width: `${percentage}%` }}
-        />
+        <div ref={progressBarRef} className="bg-foreground h-full will-change-transform" />
       </div>
 
       <div className="absolute right-10 bottom-10 hidden overflow-hidden md:block">

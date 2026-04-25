@@ -16,17 +16,19 @@ const ExpertiseSection = () => {
 
   useGSAP(
     () => {
-      // 1. Header Entrance
-      gsap.from(".expertise-header", {
-        y: 30,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".expertise-header",
-          start: "top 90%",
+      // 1. Header Entrance (Batched for independent triggers, Pure Fade)
+      ScrollTrigger.batch(".expertise-header", {
+        once: true,
+        onEnter: (elements) => {
+          gsap.to(elements, {
+            opacity: 1,
+            stagger: 0.1,
+            duration: 1.5,
+            ease: "power2.out",
+            overwrite: true,
+          });
         },
+        start: "top 90%",
       });
 
       // 2. Batched Services Entrance (Smooth Simultaneous Fade)
@@ -67,8 +69,10 @@ const ExpertiseSection = () => {
     >
       <Container className="flex flex-col gap-40">
         <div className="flex max-w-4xl flex-col gap-8">
-          <span className="expertise-header label-accent tracking-[0.3em] will-change-transform">OUR EXPERTISE</span>
-          <h2 className="expertise-header text-4xl leading-[0.9] font-medium tracking-tighter uppercase md:text-7xl will-change-transform">
+          <span className="expertise-header label-accent tracking-[0.3em] opacity-0 will-change-transform">
+            OUR EXPERTISE
+          </span>
+          <h2 className="expertise-header text-4xl leading-[0.9] font-medium tracking-tighter uppercase opacity-0 will-change-transform md:text-7xl">
             I HELP BRANDS <br /> SCALE THROUGH <br />
             <span className="font-arsenica italic">DIGITAL PRECISION</span>
           </h2>
@@ -82,10 +86,10 @@ const ExpertiseSection = () => {
 
         <div className="skills-grid border-foreground/5 mt-20 flex flex-col justify-between gap-20 border-t pt-32 md:flex-row">
           <div className="flex max-w-xs flex-col gap-6">
-            <h4 className="expertise-header font-arsenica text-3xl font-medium tracking-tighter italic will-change-transform">
+            <h4 className="expertise-header font-arsenica text-3xl font-medium tracking-tighter italic opacity-0 will-change-transform">
               Tech Stack
             </h4>
-            <p className="expertise-header text-xs leading-loose font-light tracking-widest uppercase opacity-50 will-change-transform">
+            <p className="expertise-header text-xs leading-loose font-light tracking-widest uppercase opacity-0 will-change-transform">
               Armed with the latest industry-standard tools to build, design, and optimize digital
               products from the ground up.
             </p>

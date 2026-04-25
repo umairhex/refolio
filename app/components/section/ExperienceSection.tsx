@@ -1,52 +1,62 @@
 "use client";
 
 import { useRef } from "react";
-import { useGSAP } from "@/lib/gsap";
+import { useGSAP, gsap } from "@/lib/gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { EXPERIENCE } from "@/constants";
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
 import { ExperienceRow } from "./ExperienceSection/ExperienceRow";
-import { animateFromViewport, animateFrom, toArray } from "@/lib/animations";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ExperienceSection = () => {
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
-      // Staggered entrance for all rows
-      animateFromViewport(".experience-row", {
-        y: 60,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 1.2,
-        ease: "power4.out",
-        trigger: ".experience-list",
-      });
-
-      // Animate all lines including the last one
-      const lines = toArray<HTMLElement>(".row-line");
-      lines.forEach((line) => {
-        animateFrom(line, {
-          scaleX: 0,
-          duration: 1.8,
-          ease: "expo.inOut",
-          scrollTrigger: {
-            trigger: line,
-            start: "top 98%",
-          },
-        });
-      });
-
-      // Heading reveal
-      animateFrom(".experience-title", {
-        y: 40,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power3.out",
+      // 1. Heading reveal (Pure Fade)
+      gsap.to(".experience-title", {
+        opacity: 1,
+        duration: 1.5,
+        ease: "power2.out",
         scrollTrigger: {
           trigger: ".experience-title",
           start: "top 90%",
         },
+      });
+
+      // 2. Batched Rows Entrance (Smooth Fade)
+      ScrollTrigger.batch(".experience-row", {
+        once: true,
+        onEnter: (elements) => {
+          gsap.to(elements, {
+            opacity: 1,
+            stagger: 0.15,
+            duration: 1.5,
+            ease: "power2.out",
+            overwrite: true,
+          });
+        },
+        start: "top 85%",
+      });
+
+      // 3. Animate all separator lines natively
+      const lines = gsap.utils.toArray<HTMLElement>(".row-line");
+      
+      // Ensure they start at 0 width natively
+      gsap.set(lines, { scaleX: 0 });
+
+      lines.forEach((line) => {
+        gsap.to(line, {
+          scaleX: 1,
+          duration: 1.5,
+          ease: "expo.out",
+          scrollTrigger: {
+            trigger: line,
+            start: "top 95%",
+          },
+        });
       });
     },
     { scope: containerRef }
@@ -63,7 +73,7 @@ const ExperienceSection = () => {
             <span className="label-accent tracking-[0.4em]">
               RESUME — 05
             </span>
-            <h2 className="experience-title font-arsenica text-4xl font-medium tracking-tighter italic md:text-8xl">
+            <h2 className="experience-title opacity-0 font-arsenica text-4xl font-medium tracking-tighter italic md:text-8xl will-change-transform">
               JOURNEY
             </h2>
           </div>
