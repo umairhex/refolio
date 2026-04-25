@@ -16,7 +16,7 @@ export default function Preloader() {
 
   const words = ["FULLSTACK", "CLOUD", "AUTOMATION", "AI","DESIGN"];
 
-  const { setIsLoaded } = useLoading();
+  const { actions: { setIsLoaded } } = useLoading();
 
   useEffect(() => {
     if (typeof window === "undefined") return;

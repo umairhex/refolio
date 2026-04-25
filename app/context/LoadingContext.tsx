@@ -1,13 +1,21 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, use, useState, useEffect } from "react";
 
-interface LoadingContextType {
+interface LoadingState {
   isLoaded: boolean;
+}
+
+interface LoadingActions {
   setIsLoaded: (value: boolean) => void;
 }
 
-const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
+interface LoadingContextValue {
+  state: LoadingState;
+  actions: LoadingActions;
+}
+
+const LoadingContext = createContext<LoadingContextValue | undefined>(undefined);
 
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -23,12 +31,14 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <LoadingContext.Provider value={{ isLoaded, setIsLoaded }}>{children}</LoadingContext.Provider>
+    <LoadingContext value={{ state: { isLoaded }, actions: { setIsLoaded } }}>
+      {children}
+    </LoadingContext>
   );
 }
 
 export function useLoading() {
-  const context = useContext(LoadingContext);
+  const context = use(LoadingContext);
   if (context === undefined) {
     throw new Error("useLoading must be used within a LoadingProvider");
   }

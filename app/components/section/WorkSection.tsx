@@ -2,13 +2,12 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@/lib/gsap";
-import { PROJECTS } from "@/constants";
+import { PROJECTS, COMPONENT_CONFIG, ANIMATION_CONFIG } from "@/constants";
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
-import { SoundLink } from "@/app/components/ui/SoundLink";
+import { Sound } from "@/app/components/ui/Sound";
 import { ProjectItem } from "./WorkSection/ProjectItem";
 import { animateFromViewport, animateTo, animateFromTo, toArray } from "@/lib/animations";
-import { COMPONENT_CONFIG } from "@/app/constants/config";
 
 interface WorkSectionProps {
   limit?: number;
@@ -29,7 +28,7 @@ const WorkSection = ({ limit = COMPONENT_CONFIG.work.featuredProjectsLimit }: Wo
           animateFromViewport(info as HTMLElement, {
             y: 50,
             opacity: 0,
-            duration: 1,
+            duration: ANIMATION_CONFIG.section.duration,
             ease: "power3.out",
           });
         }
@@ -40,7 +39,7 @@ const WorkSection = ({ limit = COMPONENT_CONFIG.work.featuredProjectsLimit }: Wo
             { clipPath: "inset(100% 0 0 0)" },
             {
               clipPath: "inset(0% 0 0 0)",
-              duration: 1.2,
+              duration: ANIMATION_CONFIG.hero.duration,
               ease: "power4.inOut",
               scrollTrigger: {
                 trigger: item,
@@ -78,13 +77,13 @@ const WorkSection = ({ limit = COMPONENT_CONFIG.work.featuredProjectsLimit }: Wo
         </div>
 
         <div className="grid grid-cols-1 gap-x-20 gap-y-10 md:gap-y-40 md:grid-cols-2">
-          {PROJECTS.slice(0, limit).map((project, index) => (
+          {PROJECTS.slice(0, limit).map((project: (typeof PROJECTS)[0], index: number) => (
             <ProjectItem key={project.id} project={project} index={index} />
           ))}
         </div>
 
         <div className="mt-0 flex justify-center md:mt-12">
-          <SoundLink
+          <Sound.Link
             href="/work"
             className="group border-foreground/30 hover:border-foreground text-foreground bg-foreground/3 relative flex items-center gap-8 overflow-hidden rounded-full border px-12 py-6 backdrop-blur-sm transition-all duration-500"
           >
@@ -94,7 +93,7 @@ const WorkSection = ({ limit = COMPONENT_CONFIG.work.featuredProjectsLimit }: Wo
             <div className="bg-foreground group-hover:bg-background relative z-10 h-2 w-2 rounded-full transition-transform duration-500 group-hover:scale-[3]" />
 
             <div className="bg-foreground ease-power4.out absolute inset-0 translate-y-full transition-transform duration-500 group-hover:translate-y-0" />
-          </SoundLink>
+          </Sound.Link>
         </div>
       </Container>
     </PageSection>

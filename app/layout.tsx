@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
+import React, { Suspense } from "react";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -27,9 +28,19 @@ const aresenica = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "M UMAIR KHAN — Full-Stack Engineer & AI Architect",
+  metadataBase: new URL("https://umairrx.dev"),
+  title: {
+    default: "M UMAIR KHAN — Full-Stack Engineer & AI Architect",
+    template: "%s | M UMAIR KHAN",
+  },
   description:
     "I'm M Umair Khan, a full-stack engineer specialized in high-performance SaaS products, AI integration, and rapid feature delivery.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#000000",
 };
 
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -53,7 +64,9 @@ export default function RootLayout({
           <LoadingProvider>
             <Preloader />
             <TooltipProvider delayDuration={0}>
-              <SmoothScroll>{children}</SmoothScroll>
+              <Suspense fallback={null}>
+                <SmoothScroll>{children}</SmoothScroll>
+              </Suspense>
             </TooltipProvider>
           </LoadingProvider>
         </ThemeProvider>

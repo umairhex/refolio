@@ -1,17 +1,22 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useGSAP } from "@/lib/gsap";
 import { useThemeScroll } from "@/hooks/use-theme-scroll";
 import { CONTACT_EMAIL, SOCIAL_LINKS, FOOTER_LINKS } from "@/constants";
 import { ArrowUpRight } from "lucide-react";
 import Container from "@/app/components/ui/Container";
-import { SoundLink } from "@/app/components/ui/SoundLink";
-import { SoundAnchor } from "@/app/components/ui/SoundAnchor";
+import { Sound } from "@/app/components/ui/Sound";
 import { animateFromViewport } from "@/lib/animations";
 
 const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) => {
   const footerRef = useRef<HTMLElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const handle = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(handle);
+  }, []);
 
   useThemeScroll(footerRef, { enabled: !disableBodyTheme });
 
@@ -38,7 +43,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
           <span className="text-[11px] font-bold tracking-[0.3em] uppercase opacity-40">
             HAVE A PROJECT IN MIND?
           </span>
-          <SoundAnchor
+          <Sound.Anchor
             href={`mailto:${CONTACT_EMAIL}`}
             className="footer-title group relative inline-block focus:outline-none"
           >
@@ -48,7 +53,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
             <div className="absolute top-0 -right-20 opacity-0 transition-all duration-500 group-hover:translate-x-4 group-hover:opacity-100 md:-right-32">
               <ArrowUpRight className="h-20 w-20 stroke-1 md:h-32 md:w-32" />
             </div>
-          </SoundAnchor>
+          </Sound.Anchor>
         </div>
 
         <div className="border-background/10 grid grid-cols-1 gap-16 border-t pt-16 md:grid-cols-4 md:gap-8">
@@ -58,7 +63,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
             </span>
             <div className="flex flex-col gap-3">
               {Object.entries(SOCIAL_LINKS).map(([key, href]) => (
-                <SoundAnchor
+                <Sound.Anchor
                   key={key}
                   href={href}
                   target="_blank"
@@ -66,7 +71,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
                   className="text-sm font-medium capitalize opacity-60 transition-opacity hover:opacity-100 focus:outline-none"
                 >
                   {key}
-                </SoundAnchor>
+                </Sound.Anchor>
               ))}
             </div>
           </div>
@@ -77,13 +82,13 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
             </span>
             <div className="flex flex-col gap-3">
               {FOOTER_LINKS.map((link) => (
-                <SoundLink
+                <Sound.Link
                   key={link.href}
                   href={link.href}
                   className="text-sm font-medium opacity-60 transition-opacity hover:opacity-100 focus:outline-none"
                 >
                   {link.name}
-                </SoundLink>
+                </Sound.Link>
               ))}
             </div>
           </div>
@@ -97,7 +102,7 @@ const Footer = ({ disableBodyTheme = false }: { disableBodyTheme?: boolean }) =>
         </div>
 
         <div className="border-background/5 flex flex-col items-center justify-between gap-6 border-t pt-12 text-[10px] font-bold tracking-widest opacity-30 md:flex-row">
-          <span>© {new Date().getFullYear()} M UMAIR KHAN. ALL RIGHTS RESERVED.</span>
+          <span>© {mounted ? new Date().getFullYear() : "2025"} M UMAIR KHAN. ALL RIGHTS RESERVED.</span>
           <span>DESIGNED & DEVELOPED WITH PASSION</span>
         </div>
       </Container>

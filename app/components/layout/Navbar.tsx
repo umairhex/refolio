@@ -7,7 +7,8 @@ import { useNavbarVisibility } from "@/hooks/use-navbar-visibility";
 import { createTimeline, animateTo } from "@/lib/animations";
 
 import NavbarClock from "./NavbarClock";
-import FullScreenMenu from "./FullScreenMenu";
+import dynamic from "next/dynamic";
+const FullScreenMenu = dynamic(() => import("./FullScreenMenu"), { ssr: false });
 import { NavbarLogo } from "./Navbar/NavbarLogo";
 import { ThemeTogglerButton } from "@/components/animate-ui/components/buttons/theme-toggler";
 import { NavbarSocials } from "./Navbar/NavbarSocials";

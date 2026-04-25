@@ -91,7 +91,7 @@ export default function BlogArticleClient({
 
           <div className="overflow-hidden">
             <h1 className="font-arsenica max-w-5xl text-[10vw] leading-[0.8] font-medium tracking-tighter uppercase italic md:text-[6vw] lg:text-[7vw]">
-              {post.title.split(" ").map((word, i) => (
+              {post.title.split(" ").map((word: string, i: number) => (
                 <span key={i} className="inline-block overflow-hidden pb-4">
                   <span className="article-title-word inline-block pr-[2vw]">{word}</span>
                 </span>

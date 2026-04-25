@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect } from "react";
+import { SOUND_CONFIG } from "@/constants";
 
 // Global singleton AudioContext to comply with browser limits and best practices
 // We initialize it lazily to avoid SSR issues and respect autoplay policies
@@ -49,7 +50,7 @@ export const useClickSound = () => {
       noiseFilter.frequency.setValueAtTime(2000, now);
       
       const noiseGain = ctx.createGain();
-      noiseGain.gain.setValueAtTime(0.15, now);
+      noiseGain.gain.setValueAtTime(SOUND_CONFIG.click.volume * 0.75, now);
       noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.01);
       
       noiseSource.connect(noiseFilter);
@@ -64,7 +65,7 @@ export const useClickSound = () => {
       oscillator.frequency.exponentialRampToValueAtTime(400, now + 0.05);
 
       const oscGain = ctx.createGain();
-      oscGain.gain.setValueAtTime(0.2, now);
+      oscGain.gain.setValueAtTime(SOUND_CONFIG.click.volume, now);
       oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
 
       oscillator.connect(oscGain);

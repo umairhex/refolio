@@ -5,9 +5,7 @@ import { motion, Variants } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { NAV_LINKS, SOCIAL_PROFILES } from "@/constants";
 import { useScrollLock } from "@/hooks/use-scroll-lock";
-import { SoundLink } from "@/app/components/ui/SoundLink";
-import { SoundButton } from "@/app/components/ui/SoundButton";
-import { SoundAnchor } from "@/app/components/ui/SoundAnchor";
+import { Sound } from "@/app/components/ui/Sound";
 
 export default function FullScreenMenu({
   isOpen,
@@ -75,7 +73,7 @@ export default function FullScreenMenu({
       data-testid="full-screen-menu"
       className="bg-background text-foreground fixed inset-0 z-100 flex flex-col justify-center px-6 md:px-16 lg:px-24"
     >
-      <SoundButton
+      <Sound.Button
         onClick={onClose}
         className="group absolute top-6 right-6 flex cursor-pointer items-center gap-3 text-[10px] font-bold tracking-[0.15em] uppercase focus:outline-none md:top-10 md:right-10 md:text-[11px]"
         aria-label="Close Menu"
@@ -84,7 +82,7 @@ export default function FullScreenMenu({
         <div className="border-foreground/40 group-hover:border-foreground flex h-4.5 w-4.5 items-center justify-center rounded-full border-[1.5px] transition-colors">
           <div className="bg-foreground h-0.75 w-0.75 animate-pulse rounded-full" />
         </div>
-      </SoundButton>
+      </Sound.Button>
 
       <div className="mt-16 flex flex-col md:mt-0">
         {NAV_LINKS.map((link, i) => {
@@ -101,7 +99,7 @@ export default function FullScreenMenu({
                   className="w-full origin-top-left transform"
                   style={{ perspective: "1000px" }}
                 >
-                  <SoundLink
+                  <Sound.Link
                     href={link.href}
                     onClick={onClose}
                     className="font-arsenica-display relative block w-full cursor-pointer py-3 text-[14vw] leading-none font-medium tracking-tighter uppercase focus:outline-none md:py-5 md:text-[10vw] lg:text-[90px]"
@@ -136,7 +134,7 @@ export default function FullScreenMenu({
                         )}
                       </motion.span>
                     </motion.div>
-                  </SoundLink>
+                  </Sound.Link>
                 </motion.div>
               </div>
             </div>
@@ -148,7 +146,7 @@ export default function FullScreenMenu({
         <span>{`© ${new Date().getFullYear()} M UMAIR KHAN`}</span>
         <div className="flex gap-6">
           {SOCIAL_PROFILES.map((p) => (
-            <SoundAnchor
+            <Sound.Anchor
               key={p.key}
               href={p.href}
               target="_blank"
@@ -156,7 +154,7 @@ export default function FullScreenMenu({
               className="hover:text-foreground cursor-pointer capitalize transition-colors focus:outline-none"
             >
               {p.key}
-            </SoundAnchor>
+            </Sound.Anchor>
           ))}
         </div>
       </div>

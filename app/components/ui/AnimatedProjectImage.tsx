@@ -11,6 +11,7 @@ interface ImageDimensions {
 interface ImageDisplayOptions {
   objectPosition?: "top" | "center" | "bottom";
   forcePlay?: boolean;
+  priority?: boolean;
 }
 
 interface AnimatedProjectImageProps extends ImageDimensions, ImageDisplayOptions {
@@ -34,6 +35,7 @@ export default function AnimatedProjectImage({
   width = 1200,
   height = 1500,
   forcePlay = false,
+  priority = false,
   objectPosition = "center",
 }: AnimatedProjectImageProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -67,7 +69,7 @@ export default function AnimatedProjectImage({
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         className={`object-cover transition-opacity duration-700 ease-in-out ${getPositionClass(objectPosition)} ${(isHovering || forcePlay) && isPlaying ? "opacity-0" : "opacity-100"}`}
-        priority
+        priority={priority}
       />
 
       {videoSrc && (

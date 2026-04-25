@@ -1,12 +1,9 @@
-'use client';
-
 import { Mail, ArrowRight } from "lucide-react";
 import { CONTACT_EMAIL, SOCIAL_PROFILES } from "@/constants";
 import SocialLinkCard from "../components/ui/SocialLinkCard";
-import { useClickSound } from "@/hooks/use-click-sound";
+import { Sound } from "../components/ui/Sound";
 
 export default function ContactSection() {
-  const playClick = useClickSound();
 
   return (
     <div className="mt-32 grid grid-cols-1 gap-20 lg:grid-cols-2">
@@ -15,16 +12,15 @@ export default function ContactSection() {
           <span className="label-accent tracking-[0.3em]">
             DIRECT EMAIL
           </span>
-          <a
+          <Sound.Anchor
             href={`mailto:${CONTACT_EMAIL}`}
-            onClick={() => playClick()}
             className="group flex items-center gap-4 text-lg font-medium tracking-tight break-all transition-all duration-300 hover:italic sm:text-2xl md:gap-6 md:text-3xl lg:text-4xl"
           >
             <div className="border-foreground/10 group-hover:bg-foreground group-hover:text-background shrink-0 rounded-full border p-3 transition-colors duration-500 md:p-4">
               <Mail size={24} />
             </div>
             {CONTACT_EMAIL}
-          </a>
+          </Sound.Anchor>
         </div>
 
         <div className="contact-reveal flex flex-col gap-8">
@@ -36,7 +32,6 @@ export default function ContactSection() {
               <SocialLinkCard
                 key={profile.key}
                 profile={profile}
-                onClick={() => playClick()}
               />
             ))}
           </div>
@@ -55,16 +50,15 @@ export default function ContactSection() {
           </p>
         </div>
 
-        <a
+        <Sound.Anchor
           href={`mailto:${CONTACT_EMAIL}`}
-          onClick={() => playClick()}
           className="group flex items-center gap-6 text-[11px] font-bold tracking-[0.4em] uppercase"
         >
           START A PROJECT
           <div className="border-foreground group-hover:bg-foreground group-hover:text-background flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-500">
             <ArrowRight size={16} />
           </div>
-        </a>
+        </Sound.Anchor>
       </div>
     </div>
   );

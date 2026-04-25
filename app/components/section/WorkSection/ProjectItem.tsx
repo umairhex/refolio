@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { SoundLink } from "@/app/components/ui/SoundLink";
+import { Sound } from "@/app/components/ui/Sound";
 import { Project } from "@/types";
 
 interface ProjectItemProps {
@@ -11,7 +11,7 @@ interface ProjectItemProps {
 
 export const ProjectItem = ({ project, index }: ProjectItemProps) => {
   return (
-    <SoundLink
+    <Sound.Link
       href={`/work/${project.slug}`}
       key={project.id}
       className={`project-item group flex flex-col ${index % 2 !== 0 ? "md:mt-40" : ""}`}
@@ -23,7 +23,7 @@ export const ProjectItem = ({ project, index }: ProjectItemProps) => {
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover"
-          priority
+          priority={index < 2}
         />
 
         <div className="absolute bottom-6 left-6 z-10">
@@ -52,6 +52,6 @@ export const ProjectItem = ({ project, index }: ProjectItemProps) => {
           </span>
         </div>
       </div>
-    </SoundLink>
+    </Sound.Link>
   );
 };

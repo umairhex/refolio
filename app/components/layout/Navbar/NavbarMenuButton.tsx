@@ -1,6 +1,6 @@
 "use client";
 
-import { SoundButton } from "@/app/components/ui/SoundButton";
+import { Sound } from "@/app/components/ui/Sound";
 import { motion } from "framer-motion";
 
 interface NavbarMenuButtonProps {
@@ -11,7 +11,7 @@ interface NavbarMenuButtonProps {
 
 export const NavbarMenuButton = ({ onClick, isScrolled, "aria-expanded": ariaExpanded }: NavbarMenuButtonProps) => {
   return (
-    <SoundButton
+    <Sound.Button
       onClick={onClick}
       aria-label="Open navigation menu"
       aria-expanded={ariaExpanded}
@@ -33,7 +33,7 @@ export const NavbarMenuButton = ({ onClick, isScrolled, "aria-expanded": ariaExp
           />
         </div>
       </div>
-    </SoundButton>
+    </Sound.Button>
   );
 };
 

@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import readingTime from "reading-time";
+import { cache } from "react";
 
 export interface BlogPost {
   slug: string;
@@ -23,7 +24,7 @@ export function getPostSlugs() {
   return fs.readdirSync(contentDir);
 }
 
-export function getPostBySlug(slug: string): BlogPost {
+export const getPostBySlug = cache((slug: string): BlogPost => {
   const realSlug = slug.replace(/\.mdx$/, "");
   const fullPath = path.join(contentDir, `${realSlug}.mdx`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
@@ -40,7 +41,7 @@ export function getPostBySlug(slug: string): BlogPost {
     readingTime: readingTime(content).text,
     content,
   };
-}
+});
 
 export function getAllPosts(): BlogPost[] {
   const slugs = getPostSlugs();

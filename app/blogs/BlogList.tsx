@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Sound } from "../components/ui/Sound";
 import Image from "next/image";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
@@ -33,8 +33,8 @@ const BlogList = ({ posts }: { posts: BlogPost[] }) => {
 
         <PageSection className="pb-64">
           <Container className="flex flex-col">
-            {posts.map((post, i) => (
-              <Link
+            {posts.map((post: BlogPost, i: number) => (
+              <Sound.Link
                 key={post.slug}
                 href={`/blogs/${post.slug}`}
                 className="blog-row group border-foreground/5 hover:border-foreground relative flex flex-col justify-between border-b px-4 py-12 transition-colors duration-500 md:flex-row md:items-center md:py-16"
@@ -67,12 +67,13 @@ const BlogList = ({ posts }: { posts: BlogPost[] }) => {
                     src={post.image}
                     alt={post.title}
                     fill
+                    priority={i < 4}
                     className="bg-background object-cover text-transparent grayscale transition-all duration-700 group-hover:grayscale-0"
                   />
                 </div>
 
                 <div className="bg-foreground/0 group-hover:bg-foreground/2 absolute inset-0 -z-10 transition-colors duration-500" />
-              </Link>
+              </Sound.Link>
             ))}
           </Container>
         </PageSection>

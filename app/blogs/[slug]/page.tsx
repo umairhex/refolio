@@ -22,7 +22,7 @@ export async function generateMetadata({
   try {
     const post = getPostBySlug(slug);
     return {
-      title: `${post.title} — M UMAIR KHAN`,
+      title: post.title,
       description: post.summary,
     };
   } catch {
@@ -36,6 +36,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   try {
     post = getPostBySlug(slug);
   } catch {
+    return notFound();
+  }
+
+  if (!post) {
     return notFound();
   }
 

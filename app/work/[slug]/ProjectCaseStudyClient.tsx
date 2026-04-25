@@ -7,14 +7,13 @@ import Navbar from "@/app/components/layout/Navbar";
 import Footer from "@/app/components/layout/Footer";
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
-import { useClickSound } from "@/hooks/use-click-sound";
+import { Sound } from "@/app/components/ui/Sound";
 import type { Project } from "@/types";
 import { createTimeline, animateTo, animateFromViewport } from "@/lib/animations";
 import { gsap } from "@/lib/gsap";
 
 export default function ProjectCaseStudyClient({ project }: { project: Project }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const playClick = useClickSound();
 
   useGSAP(
     () => {
@@ -106,7 +105,7 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
           <div className="flex flex-col gap-8">
             <div className="overflow-hidden">
               <h1 className="font-arsenica max-w-6xl text-[10vw] leading-[0.8] font-medium tracking-tighter uppercase italic md:text-[8vw] lg:text-[9vw]">
-                {project.title.split(" ").map((word, i) => (
+                {project.title.split(" ").map((word: string, i: number) => (
                   <span key={i} className="inline-block overflow-hidden pb-4">
                     <span className="case-title-word inline-block pr-[2vw]">{word}</span>
                   </span>
@@ -150,7 +149,7 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
                 <div className="flex flex-col gap-4">
                   <span className="label-accent tracking-widest">TECHNOLOGY STACK</span>
                   <div className="flex flex-wrap gap-2">
-                    {project.stack.map((item, i) => (
+                    {project.stack.map((item: string, i: number) => (
                       <span
                         key={i}
                         className="border-foreground/10 border px-2 py-1 text-[10px] font-bold tracking-wider uppercase opacity-60"
@@ -165,15 +164,14 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
               {project.link && (
                 <div className="flex flex-col gap-4">
                   <span className="label-accent tracking-widest">LIVE LINK</span>
-                  <a
+                  <Sound.Anchor
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => playClick()}
                     className="inline-block text-sm font-bold tracking-widest uppercase transition-all hover:line-through"
                   >
                     Visit Project →
-                  </a>
+                  </Sound.Anchor>
                 </div>
               )}
             </div>
@@ -212,7 +210,7 @@ export default function ProjectCaseStudyClient({ project }: { project: Project }
 
               {project.details && (
                 <div className="flex flex-col gap-24 pt-12">
-                  {project.details.map((detail, i) => (
+                  {project.details.map((detail: { title: string; content: string }, i: number) => (
                     <div key={i} className="case-detail-block flex flex-col gap-6">
                       <div className="flex items-start gap-4 md:gap-8">
                         <span className="shrink-0 pt-2 font-sans text-sm font-bold tracking-widest opacity-20 md:text-base">

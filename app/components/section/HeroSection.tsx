@@ -4,16 +4,14 @@ import { useRef } from "react";
 import Image from "next/image";
 import { useGSAP } from "@/lib/gsap";
 import { ArrowDownRight } from "lucide-react";
-import { useClickSound } from "@/hooks/use-click-sound";
 import { animateTo, createTimeline } from "@/lib/animations";
 import MobileHero from "./MobileHero";
 import { HERO_CONTENT } from "@/constants";
+import { Sound } from "@/app/components/ui/Sound";
 
 const HeroSection = () => {
   const container = useRef<HTMLDivElement>(null);
   const heroGrid = useRef<HTMLDivElement>(null);
-
-  const playClick = useClickSound();
 
   useGSAP(
     () => {
@@ -90,7 +88,6 @@ const HeroSection = () => {
   );
 
   const scrollToAbout = () => {
-    playClick();
     const aboutSection = document.getElementById("about");
     if (aboutSection) {
       aboutSection.scrollIntoView({ behavior: "smooth" });
@@ -114,18 +111,14 @@ const HeroSection = () => {
       >
         <div className="col-span-3 flex flex-col gap-12">
           <div className="hero-tag flex flex-col gap-4">
-            <span className="label-accent tracking-[0.4em]">
-              SPECIALIZATION
-            </span>
+            <span className="label-accent tracking-[0.4em]">SPECIALIZATION</span>
             <p className="max-w-50 text-sm leading-relaxed font-medium">
               {HERO_CONTENT.specialization}
             </p>
           </div>
 
           <div className="hero-tag flex flex-col gap-4">
-            <span className="label-accent tracking-[0.4em]">
-              LOCATION
-            </span>
+            <span className="label-accent tracking-[0.4em]">LOCATION</span>
             <p className="font-arsenica text-sm font-medium italic">{HERO_CONTENT.location}</p>
           </div>
         </div>
@@ -171,7 +164,7 @@ const HeroSection = () => {
               </h2>
             </div>
 
-            <button
+            <Sound.Button
               className="hero-tag group flex cursor-pointer flex-col items-end gap-6 focus:outline-none"
               onClick={scrollToAbout}
             >
@@ -187,15 +180,13 @@ const HeroSection = () => {
                   />
                 </div>
               </div>
-            </button>
+            </Sound.Button>
           </div>
         </div>
       </div>
 
       <MobileHero />
-
     </section>
-
   );
 };
 

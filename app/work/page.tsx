@@ -9,7 +9,7 @@ import WorkPageAnimated from "./WorkPageAnimated";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Work — M UMAIR KHAN",
+  title: "Work",
   description: "Selected projects and case studies showcasing full-stack engineering and design.",
 };
 
@@ -39,8 +39,8 @@ export default function WorkPage() {
 
         <PageSection className="pb-64">
           <Container className="flex flex-col">
-            {PROJECTS.map((project) => (
-              <ProjectRow key={project.id} project={project} />
+            {PROJECTS.map((project, index) => (
+              <ProjectRow key={project.id} project={project} index={index} />
             ))}
           </Container>
         </PageSection>

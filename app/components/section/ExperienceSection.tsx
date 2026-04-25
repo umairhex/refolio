@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { useGSAP } from "@/lib/gsap";
 import { EXPERIENCE } from "@/constants";
-import { useClickSound } from "@/hooks/use-click-sound";
 import PageSection from "@/app/components/ui/PageSection";
 import Container from "@/app/components/ui/Container";
 import { ExperienceRow } from "./ExperienceSection/ExperienceRow";
@@ -11,7 +10,6 @@ import { animateFromViewport, animateFrom, toArray } from "@/lib/animations";
 
 const ExperienceSection = () => {
   const containerRef = useRef<HTMLElement>(null);
-  const playClick = useClickSound();
 
   useGSAP(
     () => {
@@ -63,7 +61,7 @@ const ExperienceSection = () => {
           </p>
         </div>
 
-        <div className="flex flex-col" onClick={() => playClick()}>
+        <div className="flex flex-col">
           {EXPERIENCE.map((item, index) => (
             <ExperienceRow key={index} item={item} />
           ))}

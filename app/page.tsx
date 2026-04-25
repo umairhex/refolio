@@ -9,7 +9,6 @@ import PageContent from "./components/PageContent";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "M UMAIR KHAN — Full-Stack Engineer & AI Architect",
   description:
     "I'm M Umair Khan, a full-stack engineer specialized in high-performance SaaS products, AI integration, and rapid feature delivery.",
   openGraph: {
@@ -18,6 +17,12 @@ export const metadata: Metadata = {
       "I'm M Umair Khan, a full-stack engineer specialized in high-performance SaaS products, AI integration, and rapid feature delivery.",
     type: "website",
     locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "M UMAIR KHAN — Full-Stack Engineer & AI Architect",
+    description: "Full-stack engineer specialized in high-performance SaaS products and AI integration.",
+    creator: "@umairhex",
   },
 };
 

@@ -52,7 +52,7 @@ const ExpertiseSection = () => {
         </div>
 
         <div className="services-grid grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
-          {SERVICES.map((service) => (
+          {SERVICES.map((service: (typeof SERVICES)[0]) => (
             <ServiceItem key={service.id} service={service} />
           ))}
         </div>
@@ -69,7 +69,7 @@ const ExpertiseSection = () => {
           </div>
 
           <div className="grid flex-1 grid-cols-2 gap-12 lg:grid-cols-4">
-            {SKILLS.map((set) => (
+            {SKILLS.map((set: (typeof SKILLS)[0]) => (
               <SkillCategory key={set.category} skillCategory={set} />
             ))}
           </div>

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { MoveUpRight, RefreshCcw } from "lucide-react";
-import Link from "next/link";
+import { Sound } from "@/app/components/ui/Sound";
 
 export default function Error({
   error,
@@ -36,21 +36,21 @@ export default function Error({
         </p>
 
         <div className="flex flex-wrap gap-4 pt-4">
-          <button
+          <Sound.Button
             onClick={() => reset()}
             className="bg-foreground text-background flex items-center gap-3 rounded-full px-6 py-4 text-xs font-bold tracking-widest uppercase transition-all hover:scale-105 active:scale-95"
           >
             <RefreshCcw size={14} />
             Reboot System
-          </button>
+          </Sound.Button>
 
-          <Link
+          <Sound.Link
             href="/"
             className="border-foreground/20 hover:bg-foreground hover:text-background flex items-center gap-3 rounded-full border px-6 py-4 text-xs font-bold tracking-widest uppercase transition-all"
           >
             Return Home
             <MoveUpRight size={14} />
-          </Link>
+          </Sound.Link>
         </div>
 
         <div className="pointer-events-none absolute -right-4 -bottom-4 text-[10vw] font-black italic opacity-[0.03] select-none">
